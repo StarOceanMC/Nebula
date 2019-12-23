@@ -42,8 +42,9 @@ case "$1" in
         mvn -N install
         cd ${FORK_NAME}-API
         mvn -e clean install && cd ../${FORK_NAME}-Server && mvn -e clean install
-        mcver=$(cat "$bashdir/Paper/work/BuildData/info.json" | grep minecraftVersion | cut -d '"' -f 4)
-        cp "target/nebula-${mcver}.jar" "$basedir"
+        cd ${basedir}
+        mcver=$(cat "Paper/work/BuildData/info.json" | grep minecraftVersion | cut -d '"' -f 4)
+        cp "${FORK_NAME}-Server/target/nebula-${mcver}.jar" "$basedir"
     )
     ;;
     "d" | "de" | "deploy")
