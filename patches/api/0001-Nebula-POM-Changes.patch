@@ -1,17 +1,20 @@
-From f4d3b674f0544ef1f0772ddbe79b1143aa17e71e Mon Sep 17 00:00:00 2001
+From acfcb093ffd11c827f5f741c2232ef86b9527e65 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 23 Dec 2019 19:49:56 +0800
 Subject: [PATCH] Nebula POM Changes
 
 ---
- pom.xml | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ pom.xml | 22 +++++++++++++++-------
+ 1 file changed, 15 insertions(+), 7 deletions(-)
 
 diff --git a/pom.xml b/pom.xml
-index 252ddd22..a5c06a94 100644
+index 252ddd22..3f958ed8 100644
 --- a/pom.xml
 +++ b/pom.xml
-@@ -3,18 +3,18 @@
+@@ -1,21 +1,22 @@
+ 
++
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
      <modelVersion>4.0.0</modelVersion>
      <parent>
@@ -31,11 +34,27 @@ index 252ddd22..a5c06a94 100644
  
 -    <name>Paper-API</name>
 -    <url>https://github.com/PaperMC/Paper</url>
+-    <description>An enhanced plugin API for Minecraft servers.</description>
 +    <name>Nebula-API</name>
-+    <url>https://github.com/patokeni/nebula</url>
-     <description>An enhanced plugin API for Minecraft servers.</description>
++    <url>https://github.com/StarOceanMC/Nebula</url>
++    <description>An enhanced plugin API for Minecraft servers, based on Paper.</description>
  
      <properties>
+         <!-- <skipTests>true</skipTests> Paper - This [was] not going to end well -->
+@@ -194,6 +195,13 @@
+                     <shadedArtifactAttached>true</shadedArtifactAttached>
+                 </configuration>
+             </plugin>
++            <plugin>
++                <artifactId>maven-deploy-plugin</artifactId>
++                <version>2.8.1</version>
++                <configuration>
++                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/../../maven-repo</altDeploymentRepository>
++                </configuration>
++            </plugin>
+         </plugins>
+     </build>
+ 
 -- 
 2.24.0
 
