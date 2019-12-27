@@ -1,0 +1,48 @@
+From 8cfe0049ec6cb8b891620429b0202793f8bed21a Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Fri, 27 Dec 2019 21:48:32 +0800
+Subject: [PATCH] Configurable Phantom Spawn Rate
+
+---
+ .../java/net/minecraft/server/MobSpawnerPhantom.java   |  5 +++++
+ .../java/xianxian/mc/nebula/NebulaWorldConfig.java     | 10 ++++++++++
+ 2 files changed, 15 insertions(+)
+
+diff --git a/src/main/java/net/minecraft/server/MobSpawnerPhantom.java b/src/main/java/net/minecraft/server/MobSpawnerPhantom.java
+index f488c22e..d65cd3ae 100644
+--- a/src/main/java/net/minecraft/server/MobSpawnerPhantom.java
++++ b/src/main/java/net/minecraft/server/MobSpawnerPhantom.java
+@@ -52,6 +52,11 @@ public class MobSpawnerPhantom {
+                                             int k = 1 + random.nextInt(difficultydamagescaler.a().a() + 1);
+ 
+                                             for (int l = 0; l < k; ++l) {
++                                            	// Nebula start - Configurable phantom spawn rate
++                                            	if (random.nextInt(100) > worldserver.nebulaConfig.phantomSpawnRate) {
++                                                    continue;
++                                                }
++                                            	// Nebula end
+                                                 // Paper start
+                                                 com.destroystokyo.paper.event.entity.PhantomPreSpawnEvent event = new com.destroystokyo.paper.event.entity.PhantomPreSpawnEvent(MCUtil.toLocation(worldserver, blockposition1), ((EntityPlayer) entityhuman).getBukkitEntity(), org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.NATURAL);
+                                                 if (!event.callEvent()) {
+diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
+index cc37412c..5cc4ab54 100644
+--- a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
++++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
+@@ -63,4 +63,14 @@ public class NebulaWorldConfig {
+         config.addDefault("world-settings.default." + path, def);
+         return config.getString("world-settings." + worldName + "." + path, config.getString("world-settings.default." + path));
+     }
++    
++    public int phantomSpawnRate = 100;
++    private void phantomSpawnRate() {
++    	phantomSpawnRate = getInt("phantom-spawn-rate", 100);
++    	if (phantomSpawnRate <= -1) {
++    		phantomSpawnRate = -1;
++            set("phantom-spawn-rate", -1);
++    	}
++    	log("Phantom spawn rate: " + (phantomSpawnRate == -1 ? "No phantom will spawn" : (phantomSpawnRate + "%")));
++    }
+ }
+-- 
+2.24.0
+
