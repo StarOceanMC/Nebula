@@ -1,0 +1,28 @@
+From 507b650e5490c77c6b6fea736ad05acc8bf3529f Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Fri, 27 Dec 2019 22:31:57 +0800
+Subject: [PATCH] Don't recalculate biomes as default
+
+---
+ src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
+index 916f64ea8..a8470b232 100644
+--- a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
++++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
+@@ -79,9 +79,9 @@ public class NebulaWorldConfig {
+ 		itemFrameBreakInGlass = getBoolean("item-frame-break-in-glass", true);
+ 	}
+ 
+-	public boolean needRegenerateBiomes = true;
++	public boolean needRegenerateBiomes = false;
+ 	private void needRegenerateBiomes() {
+-		itemFrameBreakInGlass = getBoolean("need-regenerate-biomes", true);
++		itemFrameBreakInGlass = getBoolean("need-regenerate-biomes", false);
+ 	}
+ 	
+ 	public String biomesRecalculatingTag = "Unknown";
+-- 
+2.24.0
+
