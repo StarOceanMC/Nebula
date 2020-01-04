@@ -25,7 +25,7 @@ Nebula maven repository:
  ```xml 
 <repository>
     <id>nebula-repo</id>
-    <url>https://raw.github.com/StarOceanMC/Maven/master/repo</url>
+    <url>https://raw.github.com/StarOceanMC/Maven/repo</url>
 </repository>
 ```
 Nebula-API maven dependency:
