@@ -1,15 +1,26 @@
-From d5b9a3486a26c9e462e24125a605c78b8fc882bb Mon Sep 17 00:00:00 2001
+From c704f72a438f797d4195ca25226080f1a1ab6bbb Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Tue, 24 Dec 2019 19:03:44 +0800
 Subject: [PATCH] Configurable EventPriority
 
 ---
+ .gitignore                                    |   2 +
  .../bukkit/plugin/SimplePluginManager.java    |  15 ++-
  .../bukkit/plugin/java/JavaPluginLoader.java  |  15 ++-
  .../mc/nebula/plugin/EventPriorityConfig.java | 114 ++++++++++++++++++
- 3 files changed, 138 insertions(+), 6 deletions(-)
+ 4 files changed, 140 insertions(+), 6 deletions(-)
  create mode 100644 src/main/java/xianxian/mc/nebula/plugin/EventPriorityConfig.java
 
+diff --git a/.gitignore b/.gitignore
+index edf9e5c3..e72e1f5a 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -29,3 +29,5 @@
+ *.ipr
+ *.iws
+ .idea/
++
++eventhandlers.json
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 index d0e735bc..ccd020a2 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
@@ -190,5 +201,5 @@ index 00000000..993754c7
 +}
 \ No newline at end of file
 -- 
-2.24.0
+2.24.1
 

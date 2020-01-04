@@ -99,3 +99,4 @@ local.properties
 
 sendplugin_to_server
 maven-repo
+build-server
