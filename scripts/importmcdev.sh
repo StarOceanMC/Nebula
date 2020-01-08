@@ -49,7 +49,7 @@ function import {
 (
     cd Paper/Paper-Server/
     lastlog=$(git log -1 --oneline)
-    if [[ "$lastlog" = *"EMC-Extra mc-dev Imports"* ]]; then
+    if [[ "$lastlog" = *"Nebula-Extra mc-dev Imports"* ]]; then
         git reset --hard HEAD^
     fi
 )
@@ -85,5 +85,5 @@ done
     cd Paper/Paper-Server/
     rm -rf nms-patches
     git add src -A
-    echo -e "Origami-Extra mc-dev Imports\n\n$MODLOG" | git commit src -F -
+    echo -e "Nebula-Extra mc-dev Imports\n\n$MODLOG" | git commit src -F -
 )
