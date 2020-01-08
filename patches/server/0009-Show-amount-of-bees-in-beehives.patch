@@ -1,0 +1,77 @@
+From e1f2181223ac476c31d4c5ace377332ce0e0b55a Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Wed, 8 Jan 2020 22:04:01 +0800
+Subject: [PATCH] Show amount of bees in beehives
+
+---
+ .../net/minecraft/server/BlockBeehive.java    | 32 ++++++++++++++++++-
+ .../java/xianxian/mc/nebula/NebulaConfig.java |  5 +++
+ 2 files changed, 36 insertions(+), 1 deletion(-)
+
+diff --git a/src/main/java/net/minecraft/server/BlockBeehive.java b/src/main/java/net/minecraft/server/BlockBeehive.java
+index 8146ec0b4..77c6b7de9 100644
+--- a/src/main/java/net/minecraft/server/BlockBeehive.java
++++ b/src/main/java/net/minecraft/server/BlockBeehive.java
+@@ -185,6 +185,14 @@ public class BlockBeehive extends BlockTileEntity {
+                 if (flag) {
+                     nbttagcompound = new NBTTagCompound();
+                     nbttagcompound.set("Bees", tileentitybeehive.m());
++                    // Nebula start - Show amount of bees in beehives
++                    NBTTagCompound display = new NBTTagCompound();
++                    NBTTagList lore = new NBTTagList();
++                    lore.add(NBTTagString.a(IChatBaseComponent.ChatSerializer.a(new ChatComponentText("§7" +
++                            String.format(xianxian.mc.nebula.NebulaConfig.beesInsideLore, tileentitybeehive.j())))));
++                    display.set("Lore", lore);
++                    itemstack.a("display", display);
++                    // Nebula end
+                     itemstack.a("BlockEntityTag", (NBTBase) nbttagcompound);
+                 }
+ 
+@@ -215,7 +223,29 @@ public class BlockBeehive extends BlockTileEntity {
+             }
+         }
+ 
+-        return super.a(iblockdata, loottableinfo_builder);
++        // Nebula start - Show amount of bees in beehives
++        TileEntity tileentity = (TileEntity) loottableinfo_builder.b(LootContextParameters.BLOCK_ENTITY);
++        List<ItemStack> loots = super.a(iblockdata, loottableinfo_builder);
++
++        if (tileentity instanceof TileEntityBeehive) {
++            TileEntityBeehive tileentitybeehive = (TileEntityBeehive) tileentity;
++            if (!tileentitybeehive.isEmpty()) {
++                for (int i = 0, size = loots.size(); i < size; i++) {
++                    // Add lore for each drop
++                    ItemStack loot = loots.get(i);
++                    if (loot.getItem().equals(Items.pV) || loot.getItem().equals(Items.pW)) {
++                        NBTTagCompound display = new NBTTagCompound();
++                        NBTTagList lore = new NBTTagList();
++                        lore.add(NBTTagString.a(IChatBaseComponent.ChatSerializer.a(new ChatComponentText("§7" +
++                                String.format(xianxian.mc.nebula.NebulaConfig.beesInsideLore, tileentitybeehive.j())))));
++                        display.set("Lore", lore);
++                        loot.a("display", display);
++                    }
++                }
++            }
++        }
++        return loots;
++        // Nebula end
+     }
+ 
+     @Override
+diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
+index 973fe5715..3b6792e65 100644
+--- a/src/main/java/xianxian/mc/nebula/NebulaConfig.java
++++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
+@@ -188,4 +188,9 @@ public class NebulaConfig {
+     	if (useCustomLanguageFile)
+     		CustomLocaleLanguage.getInstance().load(customLanguageFilePath);
+     }
++    
++    public static String beesInsideLore = "%d Bee(s) inside";
++    private static void beesInsideLore() {
++        beesInsideLore = getString("localization.bees-inside-lore", beesInsideLore);
++    }
+ }
+-- 
+2.24.1
+
