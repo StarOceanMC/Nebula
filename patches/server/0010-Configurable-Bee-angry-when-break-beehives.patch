@@ -1,0 +1,39 @@
+From 5b69c60df9ce15c311eca526ec041e5d33e31e3c Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Sun, 12 Jan 2020 19:11:36 +0800
+Subject: [PATCH] Configurable Bee angry when break beehives
+
+---
+ src/main/java/net/minecraft/server/BlockBeehive.java    | 2 +-
+ src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java | 4 ++++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/src/main/java/net/minecraft/server/BlockBeehive.java b/src/main/java/net/minecraft/server/BlockBeehive.java
+index 77c6b7de9..41245042f 100644
+--- a/src/main/java/net/minecraft/server/BlockBeehive.java
++++ b/src/main/java/net/minecraft/server/BlockBeehive.java
+@@ -36,7 +36,7 @@ public class BlockBeehive extends BlockTileEntity {
+                 world.updateAdjacentComparators(blockposition, this);
+             }
+ 
+-            this.b(world, blockposition);
++            if (world.nebulaConfig.beeAngerWhenBreakBeehives) this.b(world, blockposition); // Nebula - Configurable Bee angry when break beehives
+             CriterionTriggers.L.a((EntityPlayer) entityhuman, iblockdata.getBlock(), itemstack, tileentitybeehive.j());
+         }
+ 
+diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
+index a8470b232..34a3cb094 100644
+--- a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
++++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
+@@ -89,4 +89,8 @@ public class NebulaWorldConfig {
+ 		biomesRecalculatingTag = getString("biomes-recalculating-tag", "1.15.1-1");
+ 	}
+ 
++    public boolean beeAngerWhenBreakBeehives = false;
++    private void beeAngerWhenBreakBeehives() {
++        beeAngerWhenBreakBeehives = getBoolean("bee-anger-when-break-beehives", true);
++    }
+ }
+-- 
+2.24.1
+
