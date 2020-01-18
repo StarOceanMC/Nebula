@@ -1,0 +1,27 @@
+From 67fcd0102dbc4630ad2f052e8ec6c4dc87ff34b5 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Sat, 18 Jan 2020 19:26:09 +0800
+Subject: [PATCH] Wolves won't stand up caused by other players
+
+---
+ src/main/java/net/minecraft/server/EntityWolf.java | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/main/java/net/minecraft/server/EntityWolf.java b/src/main/java/net/minecraft/server/EntityWolf.java
+index db15d5e0a..e2f74ac68 100644
+--- a/src/main/java/net/minecraft/server/EntityWolf.java
++++ b/src/main/java/net/minecraft/server/EntityWolf.java
+@@ -283,6 +283,10 @@ public class EntityWolf extends EntityTameableAnimal {
+             return this.i((EntityLiving) entityhuman) || item == Items.BONE && !this.isAngry();
+         } else {
+             if (this.isTamed()) {
++                // Nebula start - Wolves won't stand up caused by other players
++                if (!this.i((EntityLiving) entityhuman))
++                    return super.a(entityhuman, enumhand);
++                // Nebula end
+                 if (item.isFood() && item.getFoodInfo().c() && this.getHealth() < this.getMaxHealth()) {
+                     if (!entityhuman.abilities.canInstantlyBuild) {
+                         itemstack.subtract(1);
+-- 
+2.24.1
+
