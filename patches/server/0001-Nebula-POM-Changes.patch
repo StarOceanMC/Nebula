@@ -1,4 +1,4 @@
-From 66acf2811aa1c09e538cb8c3100b9456c7fe0fb4 Mon Sep 17 00:00:00 2001
+From 3e29921e22ffe47987e2557769d7850fae86e3c3 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 23 Dec 2019 19:51:50 +0800
 Subject: [PATCH] Nebula POM Changes
@@ -10,7 +10,7 @@ Subject: [PATCH] Nebula POM Changes
  3 files changed, 11 insertions(+), 11 deletions(-)
 
 diff --git a/pom.xml b/pom.xml
-index 495e11f0f..cddd17ee6 100644
+index 907807ee5..9f495f24f 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -1,11 +1,11 @@
@@ -20,7 +20,7 @@ index 495e11f0f..cddd17ee6 100644
 -    <artifactId>paper</artifactId>
 +    <artifactId>nebula</artifactId>
      <packaging>jar</packaging>
-     <version>1.15.1-R0.1-SNAPSHOT</version>
+     <version>1.15.2-R0.1-SNAPSHOT</version>
 -    <name>Paper</name>
 -    <url>https://papermc.io</url>
 +    <name>Nebula</name>
@@ -68,10 +68,10 @@ index 495e11f0f..cddd17ee6 100644
                  </configuration>
                  <executions>
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 0365cebcf..722e4e667 100644
+index 346664cee..e43e8ca92 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1474,7 +1474,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1484,7 +1484,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
      }
  
      public String getServerModName() {
@@ -94,5 +94,5 @@ index 674096cab..4677b3d1b 100644
  
          if (stream != null) {
 -- 
-2.24.0
+2.24.1
 

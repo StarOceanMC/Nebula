@@ -1,4 +1,4 @@
-From acfcb093ffd11c827f5f741c2232ef86b9527e65 Mon Sep 17 00:00:00 2001
+From dd63a02c93f27e41938c53cf505e7b3db62c4e3e Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 23 Dec 2019 19:49:56 +0800
 Subject: [PATCH] Nebula POM Changes
@@ -8,7 +8,7 @@ Subject: [PATCH] Nebula POM Changes
  1 file changed, 15 insertions(+), 7 deletions(-)
 
 diff --git a/pom.xml b/pom.xml
-index 252ddd22..3f958ed8 100644
+index a71015f4..4cb36ffc 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -1,21 +1,22 @@
@@ -29,7 +29,7 @@ index 252ddd22..3f958ed8 100644
 -    <artifactId>paper-api</artifactId>
 +    <groupId>xianxian.mc.nebula</groupId>
 +    <artifactId>nebula-api</artifactId>
-     <version>1.15.1-R0.1-SNAPSHOT</version>
+     <version>1.15.2-R0.1-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 -    <name>Paper-API</name>
@@ -56,5 +56,5 @@ index 252ddd22..3f958ed8 100644
      </build>
  
 -- 
-2.24.0
+2.24.1
 

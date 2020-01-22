@@ -1,4 +1,4 @@
-From 1f84a8551f63153fcf45afef5c851310dafb5486 Mon Sep 17 00:00:00 2001
+From 56ade7ae236900efeccdf62cb40ec9fd0bd7bc27 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Fri, 27 Dec 2019 22:00:26 +0800
 Subject: [PATCH] Configurable Biomes Recalculating
@@ -9,10 +9,10 @@ Subject: [PATCH] Configurable Biomes Recalculating
  2 files changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/src/main/java/net/minecraft/server/ChunkRegionLoader.java b/src/main/java/net/minecraft/server/ChunkRegionLoader.java
-index 26f1a4b0..2d638b49 100644
+index 4349d22cc..157d91f9c 100644
 --- a/src/main/java/net/minecraft/server/ChunkRegionLoader.java
 +++ b/src/main/java/net/minecraft/server/ChunkRegionLoader.java
-@@ -55,7 +55,12 @@ public class ChunkRegionLoader {
+@@ -62,7 +62,12 @@ public class ChunkRegionLoader {
              ChunkRegionLoader.LOGGER.error("Chunk file at {} is in the wrong location; relocating. (Expected {}, got {})", chunkcoordintpair, chunkcoordintpair, chunkcoordintpair1);
          }
  
@@ -27,7 +27,7 @@ index 26f1a4b0..2d638b49 100644
          ProtoChunkTickList<Block> protochunkticklist = new ProtoChunkTickList<>((block) -> {
              return block == null || block.getBlockData().isAir();
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
-index 84485572..916f64ea 100644
+index 84485572e..916f64ea8 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 @@ -79,5 +79,14 @@ public class NebulaWorldConfig {
@@ -46,5 +46,5 @@ index 84485572..916f64ea 100644
 +
  }
 -- 
-2.24.0
+2.24.1
 

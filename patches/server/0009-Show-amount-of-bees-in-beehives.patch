@@ -1,4 +1,4 @@
-From e1f2181223ac476c31d4c5ace377332ce0e0b55a Mon Sep 17 00:00:00 2001
+From 07e02236ad2c9b385ca17006d124c60de098f115 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 8 Jan 2020 22:04:01 +0800
 Subject: [PATCH] Show amount of bees in beehives
@@ -9,10 +9,10 @@ Subject: [PATCH] Show amount of bees in beehives
  2 files changed, 36 insertions(+), 1 deletion(-)
 
 diff --git a/src/main/java/net/minecraft/server/BlockBeehive.java b/src/main/java/net/minecraft/server/BlockBeehive.java
-index 8146ec0b4..77c6b7de9 100644
+index c7fdd2f86..a5bf7b4d5 100644
 --- a/src/main/java/net/minecraft/server/BlockBeehive.java
 +++ b/src/main/java/net/minecraft/server/BlockBeehive.java
-@@ -185,6 +185,14 @@ public class BlockBeehive extends BlockTileEntity {
+@@ -182,6 +182,14 @@ public class BlockBeehive extends BlockTileEntity {
                  if (flag) {
                      nbttagcompound = new NBTTagCompound();
                      nbttagcompound.set("Bees", tileentitybeehive.m());
@@ -27,7 +27,7 @@ index 8146ec0b4..77c6b7de9 100644
                      itemstack.a("BlockEntityTag", (NBTBase) nbttagcompound);
                  }
  
-@@ -215,7 +223,29 @@ public class BlockBeehive extends BlockTileEntity {
+@@ -212,7 +220,29 @@ public class BlockBeehive extends BlockTileEntity {
              }
          }
  
