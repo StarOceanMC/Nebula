@@ -1,0 +1,69 @@
+From e7e764643d1677f32e553079f87d246791dac544 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Mon, 27 Jan 2020 09:42:11 +0800
+Subject: [PATCH] Localization API
+
+---
+ src/main/java/org/bukkit/Server.java          |  9 ++++++
+ .../mc/nebula/localization/Localization.java  | 31 +++++++++++++++++++
+ 2 files changed, 40 insertions(+)
+ create mode 100644 src/main/java/xianxian/mc/nebula/localization/Localization.java
+
+diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
+index 31470479..43eac3df 100644
+--- a/src/main/java/org/bukkit/Server.java
++++ b/src/main/java/org/bukkit/Server.java
+@@ -1406,4 +1406,13 @@ public interface Server extends PluginMessageRecipient {
+      */
+     int getCurrentTick();
+     // Paper end
++    
++    // Nebula start - Localization API
++    /**
++     * Get a Localization object, used to fetch localized name of a game object (Items, Entities, Blocks)
++     * @return Localization object
++     */
++    @NotNull
++    xianxian.mc.nebula.localization.Localization getLocalization();
++    // Nebula end
+ }
+diff --git a/src/main/java/xianxian/mc/nebula/localization/Localization.java b/src/main/java/xianxian/mc/nebula/localization/Localization.java
+new file mode 100644
+index 00000000..a8152033
+--- /dev/null
++++ b/src/main/java/xianxian/mc/nebula/localization/Localization.java
+@@ -0,0 +1,31 @@
++package xianxian.mc.nebula.localization;
++
++import org.bukkit.block.Block;
++import org.bukkit.entity.Entity;
++import org.bukkit.inventory.ItemStack;
++import org.jetbrains.annotations.Nullable;
++
++public interface Localization {
++    
++    /**
++     * Fetch item's localized display name
++     * @param item The item to fetch
++     * @return item's display name, can be null
++     */
++    @Nullable
++    String getLocalizedItemName(@Nullable ItemStack item);
++    /**
++     * Fetch entity's localized display name
++     * @param entity The entity to fetch
++     * @return Entity's display name, can be null
++     */
++    @Nullable
++    String getLocalizedEntityName(@Nullable Entity entity);
++    /**
++     * Fetch block's localized display name
++     * @param block The block to fetch
++     * @return Block's display name, can be null
++     */
++    @Nullable
++    String getLocalizedBlockName(@Nullable Block block);
++}
+-- 
+2.24.1
+
