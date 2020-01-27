@@ -1,14 +1,31 @@
-From e7e764643d1677f32e553079f87d246791dac544 Mon Sep 17 00:00:00 2001
+From 511a4bd26f72e090e4986fc929013c780e210ea2 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 27 Jan 2020 09:42:11 +0800
 Subject: [PATCH] Localization API
 
 ---
+ src/main/java/org/bukkit/Bukkit.java          |  7 +++++
  src/main/java/org/bukkit/Server.java          |  9 ++++++
  .../mc/nebula/localization/Localization.java  | 31 +++++++++++++++++++
- 2 files changed, 40 insertions(+)
+ 3 files changed, 47 insertions(+)
  create mode 100644 src/main/java/xianxian/mc/nebula/localization/Localization.java
 
+diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
+index 231bc6e3..9b58723e 100644
+--- a/src/main/java/org/bukkit/Bukkit.java
++++ b/src/main/java/org/bukkit/Bukkit.java
+@@ -1610,4 +1610,11 @@ public final class Bukkit {
+     {
+         return server.spigot();
+     }
++    
++    // Nebula start - Localization API
++    @NotNull
++    public static xianxian.mc.nebula.localization.Localization getLocalization() {
++        return server.getLocalization();
++    }
++    //Nebula end
+ }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
 index 31470479..43eac3df 100644
 --- a/src/main/java/org/bukkit/Server.java
