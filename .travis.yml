@@ -22,10 +22,12 @@ after_success:
 - eval "$(ssh-agent -s)"
 - chmod 600 /tmp/deploy_rsa
 - ssh-add /tmp/deploy_rsa
-- find Maven # Print for test
+- ssh -T git@github.com # Try connection
+- 'export LATEST_COMMIT=`git log --pretty=format:"%s" HEAD -1`'
 - cd Maven
+- 'git remote set-url origin git@github.com:StarOceanMC/Maven'
 - git add .
-- 'git commit -m "[Nebula-API] `git log --pretty=format:"%s" HEAD -1`"'
+- 'git commit -m "[Nebula-API] $LATEST_COMMIT"'
 - git push
 cache:
   directories:
