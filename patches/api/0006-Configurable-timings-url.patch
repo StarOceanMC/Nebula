@@ -1,0 +1,57 @@
+From 7ef4a74e6a65e7becc21dc9e9f8ff72d79f8de52 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Sat, 22 Feb 2020 15:31:43 +0800
+Subject: [PATCH] Configurable timings url
+
+---
+ .../java/co/aikar/timings/TimingsExport.java  |  2 +-
+ .../co/aikar/timings/TimingsExportUrl.java    | 24 +++++++++++++++++++
+ 2 files changed, 25 insertions(+), 1 deletion(-)
+ create mode 100644 src/main/java/co/aikar/timings/TimingsExportUrl.java
+
+diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
+index 23eb8c65..2b54bd56 100644
+--- a/src/main/java/co/aikar/timings/TimingsExport.java
++++ b/src/main/java/co/aikar/timings/TimingsExport.java
+@@ -283,7 +283,7 @@ class TimingsExport extends Thread {
+         String response = null;
+         String timingsURL = null;
+         try {
+-            HttpURLConnection con = (HttpURLConnection) new URL("http://timings.aikar.co/post").openConnection();
++            HttpURLConnection con = (HttpURLConnection) new URL(TimingsExportUrl.get()).openConnection(); // Nebula - Configurable timings url
+             con.setDoOutput(true);
+             String hostName = "BrokenHost";
+             try {
+diff --git a/src/main/java/co/aikar/timings/TimingsExportUrl.java b/src/main/java/co/aikar/timings/TimingsExportUrl.java
+new file mode 100644
+index 00000000..07634c5c
+--- /dev/null
++++ b/src/main/java/co/aikar/timings/TimingsExportUrl.java
+@@ -0,0 +1,24 @@
++package co.aikar.timings;
++
++import org.jetbrains.annotations.NotNull;
++import org.jetbrains.annotations.Nullable;
++
++public class TimingsExportUrl {
++    private static final String DEFAULT_URL = "http://timings.aikar.co/post";
++    private static String url;
++
++    @NotNull
++    public static String get() {
++        return url == null ? DEFAULT_URL : url;
++    }
++    
++    /**
++     * Set the URL used to paste timings<br>
++     * This method won't check whether the new URL is valid or not
++     * @param newURL null to set default
++     */
++    public static void set(@Nullable String newURL) {
++        url = newURL;
++    }
++
++}
+-- 
+2.25.0
+
