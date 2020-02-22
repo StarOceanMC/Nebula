@@ -1,4 +1,4 @@
-From 80a898913ecdb6d46cba3996c917535926491548 Mon Sep 17 00:00:00 2001
+From e25c7d4ab912a79aa95d4e81d6ccaf94c865d40d Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 27 Jan 2020 09:42:25 +0800
 Subject: [PATCH] Localization API
@@ -10,10 +10,10 @@ Subject: [PATCH] Localization API
  create mode 100644 src/main/java/xianxian/mc/nebula/localization/NebulaLocalization.java
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 806475489..2304757ec 100644
+index 445345570..52c257cd1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -237,7 +237,8 @@ public final class CraftServer implements Server {
+@@ -239,7 +239,8 @@ public final class CraftServer implements Server {
      private final List<CraftPlayer> playerView;
      public int reloadCount;
      public static Exception excessiveVelEx; // Paper - Velocity warnings
@@ -23,7 +23,7 @@ index 806475489..2304757ec 100644
      static {
          ConfigurationSerialization.registerClass(CraftOfflinePlayer.class);
          CraftItemFactory.instance();
-@@ -2171,4 +2172,11 @@ public final class CraftServer implements Server {
+@@ -2187,4 +2188,11 @@ public final class CraftServer implements Server {
          return net.minecraft.server.MinecraftServer.currentTick;
      }
      // Paper end
@@ -87,5 +87,5 @@ index 000000000..eb59cedc8
 +
 +}
 -- 
-2.24.1
+2.25.0
 

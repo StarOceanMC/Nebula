@@ -1,4 +1,4 @@
-From f36e8850d1dbb495b48c44c2c155f4d41e42be28 Mon Sep 17 00:00:00 2001
+From e7e3acfeea664f4c65f1c408b1c57e44aed6dd03 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Thu, 30 Jan 2020 21:12:12 +0800
 Subject: [PATCH] Load custom language on server startup
@@ -9,7 +9,7 @@ Subject: [PATCH] Load custom language on server startup
  2 files changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index 060411b79..ca4406740 100644
+index 9ab0bcd09..2487f1383 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServer.java
 @@ -35,6 +35,7 @@ import org.apache.logging.log4j.Level;
@@ -20,7 +20,7 @@ index 060411b79..ca4406740 100644
  import org.bukkit.event.server.ServerCommandEvent;
  import org.bukkit.craftbukkit.util.Waitable;
  import org.bukkit.event.server.RemoteServerCommandEvent;
-@@ -196,6 +197,10 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+@@ -203,6 +204,10 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
          }
          xianxian.mc.nebula.NebulaConfig.registerCommands();
          // Nebula end
@@ -45,5 +45,5 @@ index 3b6792e65..6425f6e9f 100644
      
      public static String beesInsideLore = "%d Bee(s) inside";
 -- 
-2.24.1
+2.25.0
 

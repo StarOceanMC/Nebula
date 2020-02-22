@@ -1,4 +1,4 @@
-From c704f72a438f797d4195ca25226080f1a1ab6bbb Mon Sep 17 00:00:00 2001
+From 178a773e2ea4ab5176ecb0e2dc013b50a7b94256 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Tue, 24 Dec 2019 19:03:44 +0800
 Subject: [PATCH] Configurable EventPriority
@@ -12,20 +12,20 @@ Subject: [PATCH] Configurable EventPriority
  create mode 100644 src/main/java/xianxian/mc/nebula/plugin/EventPriorityConfig.java
 
 diff --git a/.gitignore b/.gitignore
-index edf9e5c3..e72e1f5a 100644
+index e431e343..017c305b 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -29,3 +29,5 @@
+@@ -30,3 +30,5 @@
  *.ipr
  *.iws
  .idea/
 +
 +eventhandlers.json
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index d0e735bc..ccd020a2 100644
+index 8d54d561..8180cae3 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-@@ -607,12 +607,21 @@ public final class SimplePluginManager implements PluginManager {
+@@ -621,12 +621,21 @@ public final class SimplePluginManager implements PluginManager {
          if (!plugin.isEnabled()) {
              throw new IllegalPluginAccessException("Plugin attempted to register " + event + " while not enabled");
          }
@@ -51,10 +51,10 @@ index d0e735bc..ccd020a2 100644
      }
  
 diff --git a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-index 31a70b29..4a78f53e 100644
+index 8ff228ce..3900d0dd 100644
 --- a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-@@ -300,12 +300,21 @@ public final class JavaPluginLoader implements PluginLoader {
+@@ -299,12 +299,21 @@ public final class JavaPluginLoader implements PluginLoader {
                      break;
                  }
              }
@@ -201,5 +201,5 @@ index 00000000..993754c7
 +}
 \ No newline at end of file
 -- 
-2.24.1
+2.25.0
 

@@ -1,4 +1,4 @@
-From 511a4bd26f72e090e4986fc929013c780e210ea2 Mon Sep 17 00:00:00 2001
+From 013fefd6ab267feb405f41a76d831604dd9193a3 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 27 Jan 2020 09:42:11 +0800
 Subject: [PATCH] Localization API
@@ -11,11 +11,11 @@ Subject: [PATCH] Localization API
  create mode 100644 src/main/java/xianxian/mc/nebula/localization/Localization.java
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 231bc6e3..9b58723e 100644
+index 355bd2e2..be89b598 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -1610,4 +1610,11 @@ public final class Bukkit {
-     {
+@@ -1623,4 +1623,11 @@ public final class Bukkit {
+     public static Server.Spigot spigot() {
          return server.spigot();
      }
 +    
@@ -27,10 +27,10 @@ index 231bc6e3..9b58723e 100644
 +    //Nebula end
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index 31470479..43eac3df 100644
+index 98e7ba90..13c023e4 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -1406,4 +1406,13 @@ public interface Server extends PluginMessageRecipient {
+@@ -1416,4 +1416,13 @@ public interface Server extends PluginMessageRecipient {
       */
      int getCurrentTick();
      // Paper end
@@ -82,5 +82,5 @@ index 00000000..a8152033
 +    String getLocalizedBlockName(@Nullable Block block);
 +}
 -- 
-2.24.1
+2.25.0
 

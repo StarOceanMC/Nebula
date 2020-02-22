@@ -1,4 +1,4 @@
-From 2dae17fa45f07289f3b0518859721df3e64a722f Mon Sep 17 00:00:00 2001
+From 20034efeec2566805cfeee7683bc94a9ad3d9cd9 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sun, 5 Jan 2020 15:01:48 +0800
 Subject: [PATCH] Add EventPriority.NEVER for customizing priority
@@ -27,10 +27,10 @@ index 61ffa50f..f368ad0c 100644
       * Event call is of very low importance and should be ran first, to allow
       * other plugins to further customise the outcome
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index ccd020a2..c57b439d 100644
+index 8180cae3..869db949 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-@@ -619,8 +619,10 @@ public final class SimplePluginManager implements PluginManager {
+@@ -633,8 +633,10 @@ public final class SimplePluginManager implements PluginManager {
          
          executor = new co.aikar.timings.TimedEventExecutor(executor, plugin, null, event); // Paper
          if (false) { // Spigot - RL handles useTimings check now // Paper
@@ -42,10 +42,10 @@ index ccd020a2..c57b439d 100644
          }
      }
 diff --git a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-index 4a78f53e..35b6007b 100644
+index 3900d0dd..f777a84d 100644
 --- a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-@@ -312,9 +312,11 @@ public final class JavaPluginLoader implements PluginLoader {
+@@ -311,9 +311,11 @@ public final class JavaPluginLoader implements PluginLoader {
              
              EventExecutor executor = new co.aikar.timings.TimedEventExecutor(EventExecutor.create(method, eventClass), plugin, method, eventClass); // Paper // Paper (Yes.) - Use factory method `EventExecutor.create()`
              if (false) { // Spigot - RL handles useTimings check now
@@ -59,5 +59,5 @@ index 4a78f53e..35b6007b 100644
          }
          return ret;
 -- 
-2.24.1
+2.25.0
 
