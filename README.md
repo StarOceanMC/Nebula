@@ -1,5 +1,6 @@
 Nebula
 ==
+[![Build Status](https://travis-ci.org/StarOceanMC/Nebula.svg?branch=master)](https://travis-ci.org/StarOceanMC/Nebula)
 
 Custom paper fork used by starocean.ink. The fork is based off of
  the framework used in [Spottedleaf's Concrete](https://github.com/Spottedleaf/Concrete)
@@ -67,4 +68,4 @@ will be placed under `Nebula-API/target` and `Nebula-Server/target`.
 #### Updating Paper upstream
 
 Switch into the directory of the Paper submodule and pull changes in from the 
-repository, then run `./nebula up` and `./nebula rb`.
+repository, then run `./nebula up` and `./nebula p`.
