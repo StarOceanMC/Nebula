@@ -1,4 +1,4 @@
-From 7a674bff416259e2cbfdbd8669f293903472d635 Mon Sep 17 00:00:00 2001
+From 7fe563164e8f2e7fe18c90fcc9b41b92862f51b1 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Tue, 25 Feb 2020 10:52:01 +0800
 Subject: [PATCH] Configurable TNT chunk loading
@@ -10,7 +10,7 @@ Subject: [PATCH] Configurable TNT chunk loading
  3 files changed, 44 insertions(+)
 
 diff --git a/src/main/java/net/minecraft/server/EntityTNTPrimed.java b/src/main/java/net/minecraft/server/EntityTNTPrimed.java
-index d3b2075f2..33d350552 100644
+index d3b2075f..33d35055 100644
 --- a/src/main/java/net/minecraft/server/EntityTNTPrimed.java
 +++ b/src/main/java/net/minecraft/server/EntityTNTPrimed.java
 @@ -11,6 +11,9 @@ public class EntityTNTPrimed extends Entity {
@@ -72,19 +72,19 @@ index d3b2075f2..33d350552 100644
 +    // Nebula end
  }
 diff --git a/src/main/java/net/minecraft/server/TicketType.java b/src/main/java/net/minecraft/server/TicketType.java
-index 4b87ca2ec..47f251327 100644
+index 141664b5..fcc056b9 100644
 --- a/src/main/java/net/minecraft/server/TicketType.java
 +++ b/src/main/java/net/minecraft/server/TicketType.java
-@@ -23,6 +23,7 @@ public class TicketType<T> {
-     public static final TicketType<org.bukkit.plugin.Plugin> PLUGIN_TICKET = a("plugin_ticket", (plugin1, plugin2) -> plugin1.getClass().getName().compareTo(plugin2.getClass().getName())); // CraftBukkit
+@@ -24,6 +24,7 @@ public class TicketType<T> {
      public static final TicketType<Integer> ANTIXRAY = a("antixray", Integer::compareTo); // Paper - Anti-Xray
      public static final TicketType<Long> ASYNC_LOAD = a("async_load", Long::compareTo); // Paper
-+    public static final TicketType<Entity> ENTITY = a("entity", (Entity e1, Entity e2) -> e1.getUniqueID().compareTo(e2.getUniqueID())); // Nebula
+     public static final TicketType<Long> DELAYED_UNLOAD = a("delayed_unload", Long::compareTo); // Tuinity - delay chunk unloads by 30 seconds
++    public static final TicketType<Entity> ENTITY = a("entity", (Entity e1, Entity e2) -> e1.getUniqueID().compareTo(e2.getUniqueID()), 20); // Nebula
  
      public static <T> TicketType<T> a(String s, Comparator<T> comparator) {
          return new TicketType<>(s, comparator, 0L);
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
-index a8470b232..a1800ed0d 100644
+index a8470b23..a1800ed0 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 @@ -89,4 +89,8 @@ public class NebulaWorldConfig {

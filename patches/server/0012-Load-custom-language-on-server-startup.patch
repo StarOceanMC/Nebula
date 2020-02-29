@@ -1,4 +1,4 @@
-From e7e3acfeea664f4c65f1c408b1c57e44aed6dd03 Mon Sep 17 00:00:00 2001
+From 6d476e1f4f949b07dfc1a161ce37fef9cd03f557 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Thu, 30 Jan 2020 21:12:12 +0800
 Subject: [PATCH] Load custom language on server startup
@@ -9,7 +9,7 @@ Subject: [PATCH] Load custom language on server startup
  2 files changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index 9ab0bcd09..2487f1383 100644
+index 99e2584d..52eb8f51 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServer.java
 @@ -35,6 +35,7 @@ import org.apache.logging.log4j.Level;
@@ -20,7 +20,7 @@ index 9ab0bcd09..2487f1383 100644
  import org.bukkit.event.server.ServerCommandEvent;
  import org.bukkit.craftbukkit.util.Waitable;
  import org.bukkit.event.server.RemoteServerCommandEvent;
-@@ -203,6 +204,10 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+@@ -204,6 +205,10 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
          }
          xianxian.mc.nebula.NebulaConfig.registerCommands();
          // Nebula end
@@ -32,7 +32,7 @@ index 9ab0bcd09..2487f1383 100644
          this.setSpawnNPCs(dedicatedserverproperties.spawnNpcs);
          this.setPVP(dedicatedserverproperties.pvp);
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
-index 3b6792e65..6425f6e9f 100644
+index 3b6792e6..6425f6e9 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 @@ -185,8 +185,6 @@ public class NebulaConfig {
