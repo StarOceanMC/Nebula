@@ -15,7 +15,7 @@ paperVer=$(cat current-paper)
 minecraftversion=$(cat $basedir/Paper/work/BuildData/info.json | grep minecraftVersion | cut -d '"' -f 4)
 decompile="Paper/work/Minecraft/$minecraftversion/forge"
 # replace for now
-decompile="Paper/work/Minecraft/$minecraftversion/spigot"
+decompile="Paper/work/Minecraft/$minecraftversion"
 
 mkdir -p mc-dev/src/net/minecraft/server
 

@@ -1,0 +1,28 @@
+From c9f02a392c74e8b88b6b95ca4de7e1ad20b35f0c Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Thu, 30 Jan 2020 21:12:12 +0800
+Subject: [PATCH] Load custom language on server startup
+
+---
+ src/main/java/net/minecraft/server/DedicatedServer.java | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
+index a0fcbf2f..20a5299d 100644
+--- a/src/main/java/net/minecraft/server/DedicatedServer.java
++++ b/src/main/java/net/minecraft/server/DedicatedServer.java
+@@ -210,7 +210,10 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+             }
+             xianxian.mc.nebula.NebulaConfig.registerCommands();
+             // Nebula end
+-
++            // Nebula start - Load custom language on server startup
++            if (xianxian.mc.nebula.NebulaConfig.useCustomLanguageFile)
++                xianxian.mc.nebula.CustomLocaleLanguage.getInstance().load(xianxian.mc.nebula.NebulaConfig.customLanguageFilePath);
++            // Nebula end
+             DedicatedServer.LOGGER.info("Generating keypair");
+             this.a(MinecraftEncryption.b());
+             DedicatedServer.LOGGER.info("Starting Minecraft server on {}:{}", this.getServerIp().isEmpty() ? "*" : this.getServerIp(), Integer.valueOf(this.P()));
+-- 
+2.25.0
+

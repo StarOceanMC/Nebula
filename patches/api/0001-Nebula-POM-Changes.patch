@@ -1,22 +1,19 @@
-From dd63a02c93f27e41938c53cf505e7b3db62c4e3e Mon Sep 17 00:00:00 2001
+From 7e55ba6f6d87e1809a2d9e8b012e3d412fe189c4 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 23 Dec 2019 19:49:56 +0800
 Subject: [PATCH] Nebula POM Changes
 
 ---
- pom.xml | 22 +++++++++++++++-------
- 1 file changed, 15 insertions(+), 7 deletions(-)
+ pom.xml | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/pom.xml b/pom.xml
-index a71015f4..4cb36ffc 100644
+index 2fa2dd7c..3afe45b3 100644
 --- a/pom.xml
 +++ b/pom.xml
-@@ -1,21 +1,22 @@
- 
-+
- <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+@@ -4,19 +4,19 @@
      <modelVersion>4.0.0</modelVersion>
+ 
      <parent>
 -        <groupId>com.destroystokyo.paper</groupId>
 -        <artifactId>paper-parent</artifactId>
@@ -29,7 +26,7 @@ index a71015f4..4cb36ffc 100644
 -    <artifactId>paper-api</artifactId>
 +    <groupId>xianxian.mc.nebula</groupId>
 +    <artifactId>nebula-api</artifactId>
-     <version>1.15.2-R0.1-SNAPSHOT</version>
+     <version>1.12.2-R0.1-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 -    <name>Paper-API</name>
@@ -37,24 +34,10 @@ index a71015f4..4cb36ffc 100644
 -    <description>An enhanced plugin API for Minecraft servers.</description>
 +    <name>Nebula-API</name>
 +    <url>https://github.com/StarOceanMC/Nebula</url>
-+    <description>An enhanced plugin API for Minecraft servers, based on Paper.</description>
++    <description>An enhanced plugin API for Minecraft servers. Based on Paper</description>
  
      <properties>
-         <!-- <skipTests>true</skipTests> Paper - This [was] not going to end well -->
-@@ -194,6 +195,13 @@
-                     <shadedArtifactAttached>true</shadedArtifactAttached>
-                 </configuration>
-             </plugin>
-+            <plugin>
-+                <artifactId>maven-deploy-plugin</artifactId>
-+                <version>2.8.1</version>
-+                <configuration>
-+                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/../../maven-repo</altDeploymentRepository>
-+                </configuration>
-+            </plugin>
-         </plugins>
-     </build>
- 
+         <!-- Paper - Bump to 1.8 - Get off your dinosaur and get on this rocket ship... -->
 -- 
-2.24.1
+2.25.0
 

@@ -1,35 +1,38 @@
-From 178a773e2ea4ab5176ecb0e2dc013b50a7b94256 Mon Sep 17 00:00:00 2001
+From 023efab452f193ed0b84a4a7f8fe4d70764f8363 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Tue, 24 Dec 2019 19:03:44 +0800
 Subject: [PATCH] Configurable EventPriority
 
 ---
  .gitignore                                    |   2 +
- .../bukkit/plugin/SimplePluginManager.java    |  15 ++-
- .../bukkit/plugin/java/JavaPluginLoader.java  |  15 ++-
- .../mc/nebula/plugin/EventPriorityConfig.java | 114 ++++++++++++++++++
- 4 files changed, 140 insertions(+), 6 deletions(-)
+ .../bukkit/plugin/SimplePluginManager.java    |  19 ++-
+ .../bukkit/plugin/java/JavaPluginLoader.java  |  13 +-
+ .../mc/nebula/plugin/EventPriorityConfig.java | 111 ++++++++++++++++++
+ 4 files changed, 138 insertions(+), 7 deletions(-)
  create mode 100644 src/main/java/xianxian/mc/nebula/plugin/EventPriorityConfig.java
 
 diff --git a/.gitignore b/.gitignore
-index e431e343..017c305b 100644
+index edf9e5c3..e72e1f5a 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -30,3 +30,5 @@
+@@ -29,3 +29,5 @@
  *.ipr
  *.iws
  .idea/
 +
 +eventhandlers.json
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index 8d54d561..8180cae3 100644
+index a7dd902f..81638c2e 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-@@ -621,12 +621,21 @@ public final class SimplePluginManager implements PluginManager {
+@@ -572,12 +572,21 @@ public final class SimplePluginManager implements PluginManager {
          if (!plugin.isEnabled()) {
              throw new IllegalPluginAccessException("Plugin attempted to register " + event + " while not enabled");
          }
 -
+-        executor = new co.aikar.timings.TimedEventExecutor(executor, plugin, null, event); // Spigot
+-        if (false) { // Spigot - RL handles useTimings check now
+-            getEventListeners(event).register(new TimedRegisteredListener(listener, executor, priority, plugin, ignoreCancelled));
 +        
 +        //Nebula start - Configurable EventPriority
 +        String methodName = listener.getClass().getCanonicalName()+".eventExecutor("+event.getCanonicalName()+")";
@@ -39,10 +42,9 @@ index 8d54d561..8180cae3 100644
 +        else
 +        	customedPriority = priority;
 +        //Nebula end
-+        
-         executor = new co.aikar.timings.TimedEventExecutor(executor, plugin, null, event); // Paper
-         if (false) { // Spigot - RL handles useTimings check now // Paper
--            getEventListeners(event).register(new TimedRegisteredListener(listener, executor, priority, plugin, ignoreCancelled));
++
++        executor = new co.aikar.timings.TimedEventExecutor(executor, plugin, null, event); // Paper
++        if (false) { // Spigot - RL handles useTimings check now // Paper
 +            getEventListeners(event).register(new TimedRegisteredListener(listener, executor, customedPriority, plugin, ignoreCancelled)); //Nebula - Configurable EventPriority
          } else {
 -            getEventListeners(event).register(new RegisteredListener(listener, executor, priority, plugin, ignoreCancelled));
@@ -51,40 +53,39 @@ index 8d54d561..8180cae3 100644
      }
  
 diff --git a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-index 8ff228ce..3900d0dd 100644
+index 8b5cea64..d79ab8d8 100644
 --- a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-@@ -299,12 +299,21 @@ public final class JavaPluginLoader implements PluginLoader {
+@@ -286,12 +286,21 @@ public final class JavaPluginLoader implements PluginLoader {
                      break;
                  }
              }
--
 +            
 +            //Nebula start - Configurable EventPriority
 +            String methodName = method.toGenericString();
 +            org.bukkit.event.EventPriority priority = xianxian.mc.nebula.plugin.EventPriorityConfig.getByName(methodName);
 +            if (priority == null)
-+            	priority = eh.priority();
++                priority = eh.priority();
 +            else
-+            	plugin.getLogger().info(methodName + " is using custom priority " + priority);
++                plugin.getLogger().info(methodName + " is using custom priority " + priority);
 +            //Nebula end
-+            
-             EventExecutor executor = new co.aikar.timings.TimedEventExecutor(EventExecutor.create(method, eventClass), plugin, method, eventClass); // Paper // Paper (Yes.) - Use factory method `EventExecutor.create()`
+ 
+             EventExecutor executor = new co.aikar.timings.TimedEventExecutor(EventExecutor.create(method, eventClass), plugin, method, eventClass); // Spigot // Paper - Use factory method `EventExecutor.create()`
              if (false) { // Spigot - RL handles useTimings check now
 -                eventSet.add(new TimedRegisteredListener(listener, executor, eh.priority(), plugin, eh.ignoreCancelled()));
 +                eventSet.add(new TimedRegisteredListener(listener, executor, priority, plugin, eh.ignoreCancelled())); //Nebula - Configurable EventPriority
              } else {
 -                eventSet.add(new RegisteredListener(listener, executor, eh.priority(), plugin, eh.ignoreCancelled()));
-+                eventSet.add(new RegisteredListener(listener, executor, priority, plugin, eh.ignoreCancelled())); //Nebula - Configurable EventPriority
++                eventSet.add(new TimedRegisteredListener(listener, executor, priority, plugin, eh.ignoreCancelled())); //Nebula - Configurable EventPriority
              }
          }
          return ret;
 diff --git a/src/main/java/xianxian/mc/nebula/plugin/EventPriorityConfig.java b/src/main/java/xianxian/mc/nebula/plugin/EventPriorityConfig.java
 new file mode 100644
-index 00000000..993754c7
+index 00000000..6b822e80
 --- /dev/null
 +++ b/src/main/java/xianxian/mc/nebula/plugin/EventPriorityConfig.java
-@@ -0,0 +1,114 @@
+@@ -0,0 +1,111 @@
 +package xianxian.mc.nebula.plugin;
 +
 +import java.io.File;
@@ -97,8 +98,6 @@ index 00000000..993754c7
 +import java.util.logging.Logger;
 +
 +import org.bukkit.event.EventPriority;
-+import org.jetbrains.annotations.NotNull;
-+import org.jetbrains.annotations.Nullable;
 +
 +import com.google.common.io.Files;
 +import com.google.gson.Gson;
@@ -131,12 +130,12 @@ index 00000000..993754c7
 +            try (FileReader reader = new FileReader(configFile)) {
 +                JsonElement je = new JsonParser().parse(reader);
 +                if (je != null) {
-+                	if (je.isJsonObject()) {
-+                		priorityCache = je.getAsJsonObject();
-+                		readFromCache();
-+                	} else {
-+                		LOGGER.severe("Invalid configuration file format");
-+                	}
++                    if (je.isJsonObject()) {
++                        priorityCache = je.getAsJsonObject();
++                        readFromCache();
++                    } else {
++                        LOGGER.severe("Invalid configuration file format");
++                    }
 +                }
 +            } catch (Exception e) {
 +                e.printStackTrace();
@@ -148,14 +147,14 @@ index 00000000..993754c7
 +    }
 +    
 +    private static void readFromCache() {
-+    	priorityCache.entrySet().forEach((e)->{
-+    		String name = e.getKey();
-+    		JsonElement element = e.getValue();
-+    		
-+    		if (!element.isJsonPrimitive()) {
-+    			LOGGER.severe("Malformed configuration format");
-+    		} else {
-+    			String priorityName = element.getAsString();
++        priorityCache.entrySet().forEach((e)->{
++            String name = e.getKey();
++            JsonElement element = e.getValue();
++            
++            if (!element.isJsonPrimitive()) {
++                LOGGER.severe("Malformed configuration format");
++            } else {
++                String priorityName = element.getAsString();
 +                if (priorityName.isEmpty() || priorityName.equalsIgnoreCase("NONE")) {
 +                    return;
 +                }
@@ -163,10 +162,10 @@ index 00000000..993754c7
 +                if (priority == null) {
 +                    LOGGER.severe(name + " has an invalid priority");
 +                } else {
-+                	priorityMap.put(name, priority);
++                    priorityMap.put(name, priority);
 +                }
-+    		}
-+    	});
++            }
++        });
 +    }
 +
 +    /**
@@ -174,15 +173,14 @@ index 00000000..993754c7
 +     * @param name such as @{link java.lang.Method#toGenericString}, cannot be null
 +     * @return {@link EventPriority} if found, otherwise return null
 +     */
-+    @Nullable
-+    public static EventPriority getByName(@NotNull String name) {
++    public static EventPriority getByName(String name) {
 +        String[] parts = name.split(" ");
 +        String methodName = name;
 +        if (parts.length > 1)
 +            methodName = parts[parts.length - 1];
 +        EventPriority priority = priorityMap.get(methodName);
 +        if (priority != null) {
-+        	return priority;
++            return priority;
 +        } else {
 +            priorityCache.add(methodName, new JsonPrimitive("NONE"));
 +            save();

@@ -1,0 +1,63 @@
+From 19d65a4787e211bb37e478a19bdb5c0c097f476e Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Sun, 5 Jan 2020 15:01:48 +0800
+Subject: [PATCH] Add EventPriority.NEVER for customizing priority
+
+---
+ src/main/java/org/bukkit/event/EventPriority.java         | 8 +++++++-
+ src/main/java/org/bukkit/plugin/SimplePluginManager.java  | 2 ++
+ .../java/org/bukkit/plugin/java/JavaPluginLoader.java     | 2 ++
+ 3 files changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/src/main/java/org/bukkit/event/EventPriority.java b/src/main/java/org/bukkit/event/EventPriority.java
+index 61ffa50f..ae2cbd62 100644
+--- a/src/main/java/org/bukkit/event/EventPriority.java
++++ b/src/main/java/org/bukkit/event/EventPriority.java
+@@ -33,7 +33,13 @@ public enum EventPriority {
+      * <p>
+      * No modifications to the event should be made under this priority
+      */
+-    MONITOR(5);
++    MONITOR(5),
++    // Nebula start - Add EventPriority.NEVER for customizing priority
++    /**
++     * Event call is never triggered
++    */
++    NEVER(-100);
++    // Nebula end
+ 
+     private final int slot;
+ 
+diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
+index 81638c2e..2a959370 100644
+--- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
++++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
+@@ -584,8 +584,10 @@ public final class SimplePluginManager implements PluginManager {
+ 
+         executor = new co.aikar.timings.TimedEventExecutor(executor, plugin, null, event); // Paper
+         if (false) { // Spigot - RL handles useTimings check now // Paper
++            if (customedPriority != org.bukkit.event.EventPriority.NEVER) // Nebula - Add EventPriority.NEVER for customizing priority
+             getEventListeners(event).register(new TimedRegisteredListener(listener, executor, customedPriority, plugin, ignoreCancelled)); //Nebula - Configurable EventPriority
+         } else {
++            if (customedPriority != org.bukkit.event.EventPriority.NEVER) // Nebula - Add EventPriority.NEVER for customizing priority
+             getEventListeners(event).register(new RegisteredListener(listener, executor, customedPriority, plugin, ignoreCancelled)); //Nebula - Configurable EventPriority
+         }
+     }
+diff --git a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
+index d79ab8d8..9cab699a 100644
+--- a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
++++ b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
+@@ -298,8 +298,10 @@ public final class JavaPluginLoader implements PluginLoader {
+ 
+             EventExecutor executor = new co.aikar.timings.TimedEventExecutor(EventExecutor.create(method, eventClass), plugin, method, eventClass); // Spigot // Paper - Use factory method `EventExecutor.create()`
+             if (false) { // Spigot - RL handles useTimings check now
++                if (priority != org.bukkit.event.EventPriority.NEVER) // Nebula - Add EventPriority.NEVER for customizing priority
+                 eventSet.add(new TimedRegisteredListener(listener, executor, priority, plugin, eh.ignoreCancelled())); //Nebula - Configurable EventPriority
+             } else {
++                if (priority != org.bukkit.event.EventPriority.NEVER) // Nebula - Add EventPriority.NEVER for customizing priority
+                 eventSet.add(new TimedRegisteredListener(listener, executor, priority, plugin, eh.ignoreCancelled())); //Nebula - Configurable EventPriority
+             }
+         }
+-- 
+2.25.0
+

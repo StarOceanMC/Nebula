@@ -1,14 +1,14 @@
-From ad79d431c69dec74ed368a393e95828e24547838 Mon Sep 17 00:00:00 2001
+From f23c2acb30447386594ecfe3e85f5aadf12eb339 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sat, 22 Feb 2020 16:53:40 +0800
 Subject: [PATCH] Add option to configure timings url
 
 ---
- src/main/java/xianxian/mc/nebula/NebulaConfig.java | 7 +++++++
- 1 file changed, 7 insertions(+)
+ src/main/java/xianxian/mc/nebula/NebulaConfig.java | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
-index 6425f6e9f..bc87559b1 100644
+index d4ea6cdc..455630e7 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 @@ -19,6 +19,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
@@ -19,17 +19,17 @@ index 6425f6e9f..bc87559b1 100644
  import net.minecraft.server.MinecraftServer;
  
  public class NebulaConfig {
-@@ -191,4 +192,10 @@ public class NebulaConfig {
-     private static void beesInsideLore() {
-         beesInsideLore = getString("localization.bees-inside-lore", beesInsideLore);
-     }
-+    
+@@ -186,4 +187,9 @@ public class NebulaConfig {
+ 
+     // #################### CONFIG AREA ####################
+ 
 +    public static String timingsURL = TimingsExportUrl.get();
 +    private static void timingsURL() {
 +        timingsURL = getString("timings.url", timingsURL);
 +        TimingsExportUrl.set(timingsURL);
 +    }
  }
+\ No newline at end of file
 -- 
 2.25.0
 

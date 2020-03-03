@@ -1,0 +1,47 @@
+From 394c52156f4e7bcd9c383f365ed1ab2dbfaf9eb0 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Fri, 27 Dec 2019 21:53:33 +0800
+Subject: [PATCH] Configurable ItemFrame breaking in glass
+
+---
+ .../java/net/minecraft/server/EntityItemFrame.java     | 10 ++++++++++
+ .../java/xianxian/mc/nebula/NebulaWorldConfig.java     |  5 +++++
+ 2 files changed, 15 insertions(+)
+
+diff --git a/src/main/java/net/minecraft/server/EntityItemFrame.java b/src/main/java/net/minecraft/server/EntityItemFrame.java
+index f0d6d6b8..3c9e1178 100644
+--- a/src/main/java/net/minecraft/server/EntityItemFrame.java
++++ b/src/main/java/net/minecraft/server/EntityItemFrame.java
+@@ -215,4 +215,14 @@ public class EntityItemFrame extends EntityHanging {
+     public int t() {
+         return this.getItem().isEmpty() ? 0 : this.getRotation() % 8 + 1;
+     }
++    
++    @Override
++    public boolean survives() {
++        // Nebula start - Configurable ItemFrame breaking in glass
++        if (!this.world.nebulaConfig.itemFrameBreakInGlass && this.world.getType(this.blockPosition).getBlock() instanceof BlockGlass) {
++                return true;
++        }
++        // Nebula end
++        return super.survives();
++    }
+ }
+diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
+index 324f582f..8278b147 100644
+--- a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
++++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
+@@ -68,4 +68,9 @@ public class NebulaWorldConfig {
+         return config.getString("world-settings." + worldName + "." + path,
+                 config.getString("world-settings.default." + path));
+     }
++    
++    public boolean itemFrameBreakInGlass;
++    private void itemFrameBreakInGlass() {
++        itemFrameBreakInGlass = getBoolean("item-frame-break-in-glass", true);
++    }
+ }
+\ No newline at end of file
+-- 
+2.25.0
+

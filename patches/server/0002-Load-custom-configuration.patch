@@ -1,56 +1,56 @@
-From bb1fbe73a19260ac8538b4207e41a9c57f05c468 Mon Sep 17 00:00:00 2001
+From 62af21d6900c562f2c399e6fa683516b0b461c5b Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Fri, 27 Dec 2019 21:34:51 +0800
 Subject: [PATCH] Load custom configuration
 
 ---
- .../net/minecraft/server/DedicatedServer.java |  10 +-
- src/main/java/net/minecraft/server/World.java |   2 +
+ .../net/minecraft/server/DedicatedServer.java |   9 +
+ src/main/java/net/minecraft/server/World.java |   3 +-
  .../org/bukkit/craftbukkit/CraftServer.java   |   1 +
  .../java/org/bukkit/craftbukkit/Main.java     |   8 +
- .../xianxian/mc/nebula/NebulaCommand.java     |  43 +++++
- .../java/xianxian/mc/nebula/NebulaConfig.java | 177 ++++++++++++++++++
- .../xianxian/mc/nebula/NebulaWorldConfig.java |  66 +++++++
- 7 files changed, 306 insertions(+), 1 deletion(-)
+ .../xianxian/mc/nebula/NebulaCommand.java     |  43 ++++
+ .../java/xianxian/mc/nebula/NebulaConfig.java | 189 ++++++++++++++++++
+ .../xianxian/mc/nebula/NebulaWorldConfig.java |  71 +++++++
+ 7 files changed, 323 insertions(+), 1 deletion(-)
  create mode 100644 src/main/java/xianxian/mc/nebula/NebulaCommand.java
  create mode 100644 src/main/java/xianxian/mc/nebula/NebulaConfig.java
  create mode 100644 src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 
 diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index 349a0ea21..9ab0bcd09 100644
+index 6a8292ce..a0fcbf2f 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServer.java
-@@ -194,7 +194,15 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
-         com.destroystokyo.paper.PaperConfig.registerCommands();
-         com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // load version history now
-         // Paper end
--
-+        // Nebula start - Load custom configuration
-+        try {
-+            xianxian.mc.nebula.NebulaConfig.init((File) options.valueOf("nebula-settings"));
-+        } catch (Exception e) {
-+            DedicatedServer.LOGGER.error("Unable to load nebula server configuration", e);
-+            return false;
-+        }
-+        xianxian.mc.nebula.NebulaConfig.registerCommands();
-+        // Nebula end
-         this.setSpawnAnimals(dedicatedserverproperties.spawnAnimals);
-         this.setSpawnNPCs(dedicatedserverproperties.spawnNpcs);
-         this.setPVP(dedicatedserverproperties.pvp);
+@@ -201,6 +201,15 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+             com.destroystokyo.paper.PaperConfig.registerCommands();
+             com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // load version history now
+             // Paper end
++            // Nebula start - Load custom configuration
++            try {
++                xianxian.mc.nebula.NebulaConfig.init((File) options.valueOf("nebula-settings"));
++            } catch (Exception e) {
++                DedicatedServer.LOGGER.error("Unable to load nebula server configuration", e);
++                return false;
++            }
++            xianxian.mc.nebula.NebulaConfig.registerCommands();
++            // Nebula end
+ 
+             DedicatedServer.LOGGER.info("Generating keypair");
+             this.a(MinecraftEncryption.b());
 diff --git a/src/main/java/net/minecraft/server/World.java b/src/main/java/net/minecraft/server/World.java
-index baad98517..0d39eca23 100644
+index bc231c7f..d2ba23dc 100644
 --- a/src/main/java/net/minecraft/server/World.java
 +++ b/src/main/java/net/minecraft/server/World.java
-@@ -90,6 +90,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
-     // Paper start - yes this is hacky as shit
-     RegionLimitedWorldAccess regionLimited;
-     World originalWorld;
+@@ -151,7 +151,7 @@ public abstract class World implements IBlockAccess {
+     private org.spigotmc.TickLimiter tileLimiter;
+     private int tileTickPosition;
+     public final Map<Explosion.CacheKey, Float> explosionDensityCache = new HashMap<>(); // Paper - Optimize explosions
+-
 +    public xianxian.mc.nebula.NebulaWorldConfig nebulaConfig; // Nebula - Load custom configuration
-     public World regionLimited(RegionLimitedWorldAccess limitedWorldAccess) {
-         try {
-             World clone = (World) super.clone();
-@@ -128,6 +129,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
-     protected World(WorldData worlddata, DimensionManager dimensionmanager, BiFunction<World, WorldProvider, IChunkProvider> bifunction, GameProfilerFiller gameprofilerfiller, boolean flag, org.bukkit.generator.ChunkGenerator gen, org.bukkit.World.Environment env) {
+     public CraftWorld getWorld() {
+         return this.world;
+     }
+@@ -173,6 +173,7 @@ public abstract class World implements IBlockAccess {
+     protected World(IDataManager idatamanager, WorldData worlddata, WorldProvider worldprovider, MethodProfiler methodprofiler, boolean flag, ChunkGenerator gen, org.bukkit.World.Environment env) {
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig( worlddata.getName() ); // Spigot
          this.paperConfig = new com.destroystokyo.paper.PaperWorldConfig(worlddata.getName(), this.spigotConfig); // Paper
 +        this.nebulaConfig = new xianxian.mc.nebula.NebulaWorldConfig(worlddata.getName(), this.spigotConfig); // Nebula - Load custom configuration
@@ -58,10 +58,10 @@ index baad98517..0d39eca23 100644
          this.generator = gen;
          this.world = new CraftWorld((WorldServer) this, gen, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index b7dfda265..20ba9e9e2 100644
+index 7c82e18b..7e9c31e9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -812,6 +812,7 @@ public final class CraftServer implements Server {
+@@ -759,6 +759,7 @@ public final class CraftServer implements Server {
              }
              world.spigotConfig.init(); // Spigot
              world.paperConfig.init(); // Paper
@@ -70,27 +70,27 @@ index b7dfda265..20ba9e9e2 100644
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 374e0450a..a7b64545e 100644
+index ae2c51f5..833aeaa8 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -145,6 +145,14 @@ public class Main {
+@@ -142,6 +142,14 @@ public class Main {
                          .defaultsTo("Unknown Server")
                          .describedAs("Name");
                  // Paper end
 +                
 +                // Nebula start - Load custom configuration
 +                acceptsAll(asList("S", "nebula-settings"), "File for nebula settings")
-+                .withRequiredArg()
-+                .ofType(File.class)
-+                .defaultsTo(new File("nebula.yml"))
-+                .describedAs("Yml file");
++                        .withRequiredArg()
++                        .ofType(File.class)
++                        .defaultsTo(new File("nebula.yml"))
++                        .describedAs("Yml file");
 +                // Nebula end
              }
          };
  
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaCommand.java b/src/main/java/xianxian/mc/nebula/NebulaCommand.java
 new file mode 100644
-index 000000000..35cf0291a
+index 00000000..27079d09
 --- /dev/null
 +++ b/src/main/java/xianxian/mc/nebula/NebulaCommand.java
 @@ -0,0 +1,43 @@
@@ -104,45 +104,46 @@ index 000000000..35cf0291a
 +import org.bukkit.command.Command;
 +import org.bukkit.command.CommandSender;
 +
-+public class NebulaCommand extends Command{
++public class NebulaCommand extends Command {
 +
-+	protected NebulaCommand() {
-+		super("nebula", "Nebula related features", "/nebula version", Arrays.asList());
-+	}
++    protected NebulaCommand() {
++        super("nebula", "Nebula related features", "/nebula version", Arrays.asList());
++    }
 +
-+	@Override
-+	public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-+		if (args.length == 1)
-+			switch (args[0].toLowerCase(Locale.ENGLISH)) {
-+				case "ver":
-+				case "version":
-+					Command ver = org.bukkit.Bukkit.getServer().getCommandMap().getCommand("version");
-+					if (ver != null) {
-+						ver.execute(sender, commandLabel, new String[0]);
-+						break;
-+					}
-+				default:
-+					sender.sendMessage(ChatColor.RED + "Usage: " + usageMessage);
-+					return false;
-+			}
-+		else 
-+			return false;
-+		return true;
-+	}
++    @Override
++    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
++        if (args.length == 1)
++            switch (args[0].toLowerCase(Locale.ENGLISH)) {
++            case "ver":
++            case "version":
++                Command ver = org.bukkit.Bukkit.getServer().getCommandMap().getCommand("version");
++                if (ver != null) {
++                    ver.execute(sender, commandLabel, new String[0]);
++                    break;
++                }
++            default:
++                sender.sendMessage(ChatColor.RED + "Usage: " + usageMessage);
++                return false;
++            }
++        else
++            return false;
++        return true;
++    }
 +
-+	@Override
-+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-+		if (args.length <= 1)
++    @Override
++    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
++        if (args.length <= 1)
 +            return Arrays.asList("version");
-+		return super.tabComplete(sender, alias, args);
-+	}
++        return super.tabComplete(sender, alias, args);
++    }
 +}
+\ No newline at end of file
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 new file mode 100644
-index 000000000..3d10764c3
+index 00000000..d4ea6cdc
 --- /dev/null
 +++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
-@@ -0,0 +1,177 @@
+@@ -0,0 +1,189 @@
 +package xianxian.mc.nebula;
 +
 +import java.io.File;
@@ -172,13 +173,13 @@ index 000000000..3d10764c3
 +    private static final String HEADER = "This is the main configuration file for Nebula.\n"
 +            + "As you can see, there's tons to configure. Some options may impact gameplay\n"
 +            + "But we haven't any description on this yet \n";
-+    /*========================================================================*/
++    /* ======================================================================== */
 +    public static YamlConfiguration config;
 +    static int version;
 +    static Map<String, Command> commands;
 +    private static boolean verbose;
 +    private static boolean fatalError;
-+    /*========================================================================*/
++    /* ======================================================================== */
 +
 +    public static void init(File configFile) {
 +        CONFIG_FILE = configFile;
@@ -248,6 +249,7 @@ index 000000000..3d10764c3
 +
 +    private static final Pattern SPACE = Pattern.compile(" ");
 +    private static final Pattern NOT_NUMERIC = Pattern.compile("[^-\\d.]");
++
 +    public static int getSeconds(String str) {
 +        str = SPACE.matcher(str).replaceAll("");
 +        final char unit = str.charAt(str.length() - 1);
@@ -259,10 +261,18 @@ index 000000000..3d10764c3
 +            num = 0D;
 +        }
 +        switch (unit) {
-+            case 'd': num *= (double) 60*60*24; break;
-+            case 'h': num *= (double) 60*60; break;
-+            case 'm': num *= (double) 60; break;
-+            default: case 's': break;
++        case 'd':
++            num *= (double) 60 * 60 * 24;
++            break;
++        case 'h':
++            num *= (double) 60 * 60;
++            break;
++        case 'm':
++            num *= (double) 60;
++            break;
++        default:
++        case 's':
++            break;
 +        }
 +        return (int) num;
 +    }
@@ -319,13 +329,17 @@ index 000000000..3d10764c3
 +        config.addDefault(path, def);
 +        return config.getString(path, config.getString(path));
 +    }
++
++    // #################### CONFIG AREA ####################
++
 +}
+\ No newline at end of file
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 new file mode 100644
-index 000000000..cc37412c4
+index 00000000..324f582f
 --- /dev/null
 +++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
-@@ -0,0 +1,66 @@
+@@ -0,0 +1,71 @@
 +package xianxian.mc.nebula;
 +
 +import java.util.List;
@@ -338,7 +352,7 @@ index 000000000..cc37412c4
 +// Almost the same as PaperWorldConfig
 +public class NebulaWorldConfig {
 +
-+	private final String worldName;
++    private final String worldName;
 +    private final SpigotWorldConfig spigotConfig;
 +    private final YamlConfiguration config;
 +    private boolean verbose;
@@ -364,17 +378,20 @@ index 000000000..cc37412c4
 +
 +    private boolean getBoolean(String path, boolean def) {
 +        config.addDefault("world-settings.default." + path, def);
-+        return config.getBoolean("world-settings." + worldName + "." + path, config.getBoolean("world-settings.default." + path));
++        return config.getBoolean("world-settings." + worldName + "." + path,
++                config.getBoolean("world-settings.default." + path));
 +    }
 +
 +    private double getDouble(String path, double def) {
 +        config.addDefault("world-settings.default." + path, def);
-+        return config.getDouble("world-settings." + worldName + "." + path, config.getDouble("world-settings.default." + path));
++        return config.getDouble("world-settings." + worldName + "." + path,
++                config.getDouble("world-settings.default." + path));
 +    }
 +
 +    private int getInt(String path, int def) {
 +        config.addDefault("world-settings.default." + path, def);
-+        return config.getInt("world-settings." + worldName + "." + path, config.getInt("world-settings.default." + path));
++        return config.getInt("world-settings." + worldName + "." + path,
++                config.getInt("world-settings.default." + path));
 +    }
 +
 +    private float getFloat(String path, float def) {
@@ -384,14 +401,17 @@ index 000000000..cc37412c4
 +
 +    private <T> List<T> getList(String path, List<T> def) {
 +        config.addDefault("world-settings.default." + path, def);
-+        return (List<T>) config.getList("world-settings." + worldName + "." + path, config.getList("world-settings.default." + path));
++        return (List<T>) config.getList("world-settings." + worldName + "." + path,
++                config.getList("world-settings.default." + path));
 +    }
 +
 +    private String getString(String path, String def) {
 +        config.addDefault("world-settings.default." + path, def);
-+        return config.getString("world-settings." + worldName + "." + path, config.getString("world-settings.default." + path));
++        return config.getString("world-settings." + worldName + "." + path,
++                config.getString("world-settings.default." + path));
 +    }
 +}
+\ No newline at end of file
 -- 
 2.25.0
 

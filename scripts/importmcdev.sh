@@ -12,7 +12,7 @@ workdir=$basedir/Paper/work
 minecraftversion=$(cat $basedir/Paper/work/BuildData/info.json | grep minecraftVersion | cut -d '"' -f 4)
 decompiledir=$workdir/Minecraft/$minecraftversion/forge
 # replace for now
-decompiledir="$workdir/Minecraft/$minecraftversion/spigot"
+decompiledir="$workdir/Minecraft/$minecraftversion"
 
 nms="net/minecraft/server"
 export MODLOG=""

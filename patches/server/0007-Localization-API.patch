@@ -1,54 +1,58 @@
-From e25c7d4ab912a79aa95d4e81d6ccaf94c865d40d Mon Sep 17 00:00:00 2001
+From cd3478de6799a374626f4a3b959990b3a7f3dae4 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 27 Jan 2020 09:42:25 +0800
 Subject: [PATCH] Localization API
 
 ---
- .../org/bukkit/craftbukkit/CraftServer.java   | 10 ++++-
- .../localization/NebulaLocalization.java      | 45 +++++++++++++++++++
- 2 files changed, 54 insertions(+), 1 deletion(-)
+ .../org/bukkit/craftbukkit/CraftServer.java   |  1 +
+ .../craftbukkit/inventory/CraftItemStack.java |  2 +-
+ .../localization/NebulaLocalization.java      | 56 +++++++++++++++++++
+ 3 files changed, 58 insertions(+), 1 deletion(-)
  create mode 100644 src/main/java/xianxian/mc/nebula/localization/NebulaLocalization.java
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 445345570..52c257cd1 100644
+index 88561dd4..5858d008 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -239,7 +239,8 @@ public final class CraftServer implements Server {
+@@ -179,6 +179,7 @@ public final class CraftServer implements Server {
      private final List<CraftPlayer> playerView;
      public int reloadCount;
      public static Exception excessiveVelEx; // Paper - Velocity warnings
--
 +    private xianxian.mc.nebula.localization.Localization nebulaLocalization = new xianxian.mc.nebula.localization.NebulaLocalization(); // Nebula - Localization API
-+    
-     static {
-         ConfigurationSerialization.registerClass(CraftOfflinePlayer.class);
-         CraftItemFactory.instance();
-@@ -2187,4 +2188,11 @@ public final class CraftServer implements Server {
-         return net.minecraft.server.MinecraftServer.currentTick;
+ 
+     private final class BooleanWrapper {
+         private boolean value = true;
+diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftItemStack.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftItemStack.java
+index decdccdc..9bf9b90e 100644
+--- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftItemStack.java
++++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftItemStack.java
+@@ -91,7 +91,7 @@ public final class CraftItemStack extends ItemStack {
+         return new CraftItemStack(CraftMagicNumbers.getMaterial(item), amount, (short) 0, null);
      }
-     // Paper end
-+    
-+    // Nebula start - Localization API
-+    @Override
-+    public xianxian.mc.nebula.localization.Localization getLocalization() {
-+        return nebulaLocalization;
-+    }
-+    // Nebula end
- }
+ 
+-    net.minecraft.server.ItemStack handle;
++    net.minecraft.server.ItemStack handle; public net.minecraft.server.ItemStack getHandle() { return handle; } // Nebula - Public
+ 
+     /**
+      * Mirror
 diff --git a/src/main/java/xianxian/mc/nebula/localization/NebulaLocalization.java b/src/main/java/xianxian/mc/nebula/localization/NebulaLocalization.java
 new file mode 100644
-index 000000000..eb59cedc8
+index 00000000..58abea14
 --- /dev/null
 +++ b/src/main/java/xianxian/mc/nebula/localization/NebulaLocalization.java
-@@ -0,0 +1,45 @@
+@@ -0,0 +1,56 @@
 +package xianxian.mc.nebula.localization;
 +
 +import org.bukkit.block.Block;
 +import org.bukkit.craftbukkit.block.CraftBlock;
 +import org.bukkit.craftbukkit.entity.CraftEntity;
 +import org.bukkit.craftbukkit.inventory.CraftItemStack;
++import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 +import org.bukkit.entity.Entity;
 +import org.bukkit.inventory.ItemStack;
++
++import net.minecraft.server.EntityTypes;
++import net.minecraft.server.LocaleI18n;
 +
 +public class NebulaLocalization implements Localization {
 +    @Override
@@ -61,7 +65,7 @@ index 000000000..eb59cedc8
 +            nms = CraftItemStack.asNMSCopy(item);
 +        }
 +
-+        return nms != null ? net.minecraft.server.LocaleLanguage.getInstance().translateKey(nms.getItem().getName()) : null;
++        return nms != null ? LocaleI18n.get(nms.getItem().getName()) : null;
 +    }
 +
 +    @Override
@@ -70,18 +74,25 @@ index 000000000..eb59cedc8
 +        if (entity instanceof CraftEntity) {
 +            nms = ((CraftEntity) entity).getHandle();
 +        }
++        if (nms == null)
++            return null;
++        String s = EntityTypes.b(nms);
 +
-+        return nms != null ? net.minecraft.server.LocaleLanguage.getInstance().translateKey(nms.getEntityType().f/*getTranslationKey*/()) : null;
++        if (s == null) {
++            s = "generic";
++        }
++        
++        return LocaleI18n.get("entity." + s + ".name");
 +    }
 +
 +    @Override
 +    public String getLocalizedBlockName(Block block) {
 +        net.minecraft.server.Block nms = null;
 +        if (block instanceof CraftBlock) {
-+            nms = ((CraftBlock) block).getNMS().getBlock();
++            nms = CraftMagicNumbers.getBlock((CraftBlock) block);
 +        }
 +
-+        return nms != null ? net.minecraft.server.LocaleLanguage.getInstance().translateKey(nms.k/*getTranslationKey*/()) : null;
++        return nms != null ? LocaleI18n.get(nms.a() + ".name") : null;
 +
 +    }
 +

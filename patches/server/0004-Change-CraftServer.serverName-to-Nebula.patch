@@ -1,4 +1,4 @@
-From dc37ae3fb13cef3d80675e4e4e0206547b1d278b Mon Sep 17 00:00:00 2001
+From ae93793925903a8cae1b71fef3b3463eae0d8dff Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sun, 5 Jan 2020 10:51:21 +0800
 Subject: [PATCH] Change CraftServer.serverName to 'Nebula'
@@ -8,15 +8,15 @@ Subject: [PATCH] Change CraftServer.serverName to 'Nebula'
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 20ba9e9e2..445345570 100644
+index 7e9c31e9..88561dd4 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -203,7 +203,7 @@ import javax.annotation.Nullable; // Paper
- import javax.annotation.Nonnull; // Paper
+@@ -140,7 +140,7 @@ import javax.annotation.Nonnull; // Paper
+ 
  
  public final class CraftServer implements Server {
--    private final String serverName = "Paper"; // Paper
-+    private final String serverName = "Nebula"; // Nebula // Paper
+-    private final String serverName = "Paper";
++    private final String serverName = "Nebula"; // Nebula
      private final String serverVersion;
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");

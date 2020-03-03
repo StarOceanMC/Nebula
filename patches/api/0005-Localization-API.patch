@@ -1,38 +1,42 @@
-From 013fefd6ab267feb405f41a76d831604dd9193a3 Mon Sep 17 00:00:00 2001
+From d75d559294ddda3e3880bcb3976b0bdef832a028 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 27 Jan 2020 09:42:11 +0800
 Subject: [PATCH] Localization API
 
 ---
- src/main/java/org/bukkit/Bukkit.java          |  7 +++++
- src/main/java/org/bukkit/Server.java          |  9 ++++++
- .../mc/nebula/localization/Localization.java  | 31 +++++++++++++++++++
- 3 files changed, 47 insertions(+)
+ src/main/java/org/bukkit/Bukkit.java          | 11 +++++++
+ src/main/java/org/bukkit/Server.java          |  8 +++++
+ .../mc/nebula/localization/Localization.java  | 30 +++++++++++++++++++
+ 3 files changed, 49 insertions(+)
  create mode 100644 src/main/java/xianxian/mc/nebula/localization/Localization.java
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 355bd2e2..be89b598 100644
+index 682d2bbf..50b3daa1 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -1623,4 +1623,11 @@ public final class Bukkit {
-     public static Server.Spigot spigot() {
+@@ -1270,4 +1270,15 @@ public final class Bukkit {
+     {
          return server.spigot();
      }
 +    
++    
 +    // Nebula start - Localization API
-+    @NotNull
++    /**
++     * Get a Localization object, used to fetch localized name of a game object (Items, Entities, Blocks)
++     * @return Localization object
++     */
 +    public static xianxian.mc.nebula.localization.Localization getLocalization() {
 +        return server.getLocalization();
 +    }
-+    //Nebula end
++    // Nebula end
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index 98e7ba90..13c023e4 100644
+index 2912bdae..00739af4 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -1416,4 +1416,13 @@ public interface Server extends PluginMessageRecipient {
+@@ -1082,4 +1082,12 @@ public interface Server extends PluginMessageRecipient {
       */
-     int getCurrentTick();
+     com.destroystokyo.paper.profile.PlayerProfile createProfile(@Nullable UUID uuid, @Nullable String name);
      // Paper end
 +    
 +    // Nebula start - Localization API
@@ -40,22 +44,20 @@ index 98e7ba90..13c023e4 100644
 +     * Get a Localization object, used to fetch localized name of a game object (Items, Entities, Blocks)
 +     * @return Localization object
 +     */
-+    @NotNull
 +    xianxian.mc.nebula.localization.Localization getLocalization();
 +    // Nebula end
  }
 diff --git a/src/main/java/xianxian/mc/nebula/localization/Localization.java b/src/main/java/xianxian/mc/nebula/localization/Localization.java
 new file mode 100644
-index 00000000..a8152033
+index 00000000..12a8c69a
 --- /dev/null
 +++ b/src/main/java/xianxian/mc/nebula/localization/Localization.java
-@@ -0,0 +1,31 @@
+@@ -0,0 +1,30 @@
 +package xianxian.mc.nebula.localization;
 +
 +import org.bukkit.block.Block;
 +import org.bukkit.entity.Entity;
 +import org.bukkit.inventory.ItemStack;
-+import org.jetbrains.annotations.Nullable;
 +
 +public interface Localization {
 +    
@@ -64,22 +66,22 @@ index 00000000..a8152033
 +     * @param item The item to fetch
 +     * @return item's display name, can be null
 +     */
-+    @Nullable
-+    String getLocalizedItemName(@Nullable ItemStack item);
++    String getLocalizedItemName(ItemStack item);
++    
 +    /**
 +     * Fetch entity's localized display name
 +     * @param entity The entity to fetch
 +     * @return Entity's display name, can be null
 +     */
-+    @Nullable
-+    String getLocalizedEntityName(@Nullable Entity entity);
++    String getLocalizedEntityName(Entity entity);
++    
 +    /**
 +     * Fetch block's localized display name
 +     * @param block The block to fetch
 +     * @return Block's display name, can be null
 +     */
-+    @Nullable
-+    String getLocalizedBlockName(@Nullable Block block);
++    String getLocalizedBlockName(Block block);
++    
 +}
 -- 
 2.25.0
