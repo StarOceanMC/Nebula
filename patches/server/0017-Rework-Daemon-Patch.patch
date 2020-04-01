@@ -1,4 +1,4 @@
-From 6b0407c5ea655ce69fc0eef24a09da4ebce23f6e Mon Sep 17 00:00:00 2001
+From d2f8dc05f5c914d5591e1abe25f8f9b3e1127497 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 11 Mar 2020 19:47:00 +0800
 Subject: [PATCH] Rework Daemon Patch
@@ -1660,10 +1660,10 @@ index aefea3a9a..c7fbf597b 100644
      }
      // Paper end
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index 5bdcdcf9e..bd6e69110 100644
+index 4fde822c2..878b3ef77 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
-@@ -137,6 +137,7 @@ public class WatchdogThread extends Thread
+@@ -220,6 +220,7 @@ public class WatchdogThread extends Thread
                  {
                  if ( restart && !MinecraftServer.getServer().hasStopped() )
                  {

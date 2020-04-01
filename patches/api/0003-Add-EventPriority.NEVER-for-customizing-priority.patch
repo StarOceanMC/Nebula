@@ -1,4 +1,4 @@
-From c700c756169762b104f55aed103c147c513313a4 Mon Sep 17 00:00:00 2001
+From 376174e7898a47876a15a6ea8d0dc527d373f79f Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sun, 5 Jan 2020 15:01:48 +0800
 Subject: [PATCH] Add EventPriority.NEVER for customizing priority
@@ -27,10 +27,10 @@ index 61ffa50f..f368ad0c 100644
       * Event call is of very low importance and should be ran first, to allow
       * other plugins to further customise the outcome
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index 8180cae3..869db949 100644
+index d93a0a12..16193b73 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-@@ -633,8 +633,10 @@ public final class SimplePluginManager implements PluginManager {
+@@ -681,8 +681,10 @@ public final class SimplePluginManager implements PluginManager {
          
          executor = new co.aikar.timings.TimedEventExecutor(executor, plugin, null, event); // Paper
          if (false) { // Spigot - RL handles useTimings check now // Paper

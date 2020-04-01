@@ -1,0 +1,56 @@
+From 6db4a4e1eba4939c2175799b03d9aff470b9ce78 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Wed, 1 Apr 2020 12:18:33 +0800
+Subject: [PATCH] Fire PlayerPostTeleportEvent
+
+---
+ .../event/player/PlayerPostTeleportEvent.java | 37 +++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+ create mode 100644 src/main/java/xianxian/mc/nebula/event/player/PlayerPostTeleportEvent.java
+
+diff --git a/src/main/java/xianxian/mc/nebula/event/player/PlayerPostTeleportEvent.java b/src/main/java/xianxian/mc/nebula/event/player/PlayerPostTeleportEvent.java
+new file mode 100644
+index 00000000..beba168d
+--- /dev/null
++++ b/src/main/java/xianxian/mc/nebula/event/player/PlayerPostTeleportEvent.java
+@@ -0,0 +1,37 @@
++package xianxian.mc.nebula.event.player;
++
++import org.bukkit.Bukkit;
++import org.bukkit.Location;
++import org.bukkit.entity.Player;
++import org.bukkit.event.HandlerList;
++import org.bukkit.event.player.PlayerTeleportEvent;
++import org.jetbrains.annotations.NotNull;
++import org.jetbrains.annotations.Nullable;
++
++public class PlayerPostTeleportEvent extends PlayerTeleportEvent {
++    private static final HandlerList handlers = new HandlerList();
++
++    public PlayerPostTeleportEvent(@NotNull Player player, @NotNull Location from, @Nullable Location to) {
++        super(player, from, to);
++    }
++
++    public PlayerPostTeleportEvent(@NotNull Player player, @NotNull Location from, @Nullable Location to, @NotNull TeleportCause cause) {
++        super(player, from, to, cause);
++    }
++
++    public static void callEvent(@NotNull PlayerTeleportEvent event) {
++        PlayerPostTeleportEvent playerPostTeleportEvent = new PlayerPostTeleportEvent(event.getPlayer(), event.getFrom(), event.getTo(), event.getCause());
++        Bukkit.getPluginManager().callEvent(playerPostTeleportEvent);
++    }
++
++    @NotNull
++    @Override
++    public HandlerList getHandlers() {
++        return handlers;
++    }
++
++    @NotNull
++    public static HandlerList getHandlerList() {
++        return handlers;
++    }
++}
+-- 
+2.25.0
+

@@ -1,4 +1,4 @@
-From 178a773e2ea4ab5176ecb0e2dc013b50a7b94256 Mon Sep 17 00:00:00 2001
+From e273f1813e2deb1e3838865952333552e30fe68f Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Tue, 24 Dec 2019 19:03:44 +0800
 Subject: [PATCH] Configurable EventPriority
@@ -22,10 +22,10 @@ index e431e343..017c305b 100644
 +
 +eventhandlers.json
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index 8d54d561..8180cae3 100644
+index 8355f9f0..d93a0a12 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-@@ -621,12 +621,21 @@ public final class SimplePluginManager implements PluginManager {
+@@ -669,12 +669,21 @@ public final class SimplePluginManager implements PluginManager {
          if (!plugin.isEnabled()) {
              throw new IllegalPluginAccessException("Plugin attempted to register " + event + " while not enabled");
          }
