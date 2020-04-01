@@ -1,0 +1,50 @@
+From f0c2747477cb6c365fceb8b3ac9ffa341be1d21a Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Fri, 27 Mar 2020 09:00:16 +0800
+Subject: [PATCH] Configurable Dolphin Receive Conduit Power
+
+---
+ .../java/net/minecraft/server/TileEntityConduit.java | 12 ++++++++++++
+ .../java/xianxian/mc/nebula/NebulaWorldConfig.java   |  5 +++++
+ 2 files changed, 17 insertions(+)
+
+diff --git a/src/main/java/net/minecraft/server/TileEntityConduit.java b/src/main/java/net/minecraft/server/TileEntityConduit.java
+index 07f265b29..714eb8d6e 100644
+--- a/src/main/java/net/minecraft/server/TileEntityConduit.java
++++ b/src/main/java/net/minecraft/server/TileEntityConduit.java
+@@ -167,6 +167,18 @@ public class TileEntityConduit extends TileEntity implements ITickable {
+             }
+ 
+         }
++
++        // Nebula start - Configurable Dolphin Receive Conduit Power
++        List<EntityDolphin> dolphins = this.world.a(EntityDolphin.class, axisalignedbb);
++
++        if (!dolphins.isEmpty()) {
++            for (EntityDolphin dolphin : dolphins) {
++                if (this.position.a((BaseBlockPosition) (new BlockPosition(dolphin)), (double) j) && dolphin.isInWaterOrRain()) {
++                    dolphin.addEffect(new MobEffect(MobEffects.CONDUIT_POWER, 260, 0, true, true), org.bukkit.event.entity.EntityPotionEffectEvent.Cause.CONDUIT); // CraftBukkit
++                }
++            }
++        }
++        // Nebula end
+     }
+ 
+     private void k() {
+diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
+index a1800ed0d..20887df84 100644
+--- a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
++++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
+@@ -93,4 +93,9 @@ public class NebulaWorldConfig {
+ 	private void loadChunksForTNT() {
+ 	    loadChunksForTNT = getBoolean("load-chunks-for-tnt", true);
+ 	}
++
++    public boolean doDolphinReceiveConduitPower = true;
++	private void doDolphinReceiveConduitPower() {
++	    doDolphinReceiveConduitPower = getBoolean("do-dolphin-receive-conduit-power", true);
++    }
+ }
+-- 
+2.25.0
+
