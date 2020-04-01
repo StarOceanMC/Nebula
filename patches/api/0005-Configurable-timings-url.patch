@@ -1,4 +1,4 @@
-From 03ddb041c50d418490900e3754186049df8e290c Mon Sep 17 00:00:00 2001
+From c41ed14a218016bc4f5d391a1d7b4d92aae0d3e8 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sat, 22 Feb 2020 15:31:43 +0800
 Subject: [PATCH] Configurable timings url
@@ -10,10 +10,10 @@ Subject: [PATCH] Configurable timings url
  create mode 100644 src/main/java/co/aikar/timings/TimingsExportUrl.java
 
 diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
-index 93d5a3f9..aad1c240 100644
+index cb92d7b2..10291a19 100644
 --- a/src/main/java/co/aikar/timings/TimingsExport.java
 +++ b/src/main/java/co/aikar/timings/TimingsExport.java
-@@ -283,7 +283,7 @@ class TimingsExport extends Thread {
+@@ -284,7 +284,7 @@ class TimingsExport extends Thread {
          String response = null;
          String timingsURL = null;
          try {

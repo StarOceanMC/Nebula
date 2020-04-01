@@ -1,4 +1,4 @@
-From 796c3614a47fe95eaf91ef9343e24b1d86d863dd Mon Sep 17 00:00:00 2001
+From f9972be48cff0745fc488b2796b9cf974243665c Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 27 Jan 2020 09:42:25 +0800
 Subject: [PATCH] Localization API
@@ -10,7 +10,7 @@ Subject: [PATCH] Localization API
  create mode 100644 src/main/java/xianxian/mc/nebula/localization/NebulaLocalization.java
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 9540488a..7a2333d9 100644
+index ed6572002..fdb6c3f99 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -239,7 +239,8 @@ public final class CraftServer implements Server {
@@ -23,7 +23,7 @@ index 9540488a..7a2333d9 100644
      static {
          ConfigurationSerialization.registerClass(CraftOfflinePlayer.class);
          CraftItemFactory.instance();
-@@ -2192,4 +2193,11 @@ public final class CraftServer implements Server {
+@@ -2222,4 +2223,11 @@ public final class CraftServer implements Server {
          return net.minecraft.server.MinecraftServer.currentTick;
      }
      // Paper end
@@ -37,7 +37,7 @@ index 9540488a..7a2333d9 100644
  }
 diff --git a/src/main/java/xianxian/mc/nebula/localization/NebulaLocalization.java b/src/main/java/xianxian/mc/nebula/localization/NebulaLocalization.java
 new file mode 100644
-index 00000000..eb59cedc
+index 000000000..eb59cedc8
 --- /dev/null
 +++ b/src/main/java/xianxian/mc/nebula/localization/NebulaLocalization.java
 @@ -0,0 +1,45 @@
