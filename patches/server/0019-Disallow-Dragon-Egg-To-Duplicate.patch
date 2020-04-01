@@ -1,0 +1,79 @@
+From 3297eeb74ca502c9df9c1c535b86a642333de0d0 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Fri, 27 Mar 2020 08:55:56 +0800
+Subject: [PATCH] Disallow Dragon Egg To Duplicate
+
+---
+ src/main/java/net/minecraft/server/BlockEnderPortal.java  | 8 ++++++++
+ .../java/net/minecraft/server/EntityFallingBlock.java     | 7 +++++++
+ src/main/java/xianxian/mc/nebula/NebulaConfig.java        | 5 +++++
+ 3 files changed, 20 insertions(+)
+
+diff --git a/src/main/java/net/minecraft/server/BlockEnderPortal.java b/src/main/java/net/minecraft/server/BlockEnderPortal.java
+index 213388c74..8482ea873 100644
+--- a/src/main/java/net/minecraft/server/BlockEnderPortal.java
++++ b/src/main/java/net/minecraft/server/BlockEnderPortal.java
+@@ -3,6 +3,7 @@ package net.minecraft.server;
+ // CraftBukkit start
+ import org.bukkit.event.entity.EntityPortalEnterEvent;
+ import org.bukkit.event.player.PlayerTeleportEvent;
++import xianxian.mc.nebula.NebulaConfig;
+ // CraftBukkit end
+ 
+ public class BlockEnderPortal extends BlockTileEntity {
+@@ -36,6 +37,13 @@ public class BlockEnderPortal extends BlockTileEntity {
+             }
+             entity.a(world.worldProvider.getDimensionManager().getType() == DimensionManager.THE_END ? DimensionManager.OVERWORLD : DimensionManager.THE_END);
+             // CraftBukkit end
++            // Nebula start - Disallow dragon egg to duplicate
++            if (NebulaConfig.disallowDragonEggToDuplicate && entity instanceof EntityFallingBlock) {
++                EntityFallingBlock block = (EntityFallingBlock) entity;
++                if (block.getBlock().getBlock() instanceof BlockDragonEgg)
++                    block.placeBlock = false;
++            }
++            // Nebula end
+         }
+ 
+     }
+diff --git a/src/main/java/net/minecraft/server/EntityFallingBlock.java b/src/main/java/net/minecraft/server/EntityFallingBlock.java
+index 798942a2b..814e3cebd 100644
+--- a/src/main/java/net/minecraft/server/EntityFallingBlock.java
++++ b/src/main/java/net/minecraft/server/EntityFallingBlock.java
+@@ -17,6 +17,7 @@ public class EntityFallingBlock extends Entity {
+     private float fallHurtAmount;
+     public NBTTagCompound tileEntityData;
+     protected static final DataWatcherObject<BlockPosition> e = DataWatcher.a(EntityFallingBlock.class, DataWatcherRegistry.l);
++    public boolean placeBlock = true; // Nebula - Disallow dragon egg to duplicate
+ 
+     public EntityFallingBlock(EntityTypes<? extends EntityFallingBlock> entitytypes, World world) {
+         super(entitytypes, world);
+@@ -119,6 +120,12 @@ public class EntityFallingBlock extends Entity {
+                         this.die();
+                     }
+                 } else {
++                    // Nebula start - Disallow dragon egg to duplicate
++                    if (!placeBlock) {
++                        this.die();
++                        return;
++                    }
++                    // Nebula end
+                     IBlockData iblockdata = this.world.getType(blockposition);
+ 
+                     this.setMot(this.getMot().d(0.7D, -0.5D, 0.7D));
+diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
+index e70b2aea1..432b9aede 100644
+--- a/src/main/java/xianxian/mc/nebula/NebulaConfig.java
++++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
+@@ -213,4 +213,9 @@ public class NebulaConfig {
+             }
+         }
+     }
++
++    public static boolean disallowDragonEggToDuplicate = true;
++    private static void disallowDragonEggToDuplicate() {
++        disallowDragonEggToDuplicate = getBoolean("game-mechanics.disallow-dragon-egg-to-duplicate", true);
++    }
+ }
+-- 
+2.25.0
+
