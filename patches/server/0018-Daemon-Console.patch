@@ -1,0 +1,254 @@
+From 873ef94fc93dc4540d40d6731108ab54e5bdb4f2 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Mon, 23 Mar 2020 14:56:13 +0800
+Subject: [PATCH] Daemon Console
+
+---
+ .../paper/daemon/MessageQueue.java            | 170 ++++++++++++++++++
+ .../paper/daemon/PaperDaemon.java             |   3 +-
+ .../net/minecraft/server/MinecraftServer.java |   1 +
+ .../java/xianxian/mc/nebula/NebulaConfig.java |  15 ++
+ 4 files changed, 188 insertions(+), 1 deletion(-)
+ create mode 100644 src/main/java/com/destroystokyo/paper/daemon/MessageQueue.java
+
+diff --git a/src/main/java/com/destroystokyo/paper/daemon/MessageQueue.java b/src/main/java/com/destroystokyo/paper/daemon/MessageQueue.java
+new file mode 100644
+index 000000000..5832e1677
+--- /dev/null
++++ b/src/main/java/com/destroystokyo/paper/daemon/MessageQueue.java
+@@ -0,0 +1,170 @@
++package com.destroystokyo.paper.daemon;
++
++import com.google.gson.Gson;
++import com.google.gson.JsonArray;
++import com.google.gson.JsonObject;
++import com.google.gson.JsonPrimitive;
++import io.netty.bootstrap.Bootstrap;
++import io.netty.bootstrap.ServerBootstrap;
++import io.netty.channel.*;
++import io.netty.channel.epoll.EpollDomainSocketChannel;
++import io.netty.channel.epoll.EpollEventLoopGroup;
++import io.netty.channel.epoll.EpollServerDomainSocketChannel;
++import io.netty.channel.group.ChannelGroup;
++import io.netty.channel.group.DefaultChannelGroup;
++import io.netty.channel.unix.DomainSocketAddress;
++import io.netty.channel.unix.DomainSocketChannel;
++import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
++import io.netty.handler.codec.LengthFieldPrepender;
++import io.netty.handler.codec.string.StringDecoder;
++import io.netty.handler.codec.string.StringEncoder;
++import io.netty.util.concurrent.GlobalEventExecutor;
++import org.apache.logging.log4j.LogManager;
++import org.apache.logging.log4j.Logger;
++import org.bukkit.Bukkit;
++import org.bukkit.Server;
++import org.bukkit.craftbukkit.CraftServer;
++import org.bukkit.craftbukkit.command.ConsoleCommandCompleter;
++import xianxian.mc.nebula.NebulaConfig;
++
++import java.io.File;
++import java.io.IOException;
++import java.nio.charset.StandardCharsets;
++import java.util.Base64;
++import java.util.concurrent.ExecutorService;
++import java.util.concurrent.Executors;
++import java.util.concurrent.TimeoutException;
++
++public class MessageQueue {
++    private static final Logger LOGGER = LogManager.getLogger("");
++    private static ExecutorService executor = Executors.newCachedThreadPool();
++    private static BufferedSupplier<String> logSupplier = null;
++//    private static Connection connection;
++//    private static Channel logsChannel;
++//    private static Channel tabChannel;
++//    private static Channel commandChannel;
++    private static boolean running = false;
++//    private static int totalSendLogs = 0;
++    private static ChannelGroup channelGroup = new DefaultChannelGroup("PaperdLogsListeners", GlobalEventExecutor.INSTANCE);
++    private static Channel serverChannel;
++    private static ClientHandler handler = new ClientHandler();
++    private static Gson gson = new Gson();
++
++    public static void start() {
++        executor.execute(()->{
++            EventLoopGroup bossGroup = new EpollEventLoopGroup();
++            EventLoopGroup workerGroup = new EpollEventLoopGroup();
++            final ServerBootstrap bootstrap = new ServerBootstrap();
++            bootstrap.group(bossGroup, workerGroup)
++                    .channel(EpollServerDomainSocketChannel.class)
++                    .childHandler(new ChannelInitializer<EpollDomainSocketChannel>() {
++                        @Override
++                        protected void initChannel(EpollDomainSocketChannel channel) throws Exception {
++                            ChannelPipeline pipeline = channel.pipeline();
++                            pipeline.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4));
++                            pipeline.addLast(new StringDecoder());
++                            pipeline.addLast(handler);
++                            pipeline.addLast(new LengthFieldPrepender(4));
++                            pipeline.addLast(new StringEncoder());
++                        }
++                    });
++            File sockFile = new File("./paperd.sock");
++            if (sockFile.exists()) {
++                sockFile.delete();
++            }
++            sockFile.deleteOnExit();
++            ChannelFuture future = bootstrap.bind(new DomainSocketAddress(sockFile.getAbsolutePath()));
++            future.syncUninterruptibly();
++            serverChannel = future.channel();
++            LOGGER.info("Console server listening on " + sockFile.getAbsolutePath());
++            future.channel().closeFuture().syncUninterruptibly();
++            workerGroup.shutdownGracefully();
++            bossGroup.shutdownGracefully();
++            LOGGER.info("Console server stopped");
++        });
++        running = true;
++        executor.execute(() -> {
++            while (running) {
++                if (logSupplier == null) {
++                    PaperDaemonAppender appender;
++                    do {
++                        appender = PaperDaemonAppender.instance;
++                        if (appender == null) {
++                            try {
++                                Thread.sleep(100);
++                            } catch (InterruptedException e) {
++                                e.printStackTrace();
++                            }
++                        }
++                    } while (appender == null);
++
++                    logSupplier = appender.openConnection();
++                } else {
++                    String log = logSupplier.get();
++                    if (log == null) {
++                        try {
++                            Thread.sleep(100);
++                        } catch (InterruptedException e) {
++                            e.printStackTrace();
++                        }
++                    } else {
++                        JsonObject obj = new JsonObject();
++                        obj.add("t", new JsonPrimitive("log"));
++                        obj.add("value", new JsonPrimitive(Base64.getEncoder().encodeToString(log.getBytes())));
++                        channelGroup.writeAndFlush(gson.toJson(obj));
++                    }
++                }
++            }
++        });
++    }
++
++    public static void stop() {
++        running = false;
++        if (serverChannel != null && serverChannel.isOpen()) {
++            serverChannel.close();
++        }
++        executor.shutdown();
++
++    }
++
++    private static class ClientHandler extends SimpleChannelInboundHandler<String> {
++        @Override
++        public boolean isSharable() {
++            return true;
++        }
++
++        @Override
++        protected void channelRead0(ChannelHandlerContext channelHandlerContext, String s) throws Exception {
++            JsonObject obj = gson.fromJson(s, JsonObject.class);
++            String type = obj.get("t").getAsString();
++            switch (type) {
++                case "exec":
++                    String command = obj.get("cmd").getAsString();
++                    Bukkit.getConsoleSender().sendMessage("Remote console issued server command /" + command);
++                    PaperDaemon.getConsole().scheduleOnMain(()->Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command));
++                    break;
++                case "tabq":
++                    String line = obj.get("line").getAsString();
++                    JsonArray array = new JsonArray();
++                    ConsoleCommandCompleter.complete(line, PaperDaemon.getConsole()).forEach(array::add);
++                    JsonObject resp = new JsonObject();
++                    resp.add("t", new JsonPrimitive("tabr"));
++                    resp.add("resp", array);
++                    channelHandlerContext.channel().writeAndFlush(gson.toJson(resp));
++                    break;
++            }
++        }
++
++        @Override
++        public void channelActive(ChannelHandlerContext ctx) throws Exception {
++            super.channelActive(ctx);
++            channelGroup.add(ctx.channel());
++        }
++
++        @Override
++        public void channelInactive(ChannelHandlerContext ctx) throws Exception {
++            super.channelInactive(ctx);
++            channelGroup.remove(ctx.channel());
++        }
++    }
++}
+diff --git a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
+index b1c585fda..ec092f429 100644
+--- a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
++++ b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
+@@ -478,6 +478,7 @@ public final class PaperDaemon {
+ 
+     private static void handleMessage(final short messageType, final String message, final int responseChan) {
+         final Class<? extends PaperDaemonMessage> clazz = messageTypeMap.get(messageType);
++        log(logger -> logger.warning("handling message"));
+         if (clazz == null) {
+             log(logger -> logger.warning("Unknown message type: " + messageType));
+             return;
+@@ -665,4 +666,4 @@ public final class PaperDaemon {
+         t.setDaemon(true);
+         t.start();
+     }
+-}
+\ No newline at end of file
++}
+diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
+index 922c04a5e..d89597bd8 100644
+--- a/src/main/java/net/minecraft/server/MinecraftServer.java
++++ b/src/main/java/net/minecraft/server/MinecraftServer.java
+@@ -716,6 +716,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+     @Override
+     public void close() {
+         this.stop();
++        com.destroystokyo.paper.daemon.MessageQueue.stop(); // Nebula - Use RabbitMQ to transfer logs
+     }
+ 
+     // CraftBukkit start
+diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
+index bc87559b1..e70b2aea1 100644
+--- a/src/main/java/xianxian/mc/nebula/NebulaConfig.java
++++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
+@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
+ import java.util.logging.Level;
+ import java.util.regex.Pattern;
+ 
++import com.destroystokyo.paper.daemon.MessageQueue;
+ import org.bukkit.Bukkit;
+ import org.bukkit.command.Command;
+ import org.bukkit.configuration.InvalidConfigurationException;
+@@ -198,4 +199,18 @@ public class NebulaConfig {
+         timingsURL = getString("timings.url", timingsURL);
+         TimingsExportUrl.set(timingsURL);
+     }
++
++    public static boolean useUnixSocketConsole = false;
++    private static void unixSocketConsole() {
++        useUnixSocketConsole = getBoolean("use-unix-socket-console", false);
++
++        if (useUnixSocketConsole) {
++            try {
++                MessageQueue.start();
++            } catch (Exception e) {
++                logError("Error occurred when starting message queue");
++                e.printStackTrace();
++            }
++        }
++    }
+ }
+-- 
+2.25.0
+

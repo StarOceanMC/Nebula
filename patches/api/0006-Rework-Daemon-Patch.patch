@@ -1,0 +1,49 @@
+From e186254a0327753ce03c139316e84bc77147cc70 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Wed, 11 Mar 2020 19:54:44 +0800
+Subject: [PATCH] Rework Daemon Patch
+
+---
+ .../aikar/timings/SimpleTimingsReportListener.java  | 13 +++++++++++++
+ .../co/aikar/timings/TimingsReportListener.java     |  5 +++++
+ 2 files changed, 18 insertions(+)
+ create mode 100644 src/main/java/co/aikar/timings/SimpleTimingsReportListener.java
+
+diff --git a/src/main/java/co/aikar/timings/SimpleTimingsReportListener.java b/src/main/java/co/aikar/timings/SimpleTimingsReportListener.java
+new file mode 100644
+index 00000000..5c8bbb6a
+--- /dev/null
++++ b/src/main/java/co/aikar/timings/SimpleTimingsReportListener.java
+@@ -0,0 +1,13 @@
++package co.aikar.timings;
++
++import org.jetbrains.annotations.NotNull;
++import org.jetbrains.annotations.Nullable;
++
++public abstract class SimpleTimingsReportListener extends TimingsReportListener {
++    @Override
++    public void done(@Nullable String url) {}
++    @Override
++    public void sendMessage(@NotNull String message) {}
++    @Override
++    public void addConsoleIfNeeded() {}
++}
+diff --git a/src/main/java/co/aikar/timings/TimingsReportListener.java b/src/main/java/co/aikar/timings/TimingsReportListener.java
+index bf3e059f..c072b68c 100644
+--- a/src/main/java/co/aikar/timings/TimingsReportListener.java
++++ b/src/main/java/co/aikar/timings/TimingsReportListener.java
+@@ -17,6 +17,11 @@ public class TimingsReportListener implements MessageCommandSender {
+     private final List<CommandSender> senders;
+     private final Runnable onDone;
+     private String timingsURL;
++    
++    TimingsReportListener() {
++        senders = Lists.newArrayList();
++        onDone = null;
++    }
+ 
+     public TimingsReportListener(@NotNull CommandSender senders) {
+         this(senders, null);
+-- 
+2.25.0
+
