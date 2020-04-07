@@ -1,4 +1,4 @@
-From d2f8dc05f5c914d5591e1abe25f8f9b3e1127497 Mon Sep 17 00:00:00 2001
+From 2b88c9a82899c997bb2eea734ee931b12fff7754 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 11 Mar 2020 19:47:00 +0800
 Subject: [PATCH] Rework Daemon Patch
@@ -1477,11 +1477,11 @@ index 000000000..75fb076ab
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index 52eb8f510..9a06199ca 100644
+index 3c0959366..09a8675a8 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServer.java
 @@ -436,7 +436,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
-             this.remoteStatusListener.b();
+             //this.remoteStatusListener.b(); // Paper - don't wait for remote connections
          }
  
 -        System.exit(0); // CraftBukkit
