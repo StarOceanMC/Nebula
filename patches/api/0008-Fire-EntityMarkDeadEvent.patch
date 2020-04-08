@@ -1,0 +1,54 @@
+From b414ee9ec4d251668b94a2dd11500669969ea27d Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Tue, 7 Apr 2020 12:37:40 +0800
+Subject: [PATCH] Fire EntityMarkDeadEvent
+
+---
+ .../event/entity/EntityMarkDeadEvent.java     | 35 +++++++++++++++++++
+ 1 file changed, 35 insertions(+)
+ create mode 100644 src/main/java/xianxian/mc/nebula/event/entity/EntityMarkDeadEvent.java
+
+diff --git a/src/main/java/xianxian/mc/nebula/event/entity/EntityMarkDeadEvent.java b/src/main/java/xianxian/mc/nebula/event/entity/EntityMarkDeadEvent.java
+new file mode 100644
+index 00000000..cd34f300
+--- /dev/null
++++ b/src/main/java/xianxian/mc/nebula/event/entity/EntityMarkDeadEvent.java
+@@ -0,0 +1,35 @@
++package xianxian.mc.nebula.event.entity;
++
++import org.bukkit.Bukkit;
++import org.bukkit.entity.Entity;
++import org.bukkit.event.HandlerList;
++import org.bukkit.event.entity.EntityEvent;
++import org.jetbrains.annotations.NotNull;
++
++/**
++ * Called when a entity is marked dead
++ */
++public class EntityMarkDeadEvent extends EntityEvent {
++    private static final HandlerList handlers = new HandlerList();
++
++    public EntityMarkDeadEvent(@NotNull Entity what) {
++        super(what);
++    }
++
++    @NotNull
++    @Override
++    public HandlerList getHandlers() {
++        return handlers;
++    }
++
++    @NotNull
++    public static HandlerList getHandlerList() {
++        return handlers;
++    }
++
++    public static void callEvent(@NotNull Entity entity) {
++        EntityMarkDeadEvent event = new EntityMarkDeadEvent(entity);
++        if (entity.getServer().isPrimaryThread())
++            entity.getServer().getPluginManager().callEvent(event);
++    }
++}
+-- 
+2.25.0
+
