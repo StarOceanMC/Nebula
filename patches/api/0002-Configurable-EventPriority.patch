@@ -1,4 +1,4 @@
-From e273f1813e2deb1e3838865952333552e30fe68f Mon Sep 17 00:00:00 2001
+From c8a936cb572a4cbf83a2c627e94250d00d54a967 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Tue, 24 Dec 2019 19:03:44 +0800
 Subject: [PATCH] Configurable EventPriority
@@ -22,7 +22,7 @@ index e431e343..017c305b 100644
 +
 +eventhandlers.json
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index 8355f9f0..d93a0a12 100644
+index 4931bc86..cbf3b5da 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 @@ -669,12 +669,21 @@ public final class SimplePluginManager implements PluginManager {
@@ -51,10 +51,10 @@ index 8355f9f0..d93a0a12 100644
      }
  
 diff --git a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-index 8ff228ce..3900d0dd 100644
+index ba2c5c6e..d0da8617 100644
 --- a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-@@ -299,12 +299,21 @@ public final class JavaPluginLoader implements PluginLoader {
+@@ -326,12 +326,21 @@ public final class JavaPluginLoader implements PluginLoader {
                      break;
                  }
              }

@@ -1,4 +1,4 @@
-From ad4475fbedf59e468d2bf3dbca05563e83ffe52e Mon Sep 17 00:00:00 2001
+From acb50437c026d924efbe65f54b0425b51b712928 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 1 Apr 2020 12:18:45 +0800
 Subject: [PATCH] Fire PlayerPostTeleportEvent
@@ -32,11 +32,11 @@ index 73069ba39..555e27751 100644
                      // CraftBukkit end
                  }
 diff --git a/src/main/java/net/minecraft/server/EntityPlayer.java b/src/main/java/net/minecraft/server/EntityPlayer.java
-index 247e8bdb1..4b5d7f9df 100644
+index d4d7d2c48..c1d82035b 100644
 --- a/src/main/java/net/minecraft/server/EntityPlayer.java
 +++ b/src/main/java/net/minecraft/server/EntityPlayer.java
-@@ -4,7 +4,7 @@ import com.destroystokyo.paper.event.entity.PlayerNaturallySpawnCreaturesEvent;
- import com.google.common.collect.Lists;
+@@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
+ import com.destroystokyo.paper.event.player.PlayerClientOptionsChangeEvent; // Paper
  import com.mojang.authlib.GameProfile;
  import com.mojang.datafixers.util.Either;
 -import io.netty.util.concurrent.Future;
@@ -44,7 +44,7 @@ index 247e8bdb1..4b5d7f9df 100644
  import java.util.ArrayDeque; // Paper
  import java.util.Collection;
  import java.util.Deque; // Paper
-@@ -17,7 +17,6 @@ import org.apache.logging.log4j.LogManager;
+@@ -18,7 +18,6 @@ import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
  
  // CraftBukkit start
@@ -52,7 +52,7 @@ index 247e8bdb1..4b5d7f9df 100644
  import org.bukkit.Bukkit;
  import org.bukkit.GameMode;
  import org.bukkit.Location;
-@@ -35,6 +34,7 @@ import org.bukkit.event.player.PlayerPortalEvent;
+@@ -36,6 +35,7 @@ import org.bukkit.event.player.PlayerPortalEvent;
  import org.bukkit.event.player.PlayerTeleportEvent;
  import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
  import org.bukkit.inventory.MainHand;
@@ -60,7 +60,7 @@ index 247e8bdb1..4b5d7f9df 100644
  // CraftBukkit end
  
  public class EntityPlayer extends EntityHuman implements ICrafting {
-@@ -1029,6 +1029,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
+@@ -1032,6 +1032,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
              PlayerChangedWorldEvent changeEvent = new PlayerChangedWorldEvent(this.getBukkitEntity(), worldserver.getWorld());
              this.world.getServer().getPluginManager().callEvent(changeEvent);
              // CraftBukkit end
@@ -103,7 +103,7 @@ index ce4d4ace8..c448ccaf4 100644
                  }
              }
 diff --git a/src/main/java/net/minecraft/server/PlayerConnection.java b/src/main/java/net/minecraft/server/PlayerConnection.java
-index 7929fcc80..398f23049 100644
+index ce7fc3322..57cf80cf1 100644
 --- a/src/main/java/net/minecraft/server/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/PlayerConnection.java
 @@ -14,7 +14,7 @@ import java.util.Iterator;
@@ -126,7 +126,7 @@ index 7929fcc80..398f23049 100644
  // CraftBukkit end
  
  public class PlayerConnection implements PacketListenerPlayIn {
-@@ -1202,6 +1202,7 @@ public class PlayerConnection implements PacketListenerPlayIn {
+@@ -1203,6 +1203,7 @@ public class PlayerConnection implements PacketListenerPlayIn {
          }
  
          this.internalTeleport(d0, d1, d2, f, f1, set);
@@ -135,10 +135,10 @@ index 7929fcc80..398f23049 100644
  
      public void teleport(Location dest) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 516a01648..3d6e98eb4 100644
+index f0c7e5c21..6a25823bb 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -123,6 +123,7 @@ import org.bukkit.plugin.messaging.StandardMessenger;
+@@ -126,6 +126,7 @@ import org.bukkit.plugin.messaging.StandardMessenger;
  import org.bukkit.scoreboard.Scoreboard;
  
  import net.md_5.bungee.api.chat.BaseComponent; // Spigot
@@ -146,7 +146,7 @@ index 516a01648..3d6e98eb4 100644
  
  @DelegateDeserialization(CraftOfflinePlayer.class)
  public class CraftPlayer extends CraftHumanEntity implements Player {
-@@ -797,6 +798,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -800,6 +801,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          } else {
              server.getHandle().moveToWorld(entity, toWorld.getWorldProvider().getDimensionManager(), true, to, !toWorld.paperConfig.disableTeleportationSuffocationCheck);
          }

@@ -1,4 +1,4 @@
-From 376174e7898a47876a15a6ea8d0dc527d373f79f Mon Sep 17 00:00:00 2001
+From d6031745bcd6fdda05dc6f9a3b0460b06f9b8f11 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sun, 5 Jan 2020 15:01:48 +0800
 Subject: [PATCH] Add EventPriority.NEVER for customizing priority
@@ -27,7 +27,7 @@ index 61ffa50f..f368ad0c 100644
       * Event call is of very low importance and should be ran first, to allow
       * other plugins to further customise the outcome
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index d93a0a12..16193b73 100644
+index cbf3b5da..41b0c411 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 @@ -681,8 +681,10 @@ public final class SimplePluginManager implements PluginManager {
@@ -42,10 +42,10 @@ index d93a0a12..16193b73 100644
          }
      }
 diff --git a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-index 3900d0dd..f777a84d 100644
+index d0da8617..f6760cc0 100644
 --- a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-@@ -311,9 +311,11 @@ public final class JavaPluginLoader implements PluginLoader {
+@@ -338,9 +338,11 @@ public final class JavaPluginLoader implements PluginLoader {
              
              EventExecutor executor = new co.aikar.timings.TimedEventExecutor(EventExecutor.create(method, eventClass), plugin, method, eventClass); // Paper // Paper (Yes.) - Use factory method `EventExecutor.create()`
              if (false) { // Spigot - RL handles useTimings check now

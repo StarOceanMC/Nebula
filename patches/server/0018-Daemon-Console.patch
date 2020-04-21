@@ -1,4 +1,4 @@
-From 873ef94fc93dc4540d40d6731108ab54e5bdb4f2 Mon Sep 17 00:00:00 2001
+From bb5e35f53e405307b612e6cd6945c6a0f59bc8a8 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 23 Mar 2020 14:56:13 +0800
 Subject: [PATCH] Daemon Console
@@ -207,10 +207,10 @@ index b1c585fda..ec092f429 100644
 \ No newline at end of file
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 922c04a5e..d89597bd8 100644
+index 8d82048d0..87d7d6e57 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -716,6 +716,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -710,6 +710,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
      @Override
      public void close() {
          this.stop();

@@ -1,4 +1,4 @@
-From 2b88c9a82899c997bb2eea734ee931b12fff7754 Mon Sep 17 00:00:00 2001
+From 2b9b224afb7e4f7e53bde3ea21eda29711754c24 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 11 Mar 2020 19:47:00 +0800
 Subject: [PATCH] Rework Daemon Patch
@@ -19,10 +19,10 @@ Subject: [PATCH] Rework Daemon Patch
  .../java/org/bukkit/craftbukkit/Main.java     |   1 +
  .../command/ConsoleCommandCompleter.java      |  37 +-
  .../java/org/spigotmc/RestartCommand.java     |  23 +-
- .../java/org/spigotmc/WatchdogThread.java     |   1 +
+ .../java/org/spigotmc/WatchdogThread.java     |   2 +
  .../META-INF/io.papermc.paper.daemon.protocol |   1 +
  src/main/resources/log4j2.xml                 |   6 +-
- 18 files changed, 1420 insertions(+), 34 deletions(-)
+ 18 files changed, 1421 insertions(+), 34 deletions(-)
  create mode 100644 src/main/java/com/destroystokyo/paper/daemon/BufferedSupplier.java
  create mode 100644 src/main/java/com/destroystokyo/paper/daemon/Data.java
  create mode 100644 src/main/java/com/destroystokyo/paper/daemon/MsgBuf.java
@@ -1477,7 +1477,7 @@ index 000000000..75fb076ab
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index 3c0959366..09a8675a8 100644
+index 8a14a5784..076f5d5ae 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServer.java
 @@ -436,7 +436,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
@@ -1490,10 +1490,10 @@ index 3c0959366..09a8675a8 100644
  
      @Override
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 2acd6bf24..922c04a5e 100644
+index 705f6c95e..8d82048d0 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -811,10 +811,12 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -821,10 +821,12 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
      public void safeShutdown(boolean flag, boolean isRestarting) {
          this.isRunning = false;
          this.isRestarting = isRestarting;
@@ -1507,7 +1507,7 @@ index 2acd6bf24..922c04a5e 100644
              }
          }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index fdb6c3f99..4ecc24094 100644
+index 696f95df0..6012babcd 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -213,7 +213,7 @@ public final class CraftServer implements Server {
@@ -1520,7 +1520,7 @@ index fdb6c3f99..4ecc24094 100644
      private final Map<String, World> worlds = new LinkedHashMap<String, World>();
      private YamlConfiguration configuration;
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 082b9091e..b10847cc5 100644
+index b22eccef8..3c222d92a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -20,6 +20,7 @@ public class Main {
@@ -1602,7 +1602,7 @@ index a51202ed5..9304cdff2 100644
      }
  }
 diff --git a/src/main/java/org/spigotmc/RestartCommand.java b/src/main/java/org/spigotmc/RestartCommand.java
-index aefea3a9a..c7fbf597b 100644
+index 123de5ac9..8aa1614b8 100644
 --- a/src/main/java/org/spigotmc/RestartCommand.java
 +++ b/src/main/java/org/spigotmc/RestartCommand.java
 @@ -47,14 +47,21 @@ public class RestartCommand extends Command
@@ -1660,17 +1660,19 @@ index aefea3a9a..c7fbf597b 100644
      }
      // Paper end
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index 4fde822c2..878b3ef77 100644
+index 85e931e00..c03d2da76 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
-@@ -220,6 +220,7 @@ public class WatchdogThread extends Thread
-                 {
-                 if ( restart && !MinecraftServer.getServer().hasStopped() )
-                 {
-+                    com.destroystokyo.paper.daemon.PaperDaemon.setHasErrored(true); // Paper daemon
-                     RestartCommand.restart();
-                 }
-                 break;
+@@ -224,7 +224,9 @@ public class WatchdogThread extends Thread
+                     AsyncCatcher.enabled = false; // Disable async catcher incase it interferes with us
+                     AsyncCatcher.shuttingDown = true;
+                     server.forceTicks = true;
++                    com.destroystokyo.paper.daemon.PaperDaemon.setHasErrored(true);
+                     if (restart) {
++                        if (!com.destroystokyo.paper.daemon.PaperDaemon.IS_DAEMON)
+                         RestartCommand.addShutdownHook( SpigotConfig.restartScript );
+                     }
+                     // try one last chance to safe shutdown on main incase it 'comes back'
 diff --git a/src/main/resources/META-INF/io.papermc.paper.daemon.protocol b/src/main/resources/META-INF/io.papermc.paper.daemon.protocol
 new file mode 100644
 index 000000000..56a6051ca
