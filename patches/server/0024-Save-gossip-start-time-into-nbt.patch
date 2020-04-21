@@ -1,0 +1,32 @@
+From 0cfa026e794bc3b933cf2105c3f74fa34e71254a Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Wed, 8 Apr 2020 15:52:50 +0800
+Subject: [PATCH] Save gossip start time into nbt
+
+---
+ src/main/java/net/minecraft/server/EntityVillager.java | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/main/java/net/minecraft/server/EntityVillager.java b/src/main/java/net/minecraft/server/EntityVillager.java
+index 6e0020ae0..040213f94 100644
+--- a/src/main/java/net/minecraft/server/EntityVillager.java
++++ b/src/main/java/net/minecraft/server/EntityVillager.java
+@@ -417,6 +417,7 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
+         nbttagcompound.setLong("LastRestock", this.bK);
+         nbttagcompound.setLong("LastGossipDecay", this.bI);
+         nbttagcompound.setInt("RestocksToday", this.bL);
++        nbttagcompound.setLong("GossipStartTime", this.bH); // Nebula - Save gossip start time into nbt
+     }
+ 
+     @Override
+@@ -449,6 +450,7 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
+         }
+ 
+         this.bL = nbttagcompound.getInt("RestocksToday");
++        this.bH = nbttagcompound.getLong("GossipStartTime"); // Nebula - Save gossip start time into nbt
+     }
+ 
+     @Override
+-- 
+2.25.0
+
