@@ -1,0 +1,108 @@
+From 2c9c66be595ab5a491bf18402092531e644d0a60 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Sat, 25 Apr 2020 20:09:18 +0800
+Subject: [PATCH] Configurable Spawn Chunks Ticking
+
+---
+ .../net/minecraft/server/WorldServer.java     | 24 +++++++++++--------
+ .../xianxian/mc/nebula/NebulaWorldConfig.java |  6 +++++
+ 2 files changed, 20 insertions(+), 10 deletions(-)
+
+diff --git a/src/main/java/net/minecraft/server/WorldServer.java b/src/main/java/net/minecraft/server/WorldServer.java
+index ab2a5afbb..ae32332d4 100644
+--- a/src/main/java/net/minecraft/server/WorldServer.java
++++ b/src/main/java/net/minecraft/server/WorldServer.java
+@@ -1905,12 +1905,14 @@ public class WorldServer extends World {
+         // with level 31 for the non-border spawn chunks
+         ChunkProviderServer chunkproviderserver = this.getChunkProvider();
+         int tickRadius = radiusInBlocks - 16;
++        int ticketLevelSpawnChunks = this.nebulaConfig.doNotTickSpawnChunks ? 0 : 2;
++        int ticketLevelSpawnBorder = this.nebulaConfig.doNotTickSpawnChunks ? 0 : 1;
+ 
+         // add ticking chunks
+         for (int x = -tickRadius; x <= tickRadius; x += 16) {
+             for (int z = -tickRadius; z <= tickRadius; z += 16) {
+                 // radius of 2 will have the current chunk be level 31
+-                chunkproviderserver.addTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(x, 0, z)), 2, Unit.INSTANCE);
++                chunkproviderserver.addTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(x, 0, z)), ticketLevelSpawnChunks, Unit.INSTANCE);
+             }
+         }
+ 
+@@ -1919,17 +1921,17 @@ public class WorldServer extends World {
+         // add border along x axis (including corner chunks)
+         for (int x = -radiusInBlocks; x <= radiusInBlocks; x += 16) {
+             // top
+-            chunkproviderserver.addTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(x, 0, radiusInBlocks)), 1, Unit.INSTANCE); // level 32
++            chunkproviderserver.addTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(x, 0, radiusInBlocks)), ticketLevelSpawnBorder, Unit.INSTANCE); // level 32
+             // bottom
+-            chunkproviderserver.addTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(x, 0, -radiusInBlocks)), 1, Unit.INSTANCE); // level 32
++            chunkproviderserver.addTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(x, 0, -radiusInBlocks)), ticketLevelSpawnBorder, Unit.INSTANCE); // level 32
+         }
+ 
+         // add border along z axis (excluding corner chunks)
+         for (int z = -radiusInBlocks + 16; z < radiusInBlocks; z += 16) {
+             // right
+-            chunkproviderserver.addTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(radiusInBlocks, 0, z)), 1, Unit.INSTANCE); // level 32
++            chunkproviderserver.addTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(radiusInBlocks, 0, z)), ticketLevelSpawnBorder, Unit.INSTANCE); // level 32
+             // left
+-            chunkproviderserver.addTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(-radiusInBlocks, 0, z)), 1, Unit.INSTANCE); // level 32
++            chunkproviderserver.addTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(-radiusInBlocks, 0, z)), ticketLevelSpawnBorder, Unit.INSTANCE); // level 32
+         }
+ 
+         MCUtil.getSpiralOutChunks(spawn, radiusInBlocks >> 4).forEach(pair -> {
+@@ -1941,12 +1943,14 @@ public class WorldServer extends World {
+         // with level 31 for the non-border spawn chunks
+         ChunkProviderServer chunkproviderserver = this.getChunkProvider();
+         int tickRadius = radiusInBlocks - 16;
++        int ticketLevelSpawnChunks = this.nebulaConfig.doNotTickSpawnChunks ? 0 : 2;
++        int ticketLevelSpawnBorder = this.nebulaConfig.doNotTickSpawnChunks ? 0 : 1;
+ 
+         // remove ticking chunks
+         for (int x = -tickRadius; x <= tickRadius; x += 16) {
+             for (int z = -tickRadius; z <= tickRadius; z += 16) {
+                 // radius of 2 will have the current chunk be level 31
+-                chunkproviderserver.removeTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(x, 0, z)), 2, Unit.INSTANCE);
++                chunkproviderserver.removeTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(x, 0, z)), ticketLevelSpawnChunks, Unit.INSTANCE);
+             }
+         }
+ 
+@@ -1955,17 +1959,17 @@ public class WorldServer extends World {
+         // remove border along x axis (including corner chunks)
+         for (int x = -radiusInBlocks; x <= radiusInBlocks; x += 16) {
+             // top
+-            chunkproviderserver.removeTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(x, 0, radiusInBlocks)), 1, Unit.INSTANCE); // level 32
++            chunkproviderserver.removeTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(x, 0, radiusInBlocks)), ticketLevelSpawnBorder, Unit.INSTANCE); // level 32
+             // bottom
+-            chunkproviderserver.removeTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(x, 0, -radiusInBlocks)), 1, Unit.INSTANCE); // level 32
++            chunkproviderserver.removeTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(x, 0, -radiusInBlocks)), ticketLevelSpawnBorder, Unit.INSTANCE); // level 32
+         }
+ 
+         // remove border along z axis (excluding corner chunks)
+         for (int z = -radiusInBlocks + 16; z < radiusInBlocks; z += 16) {
+             // right
+-            chunkproviderserver.removeTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(radiusInBlocks, 0, z)), 1, Unit.INSTANCE); // level 32
++            chunkproviderserver.removeTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(radiusInBlocks, 0, z)), ticketLevelSpawnBorder, Unit.INSTANCE); // level 32
+             // left
+-            chunkproviderserver.removeTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(-radiusInBlocks, 0, z)), 1, Unit.INSTANCE); // level 32
++            chunkproviderserver.removeTicket(TicketType.START, new ChunkCoordIntPair(spawn.add(-radiusInBlocks, 0, z)), ticketLevelSpawnBorder, Unit.INSTANCE); // level 32
+         }
+     }
+     // Paper end
+diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
+index 20887df84..4deca790f 100644
+--- a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
++++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
+@@ -98,4 +98,10 @@ public class NebulaWorldConfig {
+ 	private void doDolphinReceiveConduitPower() {
+ 	    doDolphinReceiveConduitPower = getBoolean("do-dolphin-receive-conduit-power", true);
+     }
++
++
++    public boolean doNotTickSpawnChunks = false;
++	private void doNotTickSpawnChunks() {
++	    doNotTickSpawnChunks = getBoolean("do-not-tick-spawn-chunks", false);
++    }
+ }
+-- 
+2.25.0
+
