@@ -1,0 +1,37 @@
+From 384b3bc5e2c3b15abee8938097a7586d837b6234 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Sat, 25 Apr 2020 20:08:43 +0800
+Subject: [PATCH] Toggle Sending Chunks API
+
+---
+ src/main/java/org/bukkit/entity/Player.java | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
+index c542305c..716b92be 100644
+--- a/src/main/java/org/bukkit/entity/Player.java
++++ b/src/main/java/org/bukkit/entity/Player.java
+@@ -1853,4 +1853,20 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+     @Override
+     Spigot spigot();
+     // Spigot end
++
++    // Nebula start - Toggle Sending chunks API
++
++    /**
++     * Sets whether send chunks to the player or not
++     * @param sendChunks True if need send chunks to the player
++     */
++    void setSendChunks(boolean sendChunks);
++
++    /**
++     * Gets whether send chunks to the player or not
++     * @return True if need send chunks to the player
++     */
++    boolean needSendChunks();
++    // Nebula end
++
+ }
+-- 
+2.25.0
+
