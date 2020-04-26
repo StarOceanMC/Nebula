@@ -1,0 +1,64 @@
+From 4d2f68305a365766650d71ead52e2b6072de614e Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Sun, 26 Apr 2020 19:03:08 +0800
+Subject: [PATCH] Limit Portal spawned pigman count
+
+---
+ src/main/java/net/minecraft/server/BlockPortal.java     | 2 +-
+ src/main/java/net/minecraft/server/WorldServer.java     | 2 ++
+ src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java | 8 ++++++++
+ 3 files changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/src/main/java/net/minecraft/server/BlockPortal.java b/src/main/java/net/minecraft/server/BlockPortal.java
+index 09c7c1318..69de6badd 100644
+--- a/src/main/java/net/minecraft/server/BlockPortal.java
++++ b/src/main/java/net/minecraft/server/BlockPortal.java
+@@ -35,7 +35,7 @@ public class BlockPortal extends Block {
+ 
+     @Override
+     public void tick(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, Random random) {
+-        if (worldserver.spigotConfig.enableZombiePigmenPortalSpawns && worldserver.worldProvider.isOverworld() && worldserver.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING) && random.nextInt(2000) < worldserver.getDifficulty().a()) { // Spigot
++        if (worldserver.spigotConfig.enableZombiePigmenPortalSpawns && (!worldserver.nebulaConfig.globalPortalSpawnedPigmanLimited || worldserver.nebulaConfig.globalPortalSpawnedPigmanLimit > worldserver.nebulaConfig.currentPigmanCount) && worldserver.worldProvider.isOverworld() && worldserver.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING) && random.nextInt(2000) < worldserver.getDifficulty().a()) { // Spigot // Nebula
+             while (worldserver.getType(blockposition).getBlock() == this) {
+                 blockposition = blockposition.down();
+             }
+diff --git a/src/main/java/net/minecraft/server/WorldServer.java b/src/main/java/net/minecraft/server/WorldServer.java
+index ae32332d4..f140399f5 100644
+--- a/src/main/java/net/minecraft/server/WorldServer.java
++++ b/src/main/java/net/minecraft/server/WorldServer.java
+@@ -1491,6 +1491,7 @@ public class WorldServer extends World {
+         this.loadedEntities.remove(entity); // Tuinity - loaded entity list
+         new com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent(entity.getBukkitEntity()).callEvent(); // Paper - fire while valid
+         entity.valid = false; // CraftBukkit
++        if (entity instanceof EntityPigZombie && entity.fromNetherPortal && nebulaConfig.globalPortalSpawnedPigmanLimited && nebulaConfig.currentPigmanCount > 0) nebulaConfig.currentPigmanCount--; // Nebula - Limit global spawned pigman count
+     }
+ 
+     private void registerEntity(Entity entity) {
+@@ -1564,6 +1565,7 @@ public class WorldServer extends World {
+             }
+             // Tuinity end - loaded entity list
+             new com.destroystokyo.paper.event.entity.EntityAddToWorldEvent(entity.getBukkitEntity()).callEvent(); // Paper - fire while valid
++            if (entity instanceof EntityPigZombie && entity.fromNetherPortal && nebulaConfig.globalPortalSpawnedPigmanLimited) nebulaConfig.currentPigmanCount++; // Nebula - Limit global spawned pigman count
+         }
+ 
+     }
+diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
+index 4deca790f..4814049eb 100644
+--- a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
++++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
+@@ -104,4 +104,12 @@ public class NebulaWorldConfig {
+ 	private void doNotTickSpawnChunks() {
+ 	    doNotTickSpawnChunks = getBoolean("do-not-tick-spawn-chunks", false);
+     }
++
++    public boolean globalPortalSpawnedPigmanLimited = false;
++    public int globalPortalSpawnedPigmanLimit = -1;
++	public int currentPigmanCount = 0;
++	private void globalPortalSpawnedPigmanLimit() {
++	    globalPortalSpawnedPigmanLimit = getInt("global-portal-spawned-pigman-limit", -1);
++	    globalPortalSpawnedPigmanLimited = globalPortalSpawnedPigmanLimit > -1;
++    }
+ }
+-- 
+2.25.0
+
