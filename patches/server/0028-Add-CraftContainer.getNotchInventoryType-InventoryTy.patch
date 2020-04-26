@@ -1,0 +1,70 @@
+From 0e679224e98572e5968e77b9f6129a54b559adae Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Sun, 26 Apr 2020 12:49:07 +0800
+Subject: [PATCH] Add CraftContainer.getNotchInventoryType(InventoryType)
+
+---
+ .../craftbukkit/inventory/CraftContainer.java | 47 +++++++++++++++++++
+ 1 file changed, 47 insertions(+)
+
+diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftContainer.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftContainer.java
+index 4f43f87cd..33278bd8a 100644
+--- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftContainer.java
++++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftContainer.java
+@@ -120,6 +120,53 @@ public class CraftContainer extends Container {
+         return true;
+     }
+ 
++    // Nebula start - Add CraftContainer.getNotchInventoryType(InventoryType)
++    public static Containers getNotchInventoryType(InventoryType type) {
++        switch (type) {
++            case WORKBENCH:
++                return Containers.CRAFTING;
++            case FURNACE:
++                return Containers.FURNACE;
++            case DISPENSER:
++                return Containers.GENERIC_3X3;
++            case ENCHANTING:
++                return Containers.ENCHANTMENT;
++            case BREWING:
++                return Containers.BREWING_STAND;
++            case BEACON:
++                return Containers.BEACON;
++            case ANVIL:
++                return Containers.ANVIL;
++            case HOPPER:
++                return Containers.HOPPER;
++            case DROPPER:
++                return Containers.GENERIC_3X3;
++            case SHULKER_BOX:
++                return Containers.SHULKER_BOX;
++            case BLAST_FURNACE:
++                return Containers.BLAST_FURNACE;
++            case LECTERN:
++                return Containers.LECTERN;
++            case SMOKER:
++                return Containers.SMOKER;
++            case LOOM:
++                return Containers.LOOM;
++            case CARTOGRAPHY:
++                return Containers.CARTOGRAPHY_TABLE;
++            case GRINDSTONE:
++                return Containers.GRINDSTONE;
++            case STONECUTTER:
++                return Containers.STONECUTTER;
++            case CREATIVE:
++            case CRAFTING:
++            case MERCHANT:
++                throw new IllegalArgumentException("Can't open a " + type + " inventory!");
++            default:
++                // TODO: If it reaches the default case, should we throw an error?
++                return Containers.GENERIC_9X3;
++        }
++    }
++    // Nebula end
+     public static Containers getNotchInventoryType(Inventory inventory) {
+         switch (inventory.getType()) {
+             case PLAYER:
+-- 
+2.25.0
+
