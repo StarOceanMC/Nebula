@@ -1,4 +1,4 @@
-From 2c9c66be595ab5a491bf18402092531e644d0a60 Mon Sep 17 00:00:00 2001
+From 0fb76b73d39e093707e3e91f486f7973b8e810c2 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sat, 25 Apr 2020 20:09:18 +0800
 Subject: [PATCH] Configurable Spawn Chunks Ticking
@@ -9,10 +9,10 @@ Subject: [PATCH] Configurable Spawn Chunks Ticking
  2 files changed, 20 insertions(+), 10 deletions(-)
 
 diff --git a/src/main/java/net/minecraft/server/WorldServer.java b/src/main/java/net/minecraft/server/WorldServer.java
-index ab2a5afbb..ae32332d4 100644
+index 132c5e7df..afb9aeb02 100644
 --- a/src/main/java/net/minecraft/server/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/WorldServer.java
-@@ -1905,12 +1905,14 @@ public class WorldServer extends World {
+@@ -1884,12 +1884,14 @@ public class WorldServer extends World {
          // with level 31 for the non-border spawn chunks
          ChunkProviderServer chunkproviderserver = this.getChunkProvider();
          int tickRadius = radiusInBlocks - 16;
@@ -28,7 +28,7 @@ index ab2a5afbb..ae32332d4 100644
              }
          }
  
-@@ -1919,17 +1921,17 @@ public class WorldServer extends World {
+@@ -1898,17 +1900,17 @@ public class WorldServer extends World {
          // add border along x axis (including corner chunks)
          for (int x = -radiusInBlocks; x <= radiusInBlocks; x += 16) {
              // top
@@ -50,7 +50,7 @@ index ab2a5afbb..ae32332d4 100644
          }
  
          MCUtil.getSpiralOutChunks(spawn, radiusInBlocks >> 4).forEach(pair -> {
-@@ -1941,12 +1943,14 @@ public class WorldServer extends World {
+@@ -1924,12 +1926,14 @@ public class WorldServer extends World {
          // with level 31 for the non-border spawn chunks
          ChunkProviderServer chunkproviderserver = this.getChunkProvider();
          int tickRadius = radiusInBlocks - 16;
@@ -66,7 +66,7 @@ index ab2a5afbb..ae32332d4 100644
              }
          }
  
-@@ -1955,17 +1959,17 @@ public class WorldServer extends World {
+@@ -1938,17 +1942,17 @@ public class WorldServer extends World {
          // remove border along x axis (including corner chunks)
          for (int x = -radiusInBlocks; x <= radiusInBlocks; x += 16) {
              // top
@@ -104,5 +104,5 @@ index 20887df84..4deca790f 100644
 +    }
  }
 -- 
-2.25.0
+2.26.2
 

@@ -60,3 +60,6 @@ tag Tuinity-Server $forcetag
 pushRepo Tuinity-API $PAPER_API_REPO $tag
 pushRepo Tuinity-Server $PAPER_SERVER_REPO $tag
 
+echo "Building MojangAPI"
+cd $basedir/Tuinity/Paper/Paper-MojangAPI
+mvn clean install

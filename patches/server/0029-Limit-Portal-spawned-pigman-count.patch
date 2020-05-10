@@ -1,4 +1,4 @@
-From 4d2f68305a365766650d71ead52e2b6072de614e Mon Sep 17 00:00:00 2001
+From 8dd5232b6fa9a421ceefb59122c65c47d5347bd9 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sun, 26 Apr 2020 19:03:08 +0800
 Subject: [PATCH] Limit Portal spawned pigman count
@@ -23,20 +23,20 @@ index 09c7c1318..69de6badd 100644
                  blockposition = blockposition.down();
              }
 diff --git a/src/main/java/net/minecraft/server/WorldServer.java b/src/main/java/net/minecraft/server/WorldServer.java
-index ae32332d4..f140399f5 100644
+index afb9aeb02..ad33c5d1c 100644
 --- a/src/main/java/net/minecraft/server/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/WorldServer.java
-@@ -1491,6 +1491,7 @@ public class WorldServer extends World {
-         this.loadedEntities.remove(entity); // Tuinity - loaded entity list
+@@ -1475,6 +1475,7 @@ public class WorldServer extends World {
+         }
          new com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent(entity.getBukkitEntity()).callEvent(); // Paper - fire while valid
          entity.valid = false; // CraftBukkit
 +        if (entity instanceof EntityPigZombie && entity.fromNetherPortal && nebulaConfig.globalPortalSpawnedPigmanLimited && nebulaConfig.currentPigmanCount > 0) nebulaConfig.currentPigmanCount--; // Nebula - Limit global spawned pigman count
      }
  
      private void registerEntity(Entity entity) {
-@@ -1564,6 +1565,7 @@ public class WorldServer extends World {
-             }
-             // Tuinity end - loaded entity list
+@@ -1543,6 +1544,7 @@ public class WorldServer extends World {
+             // Paper end
+             entity.shouldBeRemoved = false; // Paper - shouldn't be removed after being re-added
              new com.destroystokyo.paper.event.entity.EntityAddToWorldEvent(entity.getBukkitEntity()).callEvent(); // Paper - fire while valid
 +            if (entity instanceof EntityPigZombie && entity.fromNetherPortal && nebulaConfig.globalPortalSpawnedPigmanLimited) nebulaConfig.currentPigmanCount++; // Nebula - Limit global spawned pigman count
          }
@@ -60,5 +60,5 @@ index 4deca790f..4814049eb 100644
 +    }
  }
 -- 
-2.25.0
+2.26.2
 

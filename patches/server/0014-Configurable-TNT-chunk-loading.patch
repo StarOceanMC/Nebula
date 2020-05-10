@@ -1,4 +1,4 @@
-From 64eae7add71249962d4698896cb17217a9b8535b Mon Sep 17 00:00:00 2001
+From 49d1ee2f28f5ee4977dbfe3c7d6de3973cbd8f17 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Tue, 25 Feb 2020 10:52:01 +0800
 Subject: [PATCH] Configurable TNT chunk loading
@@ -72,11 +72,11 @@ index 9c31edade..ea9b61385 100644
 +    // Nebula end
  }
 diff --git a/src/main/java/net/minecraft/server/TicketType.java b/src/main/java/net/minecraft/server/TicketType.java
-index c9e4f663e..11fb50532 100644
+index 8cbe49aea..3b31839bc 100644
 --- a/src/main/java/net/minecraft/server/TicketType.java
 +++ b/src/main/java/net/minecraft/server/TicketType.java
-@@ -25,6 +25,7 @@ public class TicketType<T> {
-     public static final TicketType<Integer> ANTIXRAY = a("antixray", Integer::compareTo); // Paper - Anti-Xray
+@@ -24,6 +24,7 @@ public class TicketType<T> {
+     public static final TicketType<Long> FUTURE_AWAIT = a("future_await", Long::compareTo); // Paper
      public static final TicketType<Long> ASYNC_LOAD = a("async_load", Long::compareTo); // Paper
      public static final TicketType<Long> DELAYED_UNLOAD = a("delayed_unload", Long::compareTo); // Tuinity - delay chunk unloads by 30 seconds
 +    public static final TicketType<Entity> ENTITY = a("entity", (Entity e1, Entity e2) -> e1.getUniqueID().compareTo(e2.getUniqueID()), 20); // Nebula
@@ -97,5 +97,5 @@ index a8470b232..a1800ed0d 100644
 +	}
  }
 -- 
-2.25.0
+2.26.2
 

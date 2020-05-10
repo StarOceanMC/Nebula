@@ -1,4 +1,4 @@
-From aa50d025f55ed5809414607cc484283cd163179b Mon Sep 17 00:00:00 2001
+From 1b9dcaec59c64f58bd159b80bc453fd571a6c7a2 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Fri, 27 Dec 2019 21:34:51 +0800
 Subject: [PATCH] Load custom configuration
@@ -17,7 +17,7 @@ Subject: [PATCH] Load custom configuration
  create mode 100644 src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 
 diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index ede436939..99e2584df 100644
+index c33e13bcf..54e20386e 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServer.java
 @@ -195,7 +195,15 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
@@ -38,10 +38,10 @@ index ede436939..99e2584df 100644
          this.setSpawnNPCs(dedicatedserverproperties.spawnNpcs);
          this.setPVP(dedicatedserverproperties.pvp);
 diff --git a/src/main/java/net/minecraft/server/World.java b/src/main/java/net/minecraft/server/World.java
-index 2b5d0ecd0..a92ec7f8c 100644
+index c904e2228..5701ec74f 100644
 --- a/src/main/java/net/minecraft/server/World.java
 +++ b/src/main/java/net/minecraft/server/World.java
-@@ -94,6 +94,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+@@ -100,6 +100,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
      // Paper start - yes this is hacky as shit
      RegionLimitedWorldAccess regionLimited;
      World originalWorld;
@@ -49,7 +49,7 @@ index 2b5d0ecd0..a92ec7f8c 100644
      public World regionLimited(RegionLimitedWorldAccess limitedWorldAccess) {
          try {
              World clone = (World) super.clone();
-@@ -132,6 +133,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+@@ -138,6 +139,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
      protected World(WorldData worlddata, DimensionManager dimensionmanager, BiFunction<World, WorldProvider, IChunkProvider> bifunction, GameProfilerFiller gameprofilerfiller, boolean flag, org.bukkit.generator.ChunkGenerator gen, org.bukkit.World.Environment env) {
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig( worlddata.getName() ); // Spigot
          this.paperConfig = new com.destroystokyo.paper.PaperWorldConfig(worlddata.getName(), this.spigotConfig); // Paper
@@ -58,10 +58,10 @@ index 2b5d0ecd0..a92ec7f8c 100644
          this.tuinityConfig = new com.tuinity.tuinity.config.TuinityConfig.WorldConfig(worlddata.getName()); // Tuinity - Server Config
          this.generator = gen;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index bb1d45a94..582f8c619 100644
+index e2fdd3162..40517af7d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -836,6 +836,7 @@ public final class CraftServer implements Server {
+@@ -845,6 +845,7 @@ public final class CraftServer implements Server {
              world.spigotConfig.init(); // Spigot
              world.paperConfig.init(); // Paper
              world.tuinityConfig.init(); // Tuinity - Server Config
@@ -70,10 +70,10 @@ index bb1d45a94..582f8c619 100644
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 2666940e8..082b9091e 100644
+index cc8f039b6..95910c25b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -152,6 +152,14 @@ public class Main {
+@@ -153,6 +153,14 @@ public class Main {
                          .defaultsTo("Unknown Server")
                          .describedAs("Name");
                  // Paper end
@@ -393,5 +393,5 @@ index 000000000..cc37412c4
 +    }
 +}
 -- 
-2.25.0
+2.26.2
 

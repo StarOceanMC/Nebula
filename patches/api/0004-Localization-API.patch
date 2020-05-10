@@ -1,4 +1,4 @@
-From 23c7194975857d742e9a2bfdbc070696ea2a8a72 Mon Sep 17 00:00:00 2001
+From 7f295a7ab1ed9705680e080ad2229c24d24f1c78 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 27 Jan 2020 09:42:11 +0800
 Subject: [PATCH] Localization API
@@ -11,10 +11,10 @@ Subject: [PATCH] Localization API
  create mode 100644 src/main/java/xianxian/mc/nebula/localization/Localization.java
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index ea3e5d6f..e1b6e49b 100644
+index a9c10228..b312b384 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -1695,4 +1695,11 @@ public final class Bukkit {
+@@ -1717,4 +1717,11 @@ public final class Bukkit {
      public static Server.Spigot spigot() {
          return server.spigot();
      }
@@ -27,12 +27,12 @@ index ea3e5d6f..e1b6e49b 100644
 +    //Nebula end
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index c59c03be..ebed3fdd 100644
+index cf20e754..96e4a03d 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -1486,4 +1486,13 @@ public interface Server extends PluginMessageRecipient {
-      */
-     boolean isStopping();
+@@ -1504,4 +1504,13 @@ public interface Server extends PluginMessageRecipient {
+     @NotNull
+     com.destroystokyo.paper.entity.ai.MobGoals getMobGoals();
      // Paper end
 +    
 +    // Nebula start - Localization API
@@ -82,5 +82,5 @@ index 00000000..a8152033
 +    String getLocalizedBlockName(@Nullable Block block);
 +}
 -- 
-2.25.0
+2.26.2
 

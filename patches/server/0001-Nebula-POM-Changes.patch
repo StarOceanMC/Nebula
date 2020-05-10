@@ -1,4 +1,4 @@
-From 69679f9e51031c40ba0f66d6be2c65a66637d84c Mon Sep 17 00:00:00 2001
+From ab132baf6211318de7673f7562f15cba44664fa1 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 23 Dec 2019 19:51:50 +0800
 Subject: [PATCH] Nebula POM Changes
@@ -8,7 +8,7 @@ Subject: [PATCH] Nebula POM Changes
  1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/pom.xml b/pom.xml
-index 332a8a45..941f7bf4 100644
+index 1ed6a67f6..c8077c2ca 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -1,11 +1,11 @@
@@ -26,7 +26,7 @@ index 332a8a45..941f7bf4 100644
      <properties>
          <!-- <skipTests>true</skipTests> Paper - This [was] not going to end well -->
          <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-@@ -20,16 +20,16 @@
+@@ -17,16 +17,16 @@
      </properties>
  
      <parent>
@@ -48,5 +48,5 @@ index 332a8a45..941f7bf4 100644
              <scope>compile</scope>
          </dependency>
 -- 
-2.25.0
+2.26.2
 
