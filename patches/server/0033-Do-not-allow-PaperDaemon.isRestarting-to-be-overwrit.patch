@@ -1,0 +1,38 @@
+From 7249a23f7a647e6bc7f8f3ee74b2eeb1b5ab961d Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Thu, 21 May 2020 21:54:10 +0800
+Subject: [PATCH] Do not allow PaperDaemon.isRestarting to be overwrite
+
+---
+ src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java | 2 +-
+ src/main/java/org/spigotmc/RestartCommand.java                | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
+index bf59005f8..539abc650 100644
+--- a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
++++ b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
+@@ -208,7 +208,7 @@ public final class PaperDaemon {
+     }
+ 
+     public static void setIsRestarting(final boolean isRestarting) {
+-        PaperDaemon.isRestarting = isRestarting;
++        PaperDaemon.isRestarting = PaperDaemon.isRestarting || isRestarting;
+     }
+ 
+     /**
+diff --git a/src/main/java/org/spigotmc/RestartCommand.java b/src/main/java/org/spigotmc/RestartCommand.java
+index 8aa1614b8..1e3ee9f1a 100644
+--- a/src/main/java/org/spigotmc/RestartCommand.java
++++ b/src/main/java/org/spigotmc/RestartCommand.java
+@@ -76,6 +76,7 @@ public class RestartCommand extends Command
+     // Paper start - sync copied from above with minor changes, async added
+     public static void shutdownServer(boolean isRestarting) // Paper - make public
+     {
++        com.destroystokyo.paper.daemon.PaperDaemon.setIsRestarting(true); // Paper daemon
+         if ( MinecraftServer.getServer().isMainThread() )
+         {
+             // Kick all players
+-- 
+2.26.2
+

@@ -1,0 +1,24 @@
+From 2f33939c485a061b02bb83227fb3c81cdedda8fc Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Sun, 10 May 2020 14:53:46 +0800
+Subject: [PATCH] Do not try to shutdown while shutting down
+
+---
+ .../java/org/bukkit/craftbukkit/util/ServerShutdownThread.java   | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/main/java/org/bukkit/craftbukkit/util/ServerShutdownThread.java b/src/main/java/org/bukkit/craftbukkit/util/ServerShutdownThread.java
+index 899a52520..f1aea0362 100644
+--- a/src/main/java/org/bukkit/craftbukkit/util/ServerShutdownThread.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/ServerShutdownThread.java
+@@ -12,6 +12,7 @@ public class ServerShutdownThread extends Thread {
+     @Override
+     public void run() {
+         try {
++            if (!server.isRunning()) return; // Nebula - Do not try to shutdown while shutting down
+             // Paper start - try to shutdown on main
+             server.safeShutdown(false, false);
+             for (int i = 1000; i > 0 && !server.hasStopped(); i -= 100) {
+-- 
+2.26.2
+
