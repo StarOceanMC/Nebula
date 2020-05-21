@@ -1,0 +1,35 @@
+From db8d20b4f272899736b5806d0e308e6c49bbce7e Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Thu, 21 May 2020 21:57:22 +0800
+Subject: [PATCH] Use entity.spawnReason to check whether the pigman is from
+ portal or not
+
+---
+ src/main/java/net/minecraft/server/WorldServer.java | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/main/java/net/minecraft/server/WorldServer.java b/src/main/java/net/minecraft/server/WorldServer.java
+index ad33c5d1c..8f17ac133 100644
+--- a/src/main/java/net/minecraft/server/WorldServer.java
++++ b/src/main/java/net/minecraft/server/WorldServer.java
+@@ -1475,7 +1475,7 @@ public class WorldServer extends World {
+         }
+         new com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent(entity.getBukkitEntity()).callEvent(); // Paper - fire while valid
+         entity.valid = false; // CraftBukkit
+-        if (entity instanceof EntityPigZombie && entity.fromNetherPortal && nebulaConfig.globalPortalSpawnedPigmanLimited && nebulaConfig.currentPigmanCount > 0) nebulaConfig.currentPigmanCount--; // Nebula - Limit global spawned pigman count
++        if (entity instanceof EntityPigZombie && entity.spawnReason == CreatureSpawnEvent.SpawnReason.NETHER_PORTAL && nebulaConfig.globalPortalSpawnedPigmanLimited && nebulaConfig.currentPigmanCount > 0) nebulaConfig.currentPigmanCount--; // Nebula - Limit global spawned pigman count
+     }
+ 
+     private void registerEntity(Entity entity) {
+@@ -1544,7 +1544,7 @@ public class WorldServer extends World {
+             // Paper end
+             entity.shouldBeRemoved = false; // Paper - shouldn't be removed after being re-added
+             new com.destroystokyo.paper.event.entity.EntityAddToWorldEvent(entity.getBukkitEntity()).callEvent(); // Paper - fire while valid
+-            if (entity instanceof EntityPigZombie && entity.fromNetherPortal && nebulaConfig.globalPortalSpawnedPigmanLimited) nebulaConfig.currentPigmanCount++; // Nebula - Limit global spawned pigman count
++            if (entity instanceof EntityPigZombie && entity.spawnReason == CreatureSpawnEvent.SpawnReason.NETHER_PORTAL && nebulaConfig.globalPortalSpawnedPigmanLimited) nebulaConfig.currentPigmanCount++; // Nebula - Limit global spawned pigman count // entity.fromNetherPortal is set after register, So use entity.spawnReason instead
+         }
+ 
+     }
+-- 
+2.26.2
+
