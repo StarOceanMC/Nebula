@@ -1,15 +1,15 @@
-From e16d3f9bee79284fde5245c75cf30bf6b8995cc4 Mon Sep 17 00:00:00 2001
+From 5c63f0606c46f1bfd6a0cdb1833cd13188dc2e0e Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sun, 10 May 2020 14:50:00 +0800
 Subject: [PATCH] Only send entities when needSendChunks is false
 
 ---
  src/main/java/net/minecraft/server/Chunk.java          | 1 -
- src/main/java/net/minecraft/server/PlayerChunkMap.java | 5 ++++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ src/main/java/net/minecraft/server/PlayerChunkMap.java | 6 +++++-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/src/main/java/net/minecraft/server/Chunk.java b/src/main/java/net/minecraft/server/Chunk.java
-index 45763a4fc..f6c5b7075 100644
+index ea89527ce..ebf219f99 100644
 --- a/src/main/java/net/minecraft/server/Chunk.java
 +++ b/src/main/java/net/minecraft/server/Chunk.java
 @@ -284,7 +284,6 @@ public class Chunk implements IChunkAccess {
@@ -21,20 +21,24 @@ index 45763a4fc..f6c5b7075 100644
                      }
                  })));
 diff --git a/src/main/java/net/minecraft/server/PlayerChunkMap.java b/src/main/java/net/minecraft/server/PlayerChunkMap.java
-index b03291bae..395fe4300 100644
+index be09053fa..1f37688e2 100644
 --- a/src/main/java/net/minecraft/server/PlayerChunkMap.java
 +++ b/src/main/java/net/minecraft/server/PlayerChunkMap.java
-@@ -1955,12 +1955,15 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.d {
+@@ -2099,6 +2099,8 @@ Sections go from 0..16. Now whenever a section is not empty, it can potentially
  
      final void sendChunk(EntityPlayer entityplayer, Packet<?>[] apacket, Chunk chunk) { this.a(entityplayer, apacket, chunk); } // Paper - OBFHELPER
      private void a(EntityPlayer entityplayer, Packet<?>[] apacket, Chunk chunk) {
 +        // Nebula start - Only send entities when needSendChunks is false
 +        if (entityplayer.getBukkitEntity().needSendChunks()) {
          if (apacket[0] == null) {
-             apacket[0] = new PacketPlayOutMapChunk(chunk, 65535);
-             apacket[1] = new PacketPlayOutLightUpdate(chunk.getPos(), this.lightEngine);
+             // Paper start - add 8 for light fix workaround
+             if (apacket.length != 10) { // in case Plugins call sendChunk, resize
+@@ -2162,8 +2164,10 @@ Sections go from 0..16. Now whenever a section is not empty, it can potentially
+             }
          }
+         // Paper end - Fix MC-162253
 -
++            
          entityplayer.a(chunk.getPos(), apacket[0], apacket[1]);
 +        }
 +        // Nebula end

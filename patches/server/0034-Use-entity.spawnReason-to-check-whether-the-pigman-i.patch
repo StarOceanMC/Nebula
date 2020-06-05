@@ -1,4 +1,4 @@
-From db8d20b4f272899736b5806d0e308e6c49bbce7e Mon Sep 17 00:00:00 2001
+From d3e5fe6dae52fee1da8952dbef2d444a636a9252 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Thu, 21 May 2020 21:57:22 +0800
 Subject: [PATCH] Use entity.spawnReason to check whether the pigman is from
@@ -9,10 +9,10 @@ Subject: [PATCH] Use entity.spawnReason to check whether the pigman is from
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/src/main/java/net/minecraft/server/WorldServer.java b/src/main/java/net/minecraft/server/WorldServer.java
-index ad33c5d1c..8f17ac133 100644
+index 389ee8a9f..4d36c5279 100644
 --- a/src/main/java/net/minecraft/server/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/WorldServer.java
-@@ -1475,7 +1475,7 @@ public class WorldServer extends World {
+@@ -1902,7 +1902,7 @@ public class WorldServer extends World {
          }
          new com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent(entity.getBukkitEntity()).callEvent(); // Paper - fire while valid
          entity.valid = false; // CraftBukkit
@@ -21,7 +21,7 @@ index ad33c5d1c..8f17ac133 100644
      }
  
      private void registerEntity(Entity entity) {
-@@ -1544,7 +1544,7 @@ public class WorldServer extends World {
+@@ -1971,7 +1971,7 @@ public class WorldServer extends World {
              // Paper end
              entity.shouldBeRemoved = false; // Paper - shouldn't be removed after being re-added
              new com.destroystokyo.paper.event.entity.EntityAddToWorldEvent(entity.getBukkitEntity()).callEvent(); // Paper - fire while valid

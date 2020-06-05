@@ -1,4 +1,4 @@
-From bb5e35f53e405307b612e6cd6945c6a0f59bc8a8 Mon Sep 17 00:00:00 2001
+From e7ab393ae3808aa9ca00f0494854384bb6078e72 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 23 Mar 2020 14:56:13 +0800
 Subject: [PATCH] Daemon Console
@@ -207,7 +207,7 @@ index b1c585fda..ec092f429 100644
 \ No newline at end of file
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 8d82048d0..87d7d6e57 100644
+index e2234a3bc..766afa1e3 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -710,6 +710,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
@@ -219,7 +219,7 @@ index 8d82048d0..87d7d6e57 100644
  
      // CraftBukkit start
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
-index bc87559b1..e70b2aea1 100644
+index 894918bde..9884d5760 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 @@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
@@ -230,9 +230,9 @@ index bc87559b1..e70b2aea1 100644
  import org.bukkit.Bukkit;
  import org.bukkit.command.Command;
  import org.bukkit.configuration.InvalidConfigurationException;
-@@ -198,4 +199,18 @@ public class NebulaConfig {
+@@ -196,4 +197,18 @@ public class NebulaConfig {
+     private static void timingsURL() {
          timingsURL = getString("timings.url", timingsURL);
-         TimingsExportUrl.set(timingsURL);
      }
 +
 +    public static boolean useUnixSocketConsole = false;
@@ -250,5 +250,5 @@ index bc87559b1..e70b2aea1 100644
 +    }
  }
 -- 
-2.25.0
+2.26.2
 

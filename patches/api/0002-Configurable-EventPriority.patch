@@ -1,4 +1,4 @@
-From c8a936cb572a4cbf83a2c627e94250d00d54a967 Mon Sep 17 00:00:00 2001
+From 485e00cbc44c8587c483c16aca512b643fa1a35d Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Tue, 24 Dec 2019 19:03:44 +0800
 Subject: [PATCH] Configurable EventPriority
@@ -51,10 +51,10 @@ index 4931bc86..cbf3b5da 100644
      }
  
 diff --git a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-index ba2c5c6e..d0da8617 100644
+index 528ceeb2..f48d4961 100644
 --- a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-@@ -326,12 +326,21 @@ public final class JavaPluginLoader implements PluginLoader {
+@@ -342,12 +342,21 @@ public final class JavaPluginLoader implements PluginLoader {
                      break;
                  }
              }
@@ -201,5 +201,5 @@ index 00000000..993754c7
 +}
 \ No newline at end of file
 -- 
-2.25.0
+2.26.2
 

@@ -1,4 +1,4 @@
-From bfda10bbf3850a7c7834f1c4849f258f00badc61 Mon Sep 17 00:00:00 2001
+From 6f1d67d0c4ad6376a6ff91c7e867dfe6e5ea3fb9 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 27 Jan 2020 09:42:25 +0800
 Subject: [PATCH] Localization API
@@ -10,7 +10,7 @@ Subject: [PATCH] Localization API
  create mode 100644 src/main/java/xianxian/mc/nebula/localization/NebulaLocalization.java
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index fc1fc6a5a..799eb58d8 100644
+index ade685770..7f6901e88 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -241,7 +241,8 @@ public final class CraftServer implements Server {
@@ -23,7 +23,7 @@ index fc1fc6a5a..799eb58d8 100644
      static {
          ConfigurationSerialization.registerClass(CraftOfflinePlayer.class);
          CraftItemFactory.instance();
-@@ -2256,4 +2257,11 @@ public final class CraftServer implements Server {
+@@ -2285,4 +2286,11 @@ public final class CraftServer implements Server {
          return mobGoals;
      }
      // Paper end

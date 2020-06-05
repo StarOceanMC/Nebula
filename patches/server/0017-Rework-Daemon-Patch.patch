@@ -1,4 +1,4 @@
-From 58348fb6304847ceff6bfe71d72e6c53fde9a624 Mon Sep 17 00:00:00 2001
+From 6f8d12d12f8c3cfa56f87c6cd3c2b48d545b3471 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 11 Mar 2020 19:47:00 +0800
 Subject: [PATCH] Rework Daemon Patch
@@ -1490,10 +1490,10 @@ index 5e0a13358..99567566d 100644
  
      @Override
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 1bf73ca92..3f6df7cc8 100644
+index 533caec8c..e2234a3bc 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -821,10 +821,12 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -830,10 +830,12 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
      public void safeShutdown(boolean flag, boolean isRestarting) {
          this.isRunning = false;
          this.isRestarting = isRestarting;
@@ -1507,7 +1507,7 @@ index 1bf73ca92..3f6df7cc8 100644
              }
          }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 799eb58d8..b298fdfb2 100644
+index 7f6901e88..0641b9354 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -215,7 +215,7 @@ public final class CraftServer implements Server {
@@ -1520,7 +1520,7 @@ index 799eb58d8..b298fdfb2 100644
      private final Map<String, World> worlds = new LinkedHashMap<String, World>();
      private YamlConfiguration configuration;
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 95910c25b..c34fcabb7 100644
+index 3641458b0..d4693cf6b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -20,6 +20,7 @@ public class Main {
@@ -1660,10 +1660,10 @@ index 123de5ac9..8aa1614b8 100644
      }
      // Paper end
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index 78734b45a..0cc6e12bf 100644
+index 7c1ef532d..1022683f2 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
-@@ -221,7 +221,9 @@ public class WatchdogThread extends Thread
+@@ -222,7 +222,9 @@ public class WatchdogThread extends Thread
                      AsyncCatcher.enabled = false; // Disable async catcher incase it interferes with us
                      AsyncCatcher.shuttingDown = true;
                      server.forceTicks = true;
@@ -1682,7 +1682,7 @@ index 000000000..56a6051ca
 +1
 \ No newline at end of file
 diff --git a/src/main/resources/log4j2.xml b/src/main/resources/log4j2.xml
-index a9bb98765..304558af5 100644
+index 476f4a5cb..9aa353047 100644
 --- a/src/main/resources/log4j2.xml
 +++ b/src/main/resources/log4j2.xml
 @@ -4,7 +4,7 @@
@@ -1692,17 +1692,17 @@ index a9bb98765..304558af5 100644
 -        <TerminalConsole name="TerminalConsole">
 +        <PaperConsole name="PaperConsole">
              <PatternLayout>
-                 <LoggerNamePatternSelector defaultPattern="%highlightError{[%d{HH:mm:ss} %level]: [%logger] %minecraftFormatting{%msg}%n%xEx}">
+                 <LoggerNamePatternSelector defaultPattern="%highlightError{[%d{HH:mm:ss} %level]: [%logger] %minecraftFormatting{%msg}%n%xEx{full}}">
                      <!-- Log root, Minecraft, Mojang and Bukkit loggers without prefix -->
 @@ -13,7 +13,7 @@
-                                   pattern="%highlightError{[%d{HH:mm:ss} %level]: %minecraftFormatting{%msg}%n%xEx}" />
+                                   pattern="%highlightError{[%d{HH:mm:ss} %level]: %minecraftFormatting{%msg}%n%xEx{full}}" />
                  </LoggerNamePatternSelector>
              </PatternLayout>
 -        </TerminalConsole>
 +        </PaperConsole>
          <RollingRandomAccessFile name="File" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">
              <PatternLayout>
-                 <LoggerNamePatternSelector defaultPattern="[%d{HH:mm:ss}] [%t/%level]: [%logger] %minecraftFormatting{%msg}{strip}%n">
+                 <LoggerNamePatternSelector defaultPattern="[%d{HH:mm:ss}] [%t/%level]: [%logger] %minecraftFormatting{%msg}{strip}%n%xEx{full}">
 @@ -36,7 +36,7 @@
                  <MarkerFilter marker="NETWORK_PACKETS" onMatch="DENY" onMismatch="NEUTRAL" />
              </filters>

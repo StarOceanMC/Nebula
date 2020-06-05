@@ -1,4 +1,4 @@
-From a8703d1dd6c51937b80fa57b8e2886c0ff31e0c8 Mon Sep 17 00:00:00 2001
+From bcea4eafc03dfda248004d939910828c5aeea345 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Tue, 7 Apr 2020 12:37:57 +0800
 Subject: [PATCH] Fire EntityMarkDeadEvent
@@ -8,10 +8,10 @@ Subject: [PATCH] Fire EntityMarkDeadEvent
  1 file changed, 1 insertion(+)
 
 diff --git a/src/main/java/net/minecraft/server/Entity.java b/src/main/java/net/minecraft/server/Entity.java
-index 5ed0a949e..f1cf04420 100644
+index 37f854764..f242c8b7d 100644
 --- a/src/main/java/net/minecraft/server/Entity.java
 +++ b/src/main/java/net/minecraft/server/Entity.java
-@@ -365,6 +365,7 @@ public abstract class Entity implements INamableTileEntity, ICommandListener, Ke
+@@ -374,6 +374,7 @@ public abstract class Entity implements INamableTileEntity, ICommandListener, Ke
  
      public void die() {
          this.dead = true;

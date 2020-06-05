@@ -1,4 +1,4 @@
-From 0cfa026e794bc3b933cf2105c3f74fa34e71254a Mon Sep 17 00:00:00 2001
+From 2e6f5832c797fd37165fc72617e51d112e7b18bd Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 8 Apr 2020 15:52:50 +0800
 Subject: [PATCH] Save gossip start time into nbt
@@ -8,10 +8,10 @@ Subject: [PATCH] Save gossip start time into nbt
  1 file changed, 2 insertions(+)
 
 diff --git a/src/main/java/net/minecraft/server/EntityVillager.java b/src/main/java/net/minecraft/server/EntityVillager.java
-index 6e0020ae0..040213f94 100644
+index 7da267d28..14e9ae363 100644
 --- a/src/main/java/net/minecraft/server/EntityVillager.java
 +++ b/src/main/java/net/minecraft/server/EntityVillager.java
-@@ -417,6 +417,7 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
+@@ -431,6 +431,7 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
          nbttagcompound.setLong("LastRestock", this.bK);
          nbttagcompound.setLong("LastGossipDecay", this.bI);
          nbttagcompound.setInt("RestocksToday", this.bL);
@@ -19,7 +19,7 @@ index 6e0020ae0..040213f94 100644
      }
  
      @Override
-@@ -449,6 +450,7 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
+@@ -463,6 +464,7 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
          }
  
          this.bL = nbttagcompound.getInt("RestocksToday");
@@ -28,5 +28,5 @@ index 6e0020ae0..040213f94 100644
  
      @Override
 -- 
-2.25.0
+2.26.2
 

@@ -1,4 +1,4 @@
-From e186254a0327753ce03c139316e84bc77147cc70 Mon Sep 17 00:00:00 2001
+From e8e1d6aa38293f17e2a520493a7318b394a4c510 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 11 Mar 2020 19:54:44 +0800
 Subject: [PATCH] Rework Daemon Patch
@@ -45,5 +45,5 @@ index bf3e059f..c072b68c 100644
      public TimingsReportListener(@NotNull CommandSender senders) {
          this(senders, null);
 -- 
-2.25.0
+2.26.2
 

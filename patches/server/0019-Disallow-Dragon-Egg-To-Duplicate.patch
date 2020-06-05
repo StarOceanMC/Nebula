@@ -1,4 +1,4 @@
-From 752e45d203287d9bc644aef81ba59adfc5d3f7cf Mon Sep 17 00:00:00 2001
+From f45e9af53a8246113e78e4c452a7767b19e7257c Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Fri, 27 Mar 2020 08:55:56 +0800
 Subject: [PATCH] Disallow Dragon Egg To Duplicate
@@ -61,10 +61,10 @@ index 6683f7c5f..6642d98a8 100644
  
                      this.setMot(this.getMot().d(0.7D, -0.5D, 0.7D));
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
-index e70b2aea1..432b9aede 100644
+index 9884d5760..4ea0a41ab 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
-@@ -213,4 +213,9 @@ public class NebulaConfig {
+@@ -211,4 +211,9 @@ public class NebulaConfig {
              }
          }
      }
@@ -75,5 +75,5 @@ index e70b2aea1..432b9aede 100644
 +    }
  }
 -- 
-2.25.0
+2.26.2
 
