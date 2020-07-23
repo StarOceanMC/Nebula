@@ -1,4 +1,4 @@
-From f45e9af53a8246113e78e4c452a7767b19e7257c Mon Sep 17 00:00:00 2001
+From 58dbb5d7b2c0d3a176b864fb0afcd948e3c63322 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Fri, 27 Mar 2020 08:55:56 +0800
 Subject: [PATCH] Disallow Dragon Egg To Duplicate
@@ -36,7 +36,7 @@ index 213388c74..8482ea873 100644
  
      }
 diff --git a/src/main/java/net/minecraft/server/EntityFallingBlock.java b/src/main/java/net/minecraft/server/EntityFallingBlock.java
-index 6683f7c5f..6642d98a8 100644
+index 243a8c570..86956820e 100644
 --- a/src/main/java/net/minecraft/server/EntityFallingBlock.java
 +++ b/src/main/java/net/minecraft/server/EntityFallingBlock.java
 @@ -17,6 +17,7 @@ public class EntityFallingBlock extends Entity {
@@ -47,7 +47,7 @@ index 6683f7c5f..6642d98a8 100644
  
      public EntityFallingBlock(EntityTypes<? extends EntityFallingBlock> entitytypes, World world) {
          super(entitytypes, world);
-@@ -120,6 +121,12 @@ public class EntityFallingBlock extends Entity {
+@@ -131,6 +132,12 @@ public class EntityFallingBlock extends Entity {
                          this.die();
                      }
                  } else {
@@ -75,5 +75,5 @@ index 9884d5760..4ea0a41ab 100644
 +    }
  }
 -- 
-2.26.2
+2.27.0
 

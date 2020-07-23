@@ -1,4 +1,4 @@
-From adaf7e73fb374e9fd72dab9b3b25968ecea36f14 Mon Sep 17 00:00:00 2001
+From 691f9b6c9dc6812131b41ada798ac8352431812c Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sun, 26 Apr 2020 19:03:08 +0800
 Subject: [PATCH] Limit Portal spawned pigman count
@@ -23,10 +23,10 @@ index 09c7c1318..69de6badd 100644
                  blockposition = blockposition.down();
              }
 diff --git a/src/main/java/net/minecraft/server/WorldServer.java b/src/main/java/net/minecraft/server/WorldServer.java
-index d5dadd82c..389ee8a9f 100644
+index 1142a01d9..9ba3e16e2 100644
 --- a/src/main/java/net/minecraft/server/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/WorldServer.java
-@@ -1902,6 +1902,7 @@ public class WorldServer extends World {
+@@ -1909,6 +1909,7 @@ public class WorldServer extends World {
          }
          new com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent(entity.getBukkitEntity()).callEvent(); // Paper - fire while valid
          entity.valid = false; // CraftBukkit
@@ -34,7 +34,7 @@ index d5dadd82c..389ee8a9f 100644
      }
  
      private void registerEntity(Entity entity) {
-@@ -1970,6 +1971,7 @@ public class WorldServer extends World {
+@@ -1983,6 +1984,7 @@ public class WorldServer extends World {
              // Paper end
              entity.shouldBeRemoved = false; // Paper - shouldn't be removed after being re-added
              new com.destroystokyo.paper.event.entity.EntityAddToWorldEvent(entity.getBukkitEntity()).callEvent(); // Paper - fire while valid
@@ -60,5 +60,5 @@ index 4deca790f..4814049eb 100644
 +    }
  }
 -- 
-2.26.2
+2.27.0
 

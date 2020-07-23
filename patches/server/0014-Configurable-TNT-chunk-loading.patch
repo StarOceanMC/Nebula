@@ -1,13 +1,13 @@
-From d45b28ff97b2588609450c0b1bcd7e91803875b6 Mon Sep 17 00:00:00 2001
+From 082fc4cf78c83425961c3b877a82c728f0c4a5b4 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Tue, 25 Feb 2020 10:52:01 +0800
 Subject: [PATCH] Configurable TNT chunk loading
 
 ---
  .../net/minecraft/server/EntityTNTPrimed.java | 39 +++++++++++++++++++
- .../java/net/minecraft/server/TicketType.java |  1 +
+ .../java/net/minecraft/server/TicketType.java |  2 +
  .../xianxian/mc/nebula/NebulaWorldConfig.java |  4 ++
- 3 files changed, 44 insertions(+)
+ 3 files changed, 45 insertions(+)
 
 diff --git a/src/main/java/net/minecraft/server/EntityTNTPrimed.java b/src/main/java/net/minecraft/server/EntityTNTPrimed.java
 index 9c31edade..ea9b61385 100644
@@ -72,13 +72,18 @@ index 9c31edade..ea9b61385 100644
 +    // Nebula end
  }
 diff --git a/src/main/java/net/minecraft/server/TicketType.java b/src/main/java/net/minecraft/server/TicketType.java
-index 380053cf6..03c24ab82 100644
+index 4657b05a4..4a04bad8b 100644
 --- a/src/main/java/net/minecraft/server/TicketType.java
 +++ b/src/main/java/net/minecraft/server/TicketType.java
-@@ -26,6 +26,7 @@ public class TicketType<T> {
-     public static final TicketType<ChunkCoordIntPair> PRIORITY = a("priority", Comparator.comparingLong(ChunkCoordIntPair::pair), 300); // Paper
+@@ -1,3 +1,4 @@
++
+ package net.minecraft.server;
+ 
+ import java.util.Comparator;
+@@ -28,6 +29,7 @@ public class TicketType<T> {
      public static final TicketType<ChunkCoordIntPair> URGENT = a("urgent", Comparator.comparingLong(ChunkCoordIntPair::pair), 300); // Paper
-     public static final TicketType<Long> DELAYED_UNLOAD = a("delayed_unload", Long::compareTo); // Tuinity - delay chunk unloads by 30 seconds
+     public static final TicketType<Long> DELAYED_UNLOAD = a("delayed_unload", Long::compareTo); // Tuinity - delay chunk unloads
+     public static final TicketType<Long> REQUIRED_LOAD = a("required_load", Long::compareTo); // Tuinity - make sure getChunkAt does not fail
 +    public static final TicketType<Entity> ENTITY = a("entity", (Entity e1, Entity e2) -> e1.getUniqueID().compareTo(e2.getUniqueID()), 20); // Nebula
  
      public static <T> TicketType<T> a(String s, Comparator<T> comparator) {
@@ -97,5 +102,5 @@ index a8470b232..a1800ed0d 100644
 +	}
  }
 -- 
-2.26.2
+2.27.0
 

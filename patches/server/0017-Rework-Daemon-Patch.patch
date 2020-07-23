@@ -1,4 +1,4 @@
-From 6f8d12d12f8c3cfa56f87c6cd3c2b48d545b3471 Mon Sep 17 00:00:00 2001
+From e6bc829fdbb1820685f8c148048a7d95111b5977 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 11 Mar 2020 19:47:00 +0800
 Subject: [PATCH] Rework Daemon Patch
@@ -1477,23 +1477,23 @@ index 000000000..75fb076ab
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index 5e0a13358..99567566d 100644
+index dd6770672..cedd654c3 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServer.java
-@@ -436,7 +436,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
-             //this.remoteStatusListener.b(); // Paper - don't wait for remote connections
+@@ -437,7 +437,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
          }
  
+         hasFullyShutdown = true; // Paper
 -        System.exit(0); // CraftBukkit
 +        System.exit(com.destroystokyo.paper.daemon.PaperDaemon.shutdownExitCode()); // Paper daemon
      }
  
      @Override
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 533caec8c..e2234a3bc 100644
+index 3c9392077..0e1babccd 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -830,10 +830,12 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -833,10 +833,12 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
      public void safeShutdown(boolean flag, boolean isRestarting) {
          this.isRunning = false;
          this.isRestarting = isRestarting;
@@ -1507,7 +1507,7 @@ index 533caec8c..e2234a3bc 100644
              }
          }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 7f6901e88..0641b9354 100644
+index f26e44cc5..fb0bfcb06 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -215,7 +215,7 @@ public final class CraftServer implements Server {
@@ -1520,7 +1520,7 @@ index 7f6901e88..0641b9354 100644
      private final Map<String, World> worlds = new LinkedHashMap<String, World>();
      private YamlConfiguration configuration;
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 3641458b0..d4693cf6b 100644
+index 5846f509f..eea27437e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -20,6 +20,7 @@ public class Main {
@@ -1682,7 +1682,7 @@ index 000000000..56a6051ca
 +1
 \ No newline at end of file
 diff --git a/src/main/resources/log4j2.xml b/src/main/resources/log4j2.xml
-index 476f4a5cb..9aa353047 100644
+index 8af159abd..2066bc632 100644
 --- a/src/main/resources/log4j2.xml
 +++ b/src/main/resources/log4j2.xml
 @@ -4,7 +4,7 @@
@@ -1713,5 +1713,5 @@ index 476f4a5cb..9aa353047 100644
          </Root>
      </Loggers>
 -- 
-2.26.2
+2.27.0
 

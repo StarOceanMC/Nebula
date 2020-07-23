@@ -1,4 +1,4 @@
-From 5c63f0606c46f1bfd6a0cdb1833cd13188dc2e0e Mon Sep 17 00:00:00 2001
+From 1515e43ee78f773b3e4f859824f7047d03e6f350 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sun, 10 May 2020 14:50:00 +0800
 Subject: [PATCH] Only send entities when needSendChunks is false
@@ -9,7 +9,7 @@ Subject: [PATCH] Only send entities when needSendChunks is false
  2 files changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/src/main/java/net/minecraft/server/Chunk.java b/src/main/java/net/minecraft/server/Chunk.java
-index ea89527ce..ebf219f99 100644
+index 3e558ec42..5a360fdca 100644
 --- a/src/main/java/net/minecraft/server/Chunk.java
 +++ b/src/main/java/net/minecraft/server/Chunk.java
 @@ -284,7 +284,6 @@ public class Chunk implements IChunkAccess {
@@ -21,10 +21,10 @@ index ea89527ce..ebf219f99 100644
                      }
                  })));
 diff --git a/src/main/java/net/minecraft/server/PlayerChunkMap.java b/src/main/java/net/minecraft/server/PlayerChunkMap.java
-index be09053fa..1f37688e2 100644
+index 34ec3b9d7..570cac952 100644
 --- a/src/main/java/net/minecraft/server/PlayerChunkMap.java
 +++ b/src/main/java/net/minecraft/server/PlayerChunkMap.java
-@@ -2099,6 +2099,8 @@ Sections go from 0..16. Now whenever a section is not empty, it can potentially
+@@ -2120,6 +2120,8 @@ Sections go from 0..16. Now whenever a section is not empty, it can potentially
  
      final void sendChunk(EntityPlayer entityplayer, Packet<?>[] apacket, Chunk chunk) { this.a(entityplayer, apacket, chunk); } // Paper - OBFHELPER
      private void a(EntityPlayer entityplayer, Packet<?>[] apacket, Chunk chunk) {
@@ -33,7 +33,7 @@ index be09053fa..1f37688e2 100644
          if (apacket[0] == null) {
              // Paper start - add 8 for light fix workaround
              if (apacket.length != 10) { // in case Plugins call sendChunk, resize
-@@ -2162,8 +2164,10 @@ Sections go from 0..16. Now whenever a section is not empty, it can potentially
+@@ -2183,8 +2185,10 @@ Sections go from 0..16. Now whenever a section is not empty, it can potentially
              }
          }
          // Paper end - Fix MC-162253
@@ -46,5 +46,5 @@ index be09053fa..1f37688e2 100644
          List<Entity> list = Lists.newArrayList();
          List<Entity> list1 = Lists.newArrayList();
 -- 
-2.26.2
+2.27.0
 

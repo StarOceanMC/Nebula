@@ -1,4 +1,4 @@
-From f0c2747477cb6c365fceb8b3ac9ffa341be1d21a Mon Sep 17 00:00:00 2001
+From 9b899107b7db03bfb97d81d9b749acf06c610500 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Fri, 27 Mar 2020 09:00:16 +0800
 Subject: [PATCH] Configurable Dolphin Receive Conduit Power
@@ -9,10 +9,10 @@ Subject: [PATCH] Configurable Dolphin Receive Conduit Power
  2 files changed, 17 insertions(+)
 
 diff --git a/src/main/java/net/minecraft/server/TileEntityConduit.java b/src/main/java/net/minecraft/server/TileEntityConduit.java
-index 07f265b29..714eb8d6e 100644
+index 34c191d76..dbd9b0f37 100644
 --- a/src/main/java/net/minecraft/server/TileEntityConduit.java
 +++ b/src/main/java/net/minecraft/server/TileEntityConduit.java
-@@ -167,6 +167,18 @@ public class TileEntityConduit extends TileEntity implements ITickable {
+@@ -184,6 +184,18 @@ public class TileEntityConduit extends TileEntity implements ITickable {
              }
  
          }
@@ -46,5 +46,5 @@ index a1800ed0d..20887df84 100644
 +    }
  }
 -- 
-2.25.0
+2.27.0
 

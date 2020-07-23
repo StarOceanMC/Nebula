@@ -1,31 +1,38 @@
-From bbd2ea14f000e441ad1c5e7ecea250339a5f32a5 Mon Sep 17 00:00:00 2001
+From 7759b984a679a4b8d4ecae3156bc337fc4aabcd9 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Tue, 7 Apr 2020 12:10:41 +0800
 Subject: [PATCH] Only bedrock and piston head are allowed to be set to air
 
 ---
- src/main/java/net/minecraft/server/BlockPiston.java | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ .../java/net/minecraft/server/BlockPiston.java    | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
 diff --git a/src/main/java/net/minecraft/server/BlockPiston.java b/src/main/java/net/minecraft/server/BlockPiston.java
-index b29525c40..2ed95b2a4 100644
+index 8312ed779..2e54f3171 100644
 --- a/src/main/java/net/minecraft/server/BlockPiston.java
 +++ b/src/main/java/net/minecraft/server/BlockPiston.java
-@@ -232,7 +232,13 @@ public class BlockPiston extends BlockDirectional {
+@@ -238,14 +238,13 @@ public class BlockPiston extends BlockDirectional {
                      }
                  }
              } else {
--                world.a(blockposition.shift(enumdirection), false);
+-                // Paper start - fix headless pistons breaking blocks
+-                BlockPosition headPos = blockposition.shift(enumdirection);
+-                if (com.destroystokyo.paper.PaperConfig.allowBlockPermanentBreakingExploits || world.getType(headPos) == Blocks.PISTON_HEAD.getBlockData().set(FACING, enumdirection)) { // double check to make sure we're not a headless piston.
+-                    world.setAir(headPos, false);
+-                } else {
+-                    ((WorldServer)world).getChunkProvider().flagDirty(headPos); // ... fix client desync
+-                }
+-                // Paper end - fix headless pistons breaking blocks
 +                // Nebula start - Only bedrock and piston head are allowed to be set to air
 +                BlockPosition headPosition = blockposition.shift(enumdirection);
 +                IBlockData headData = world.getType(headPosition);
 +                Block headBlock = headData.getBlock();
-+                if (headBlock == Blocks.BEDROCK || headBlock == Blocks.PISTON_HEAD)
++                if (com.destroystokyo.paper.PaperConfig.allowBlockPermanentBreakingExploits || headBlock == Blocks.BEDROCK || headBlock == Blocks.PISTON_HEAD)
 +                // Nebula end
 +                world.a(headPosition, false);
              }
  
              world.playSound((EntityHuman) null, blockposition, SoundEffects.BLOCK_PISTON_CONTRACT, SoundCategory.BLOCKS, 0.5F, world.random.nextFloat() * 0.15F + 0.6F);
 -- 
-2.25.0
+2.27.0
 

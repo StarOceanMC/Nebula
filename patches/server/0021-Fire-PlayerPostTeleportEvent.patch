@@ -1,4 +1,4 @@
-From 2913f0ecea239690854924441674ee56c4906c64 Mon Sep 17 00:00:00 2001
+From 4992c821dd0711f1211ac96ef1856ea95adeef57 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 1 Apr 2020 12:18:45 +0800
 Subject: [PATCH] Fire PlayerPostTeleportEvent
@@ -32,7 +32,7 @@ index 73069ba39..555e27751 100644
                      // CraftBukkit end
                  }
 diff --git a/src/main/java/net/minecraft/server/EntityPlayer.java b/src/main/java/net/minecraft/server/EntityPlayer.java
-index c88177b77..ba85ff672 100644
+index 39072ebdc..6f8d448bd 100644
 --- a/src/main/java/net/minecraft/server/EntityPlayer.java
 +++ b/src/main/java/net/minecraft/server/EntityPlayer.java
 @@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
@@ -60,7 +60,7 @@ index c88177b77..ba85ff672 100644
  // CraftBukkit end
  
  public class EntityPlayer extends EntityHuman implements ICrafting {
-@@ -1010,6 +1010,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
+@@ -1022,6 +1022,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
              PlayerChangedWorldEvent changeEvent = new PlayerChangedWorldEvent(this.getBukkitEntity(), worldserver.getWorld());
              this.world.getServer().getPluginManager().callEvent(changeEvent);
              // CraftBukkit end
@@ -103,7 +103,7 @@ index ce4d4ace8..c448ccaf4 100644
                  }
              }
 diff --git a/src/main/java/net/minecraft/server/PlayerConnection.java b/src/main/java/net/minecraft/server/PlayerConnection.java
-index 455dd1de0..ae8145488 100644
+index 10f2ee17a..fc0d58b00 100644
 --- a/src/main/java/net/minecraft/server/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/PlayerConnection.java
 @@ -14,7 +14,7 @@ import java.util.Iterator;
@@ -126,7 +126,7 @@ index 455dd1de0..ae8145488 100644
  // CraftBukkit end
  
  public class PlayerConnection implements PacketListenerPlayIn {
-@@ -1248,6 +1248,7 @@ public class PlayerConnection implements PacketListenerPlayIn {
+@@ -1253,6 +1253,7 @@ public class PlayerConnection implements PacketListenerPlayIn {
          }
  
          this.internalTeleport(d0, d1, d2, f, f1, set);
@@ -135,7 +135,7 @@ index 455dd1de0..ae8145488 100644
  
      public void teleport(Location dest) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index bd4d5184b..017ddfb88 100644
+index 141003ca7..d89cdbd5d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -124,6 +124,7 @@ import org.bukkit.plugin.messaging.StandardMessenger;
@@ -146,7 +146,7 @@ index bd4d5184b..017ddfb88 100644
  
  @DelegateDeserialization(CraftOfflinePlayer.class)
  public class CraftPlayer extends CraftHumanEntity implements Player {
-@@ -798,6 +799,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -806,6 +807,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          } else {
              server.getHandle().moveToWorld(entity, toWorld.getWorldProvider().getDimensionManager(), true, to, !toWorld.paperConfig.disableTeleportationSuffocationCheck);
          }
@@ -155,5 +155,5 @@ index bd4d5184b..017ddfb88 100644
      }
  
 -- 
-2.26.2
+2.27.0
 

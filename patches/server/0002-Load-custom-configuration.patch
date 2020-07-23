@@ -1,4 +1,4 @@
-From 1b9dcaec59c64f58bd159b80bc453fd571a6c7a2 Mon Sep 17 00:00:00 2001
+From 7264ee7f6261077b550369390584e17780d6171f Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Fri, 27 Dec 2019 21:34:51 +0800
 Subject: [PATCH] Load custom configuration
@@ -17,7 +17,7 @@ Subject: [PATCH] Load custom configuration
  create mode 100644 src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 
 diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index c33e13bcf..54e20386e 100644
+index 1f1243ae8..0584c12f7 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServer.java
 @@ -195,7 +195,15 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
@@ -38,7 +38,7 @@ index c33e13bcf..54e20386e 100644
          this.setSpawnNPCs(dedicatedserverproperties.spawnNpcs);
          this.setPVP(dedicatedserverproperties.pvp);
 diff --git a/src/main/java/net/minecraft/server/World.java b/src/main/java/net/minecraft/server/World.java
-index c904e2228..5701ec74f 100644
+index 6ae9ec627..35a54796a 100644
 --- a/src/main/java/net/minecraft/server/World.java
 +++ b/src/main/java/net/minecraft/server/World.java
 @@ -100,6 +100,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
@@ -49,16 +49,16 @@ index c904e2228..5701ec74f 100644
      public World regionLimited(RegionLimitedWorldAccess limitedWorldAccess) {
          try {
              World clone = (World) super.clone();
-@@ -138,6 +139,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
-     protected World(WorldData worlddata, DimensionManager dimensionmanager, BiFunction<World, WorldProvider, IChunkProvider> bifunction, GameProfilerFiller gameprofilerfiller, boolean flag, org.bukkit.generator.ChunkGenerator gen, org.bukkit.World.Environment env) {
+@@ -139,6 +140,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig( worlddata.getName() ); // Spigot
          this.paperConfig = new com.destroystokyo.paper.PaperWorldConfig(worlddata.getName(), this.spigotConfig); // Paper
+         this.chunkPacketBlockController = this.paperConfig.antiXray ? new ChunkPacketBlockControllerAntiXray(this.paperConfig, executor) : ChunkPacketBlockController.NO_OPERATION_INSTANCE; // Paper - Anti-Xray
 +        this.nebulaConfig = new xianxian.mc.nebula.NebulaWorldConfig(worlddata.getName(), this.spigotConfig); // Nebula - Load custom configuration
-         this.chunkPacketBlockController = this.paperConfig.antiXray ? new ChunkPacketBlockControllerAntiXray(this.paperConfig) : ChunkPacketBlockController.NO_OPERATION_INSTANCE; // Paper - Anti-Xray
          this.tuinityConfig = new com.tuinity.tuinity.config.TuinityConfig.WorldConfig(worlddata.getName()); // Tuinity - Server Config
          this.generator = gen;
+         if (dimensionmanager.world == null) dimensionmanager.world = (WorldServer) this; // Paper
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index e2fdd3162..40517af7d 100644
+index 760752eae..b36a6419a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -845,6 +845,7 @@ public final class CraftServer implements Server {
@@ -70,7 +70,7 @@ index e2fdd3162..40517af7d 100644
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index cc8f039b6..95910c25b 100644
+index cce21aaf3..5846f509f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -153,6 +153,14 @@ public class Main {
@@ -393,5 +393,5 @@ index 000000000..cc37412c4
 +    }
 +}
 -- 
-2.26.2
+2.27.0
 
