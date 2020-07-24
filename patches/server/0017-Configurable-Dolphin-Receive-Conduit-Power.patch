@@ -1,28 +1,27 @@
-From 9b899107b7db03bfb97d81d9b749acf06c610500 Mon Sep 17 00:00:00 2001
+From 32975046a1fb6f05dc7493f6bcfe1a4a58f144bb Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Fri, 27 Mar 2020 09:00:16 +0800
 Subject: [PATCH] Configurable Dolphin Receive Conduit Power
 
 ---
- .../java/net/minecraft/server/TileEntityConduit.java | 12 ++++++++++++
- .../java/xianxian/mc/nebula/NebulaWorldConfig.java   |  5 +++++
- 2 files changed, 17 insertions(+)
+ .../java/net/minecraft/server/TileEntityConduit.java  | 11 +++++++++++
+ .../java/xianxian/mc/nebula/NebulaWorldConfig.java    |  5 +++++
+ 2 files changed, 16 insertions(+)
 
 diff --git a/src/main/java/net/minecraft/server/TileEntityConduit.java b/src/main/java/net/minecraft/server/TileEntityConduit.java
-index 34c191d76..dbd9b0f37 100644
+index 7e9470ca..9ed3bd89 100644
 --- a/src/main/java/net/minecraft/server/TileEntityConduit.java
 +++ b/src/main/java/net/minecraft/server/TileEntityConduit.java
-@@ -184,6 +184,18 @@ public class TileEntityConduit extends TileEntity implements ITickable {
+@@ -184,6 +184,17 @@ public class TileEntityConduit extends TileEntity implements ITickable {
              }
  
          }
-+
 +        // Nebula start - Configurable Dolphin Receive Conduit Power
 +        List<EntityDolphin> dolphins = this.world.a(EntityDolphin.class, axisalignedbb);
 +
 +        if (!dolphins.isEmpty()) {
 +            for (EntityDolphin dolphin : dolphins) {
-+                if (this.position.a((BaseBlockPosition) (new BlockPosition(dolphin)), (double) j) && dolphin.isInWaterOrRain()) {
++                if (this.position.a((BaseBlockPosition) dolphin.getChunkCoordinates(), (double) j) && dolphin.isInWaterOrRain()) {
 +                    dolphin.addEffect(new MobEffect(MobEffects.CONDUIT_POWER, 260, 0, true, true), org.bukkit.event.entity.EntityPotionEffectEvent.Cause.CONDUIT); // CraftBukkit
 +                }
 +            }
@@ -32,19 +31,20 @@ index 34c191d76..dbd9b0f37 100644
  
      private void k() {
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
-index a1800ed0d..20887df84 100644
+index aee22164..80d31821 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
-@@ -93,4 +93,9 @@ public class NebulaWorldConfig {
- 	private void loadChunksForTNT() {
- 	    loadChunksForTNT = getBoolean("load-chunks-for-tnt", true);
- 	}
+@@ -88,4 +88,9 @@ public class NebulaWorldConfig {
+     private void biomesRecalculatingTag() {
+         biomesRecalculatingTag = getString("biomes-recalculating-tag", "1.16.1-1");
+     }
 +
 +    public boolean doDolphinReceiveConduitPower = true;
-+	private void doDolphinReceiveConduitPower() {
-+	    doDolphinReceiveConduitPower = getBoolean("do-dolphin-receive-conduit-power", true);
++    private void doDolphinReceiveConduitPower() {
++        doDolphinReceiveConduitPower = getBoolean("do-dolphin-receive-conduit-power", true);
 +    }
  }
+\ No newline at end of file
 -- 
 2.27.0
 

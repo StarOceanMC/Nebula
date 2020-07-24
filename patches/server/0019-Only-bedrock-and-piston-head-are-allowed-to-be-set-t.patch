@@ -1,4 +1,4 @@
-From 7759b984a679a4b8d4ecae3156bc337fc4aabcd9 Mon Sep 17 00:00:00 2001
+From c3ef39f9f76e2ef9262e2fca09023797c6e09a6c Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Tue, 7 Apr 2020 12:10:41 +0800
 Subject: [PATCH] Only bedrock and piston head are allowed to be set to air
@@ -8,10 +8,10 @@ Subject: [PATCH] Only bedrock and piston head are allowed to be set to air
  1 file changed, 7 insertions(+), 8 deletions(-)
 
 diff --git a/src/main/java/net/minecraft/server/BlockPiston.java b/src/main/java/net/minecraft/server/BlockPiston.java
-index 8312ed779..2e54f3171 100644
+index 4f10ca5a..84796dc9 100644
 --- a/src/main/java/net/minecraft/server/BlockPiston.java
 +++ b/src/main/java/net/minecraft/server/BlockPiston.java
-@@ -238,14 +238,13 @@ public class BlockPiston extends BlockDirectional {
+@@ -231,14 +231,13 @@ public class BlockPiston extends BlockDirectional {
                      }
                  }
              } else {

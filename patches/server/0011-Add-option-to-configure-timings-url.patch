@@ -1,4 +1,4 @@
-From 9ec61ca661fe4d6fb948308f9c86f4f62a71a792 Mon Sep 17 00:00:00 2001
+From d37d02b9c6128af48ecf87899fc84b4dbfa1d210 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sat, 22 Feb 2020 16:53:40 +0800
 Subject: [PATCH] Add option to configure timings url
@@ -9,7 +9,7 @@ Subject: [PATCH] Add option to configure timings url
  2 files changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
-index b09981e9b..1a23d7fec 100644
+index 5dfa0658..e3bab8c9 100644
 --- a/src/main/java/co/aikar/timings/TimingsExport.java
 +++ b/src/main/java/co/aikar/timings/TimingsExport.java
 @@ -307,7 +307,7 @@ public class TimingsExport extends Thread {
@@ -17,24 +17,25 @@ index b09981e9b..1a23d7fec 100644
          String timingsURL = null;
          try {
 -            HttpURLConnection con = (HttpURLConnection) new URL("http://timings.aikar.co/post").openConnection();
-+            HttpURLConnection con = (HttpURLConnection) new URL(xianxian.mc.nebula.NebulaConfig.timingsURL).openConnection(); // Nebula - Add option to configure timings url
++            HttpURLConnection con = (HttpURLConnection) new URL(xianxian.mc.nebula.NebulaConfig.timingsURL).openConnection();
              con.setDoOutput(true);
              String hostName = "BrokenHost";
              try {
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
-index 6425f6e9f..894918bde 100644
+index 5631e4c8..6639cb5d 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
-@@ -191,4 +191,9 @@ public class NebulaConfig {
-     private static void beesInsideLore() {
-         beesInsideLore = getString("localization.bees-inside-lore", beesInsideLore);
+@@ -196,4 +196,9 @@ public class NebulaConfig {
+     private static void showBeesAmountInsideBeehive() {
+         showBeesAmountInsideBeehive = getBoolean("show-bees-amount-inside-beehive", true);
      }
-+    
++
 +    public static String timingsURL = "http://timings.aikar.co/post";
 +    private static void timingsURL() {
 +        timingsURL = getString("timings.url", timingsURL);
 +    }
  }
+\ No newline at end of file
 -- 
-2.26.2
+2.27.0
 

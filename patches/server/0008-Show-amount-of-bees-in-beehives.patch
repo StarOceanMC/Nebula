@@ -1,0 +1,85 @@
+From 33c41130fed8da813b3ea57bc1fe38343bea09cc Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Wed, 8 Jan 2020 22:04:01 +0800
+Subject: [PATCH] Show amount of bees in beehives
+
+---
+ .../net/minecraft/server/BlockBeehive.java    | 34 ++++++++++++++++++-
+ .../java/xianxian/mc/nebula/NebulaConfig.java | 10 ++++++
+ 2 files changed, 43 insertions(+), 1 deletion(-)
+
+diff --git a/src/main/java/net/minecraft/server/BlockBeehive.java b/src/main/java/net/minecraft/server/BlockBeehive.java
+index 7e2c63e4..39ec51f3 100644
+--- a/src/main/java/net/minecraft/server/BlockBeehive.java
++++ b/src/main/java/net/minecraft/server/BlockBeehive.java
+@@ -179,6 +179,16 @@ public class BlockBeehive extends BlockTileEntity {
+                 if (flag) {
+                     nbttagcompound = new NBTTagCompound();
+                     nbttagcompound.set("Bees", tileentitybeehive.m());
++                    // Nebula start - Show amount of bees in beehives
++                    if (xianxian.mc.nebula.NebulaConfig.showBeesAmountInsideBeehive) {
++                        NBTTagCompound display = new NBTTagCompound();
++                        NBTTagList lore = new NBTTagList();
++                        lore.add(NBTTagString.a(IChatBaseComponent.ChatSerializer.a(new ChatComponentText("§7" +
++                                String.format(xianxian.mc.nebula.NebulaConfig.beesInsideLore, tileentitybeehive.getBeeCount())))));
++                        display.set("Lore", lore);
++                        itemstack.a("display", display);
++                    }
++                    // Nebula end
+                     itemstack.a("BlockEntityTag", (NBTBase) nbttagcompound);
+                 }
+ 
+@@ -209,7 +219,29 @@ public class BlockBeehive extends BlockTileEntity {
+             }
+         }
+ 
+-        return super.a(iblockdata, loottableinfo_builder);
++        // Nebula start - Show amount of bees in beehives
++        TileEntity tileentity = (TileEntity) loottableinfo_builder.b(LootContextParameters.BLOCK_ENTITY);
++        List<ItemStack> loots = super.a(iblockdata, loottableinfo_builder);
++        if (xianxian.mc.nebula.NebulaConfig.showBeesAmountInsideBeehive)
++            if (tileentity instanceof TileEntityBeehive) {
++                TileEntityBeehive tileentitybeehive = (TileEntityBeehive) tileentity;
++                if (!tileentitybeehive.isEmpty()) {
++                    for (int i = 0, size = loots.size(); i < size; i++) {
++                        // Add lore for each drop
++                        ItemStack loot = loots.get(i);
++                        if (loot.getItem().equals(Items.rq) || loot.getItem().equals(Items.rr)) {
++                            NBTTagCompound display = new NBTTagCompound();
++                            NBTTagList lore = new NBTTagList();
++                            lore.add(NBTTagString.a(IChatBaseComponent.ChatSerializer.a(new ChatComponentText("§7" +
++                                    String.format(xianxian.mc.nebula.NebulaConfig.beesInsideLore, tileentitybeehive.getBeeCount())))));
++                            display.set("Lore", lore);
++                            loot.a("display", display);
++                        }
++                    }
++                }
++            }
++        return loots;
++        // Nebula end
+     }
+ 
+     @Override
+diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
+index 1354501c..5631e4c8 100644
+--- a/src/main/java/xianxian/mc/nebula/NebulaConfig.java
++++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
+@@ -186,4 +186,14 @@ public class NebulaConfig {
+     private static void customLanguageFilePath() {
+         customLanguageFilePath = getString("settings.custom-language-file-path", "custom-language.json");
+     }
++
++    public static String beesInsideLore = "%d Bee(s) inside";
++    private static void beesInsideLore() {
++        beesInsideLore = getString("localization.bees-inside-lore", beesInsideLore);
++    }
++
++    public static boolean showBeesAmountInsideBeehive = true;
++    private static void showBeesAmountInsideBeehive() {
++        showBeesAmountInsideBeehive = getBoolean("show-bees-amount-inside-beehive", true);
++    }
+ }
+\ No newline at end of file
+-- 
+2.27.0
+

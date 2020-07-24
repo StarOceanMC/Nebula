@@ -1,96 +1,95 @@
-From 7264ee7f6261077b550369390584e17780d6171f Mon Sep 17 00:00:00 2001
+From 66e9735d4b7c2f9b7327132bce9a86cc8feafb78 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Fri, 27 Dec 2019 21:34:51 +0800
 Subject: [PATCH] Load custom configuration
 
 ---
- .../net/minecraft/server/DedicatedServer.java |  10 +-
+ .../net/minecraft/server/DedicatedServer.java |   9 +
  src/main/java/net/minecraft/server/World.java |   2 +
  .../org/bukkit/craftbukkit/CraftServer.java   |   1 +
  .../java/org/bukkit/craftbukkit/Main.java     |   8 +
  .../xianxian/mc/nebula/NebulaCommand.java     |  43 +++++
  .../java/xianxian/mc/nebula/NebulaConfig.java | 177 ++++++++++++++++++
  .../xianxian/mc/nebula/NebulaWorldConfig.java |  66 +++++++
- 7 files changed, 306 insertions(+), 1 deletion(-)
+ 7 files changed, 306 insertions(+)
  create mode 100644 src/main/java/xianxian/mc/nebula/NebulaCommand.java
  create mode 100644 src/main/java/xianxian/mc/nebula/NebulaConfig.java
  create mode 100644 src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 
 diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index 1f1243ae8..0584c12f7 100644
+index 578f7809..8848939f 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServer.java
-@@ -195,7 +195,15 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
-         com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // load version history now
+@@ -172,6 +172,15 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
          // Paper end
-         com.tuinity.tuinity.config.TuinityConfig.init((File) options.valueOf("tuinity-settings")); // Tuinity - Server Config
--
+         com.tuinity.tuinity.config.TuinityConfig.init((java.io.File) options.valueOf("tuinity-settings")); // Tuinity - Server Config
+ 
 +        // Nebula start - Load custom configuration
 +        try {
-+            xianxian.mc.nebula.NebulaConfig.init((File) options.valueOf("nebula-settings"));
++            xianxian.mc.nebula.NebulaConfig.init((java.io.File) options.valueOf("nebula-settings"));
 +        } catch (Exception e) {
 +            DedicatedServer.LOGGER.error("Unable to load nebula server configuration", e);
 +            return false;
 +        }
 +        xianxian.mc.nebula.NebulaConfig.registerCommands();
 +        // Nebula end
-         this.setSpawnAnimals(dedicatedserverproperties.spawnAnimals);
-         this.setSpawnNPCs(dedicatedserverproperties.spawnNpcs);
          this.setPVP(dedicatedserverproperties.pvp);
+         this.setAllowFlight(dedicatedserverproperties.allowFlight);
+         this.setResourcePack(dedicatedserverproperties.resourcePack, this.aY());
 diff --git a/src/main/java/net/minecraft/server/World.java b/src/main/java/net/minecraft/server/World.java
-index 6ae9ec627..35a54796a 100644
+index 4a956f36..fc899296 100644
 --- a/src/main/java/net/minecraft/server/World.java
 +++ b/src/main/java/net/minecraft/server/World.java
-@@ -100,6 +100,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
-     // Paper start - yes this is hacky as shit
-     RegionLimitedWorldAccess regionLimited;
-     World originalWorld;
+@@ -96,6 +96,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+ 
+     public final com.tuinity.tuinity.config.TuinityConfig.WorldConfig tuinityConfig; // Tuinity - Server Config
+ 
 +    public xianxian.mc.nebula.NebulaWorldConfig nebulaConfig; // Nebula - Load custom configuration
-     public World regionLimited(RegionLimitedWorldAccess limitedWorldAccess) {
-         try {
-             World clone = (World) super.clone();
-@@ -139,6 +140,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
-         this.spigotConfig = new org.spigotmc.SpigotWorldConfig( worlddata.getName() ); // Spigot
-         this.paperConfig = new com.destroystokyo.paper.PaperWorldConfig(worlddata.getName(), this.spigotConfig); // Paper
+     public final co.aikar.timings.WorldTimingsHandler timings; // Paper
+     public static BlockPosition lastPhysicsProblem; // Spigot
+     private org.spigotmc.TickLimiter entityLimiter;
+@@ -123,6 +124,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+         this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((WorldDataServer) worlddatamutable).getName()); // Spigot
+         this.paperConfig = new com.destroystokyo.paper.PaperWorldConfig((((WorldDataServer)worlddatamutable).getName()), this.spigotConfig); // Paper
          this.chunkPacketBlockController = this.paperConfig.antiXray ? new ChunkPacketBlockControllerAntiXray(this.paperConfig, executor) : ChunkPacketBlockController.NO_OPERATION_INSTANCE; // Paper - Anti-Xray
-+        this.nebulaConfig = new xianxian.mc.nebula.NebulaWorldConfig(worlddata.getName(), this.spigotConfig); // Nebula - Load custom configuration
-         this.tuinityConfig = new com.tuinity.tuinity.config.TuinityConfig.WorldConfig(worlddata.getName()); // Tuinity - Server Config
++        this.nebulaConfig = new xianxian.mc.nebula.NebulaWorldConfig((((WorldDataServer)worlddatamutable).getName()), this.spigotConfig); // Nebula - Load custom configuration
+         this.tuinityConfig = new com.tuinity.tuinity.config.TuinityConfig.WorldConfig(((WorldDataServer)worlddatamutable).getName()); // Tuinity - Server Config
          this.generator = gen;
-         if (dimensionmanager.world == null) dimensionmanager.world = (WorldServer) this; // Paper
+         this.world = new CraftWorld((WorldServer) this, gen, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 760752eae..b36a6419a 100644
+index ba421710..7b1e50c0 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -845,6 +845,7 @@ public final class CraftServer implements Server {
-             world.spigotConfig.init(); // Spigot
-             world.paperConfig.init(); // Paper
-             world.tuinityConfig.init(); // Tuinity - Server Config
-+            world.nebulaConfig.init(); // Nebula - Load custom configuration
-         }
- 
-         Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
+@@ -849,6 +849,7 @@ public final class CraftServer implements Server {
+         org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
+         com.destroystokyo.paper.PaperConfig.init((File) console.options.valueOf("paper-settings")); // Paper
+         com.tuinity.tuinity.config.TuinityConfig.init((File) console.options.valueOf("tuinity-settings")); // Tuinity - Server Config
++        xianxian.mc.nebula.NebulaConfig.init((java.io.File) console.options.valueOf("nebula-settings")); // Nebula - Load custom configuration
+         for (WorldServer world : console.getWorlds()) {
+             world.worldDataServer.setDifficulty(config.difficulty);
+             world.setSpawnFlags(config.spawnMonsters, config.spawnAnimals);
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index cce21aaf3..5846f509f 100644
+index 2cebdb36..4e68f633 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -153,6 +153,14 @@ public class Main {
                          .defaultsTo("Unknown Server")
                          .describedAs("Name");
                  // Paper end
-+                
++
 +                // Nebula start - Load custom configuration
 +                acceptsAll(asList("S", "nebula-settings"), "File for nebula settings")
-+                .withRequiredArg()
-+                .ofType(File.class)
-+                .defaultsTo(new File("nebula.yml"))
-+                .describedAs("Yml file");
++                        .withRequiredArg()
++                        .ofType(File.class)
++                        .defaultsTo(new File("nebula.yml"))
++                        .describedAs("Yml file");
 +                // Nebula end
              }
          };
  
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaCommand.java b/src/main/java/xianxian/mc/nebula/NebulaCommand.java
 new file mode 100644
-index 000000000..35cf0291a
+index 00000000..6ae81248
 --- /dev/null
 +++ b/src/main/java/xianxian/mc/nebula/NebulaCommand.java
 @@ -0,0 +1,43 @@
@@ -106,40 +105,41 @@ index 000000000..35cf0291a
 +
 +public class NebulaCommand extends Command{
 +
-+	protected NebulaCommand() {
-+		super("nebula", "Nebula related features", "/nebula version", Arrays.asList());
-+	}
++    protected NebulaCommand() {
++        super("nebula", "Nebula related features", "/nebula version", Arrays.asList());
++    }
 +
-+	@Override
-+	public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-+		if (args.length == 1)
-+			switch (args[0].toLowerCase(Locale.ENGLISH)) {
-+				case "ver":
-+				case "version":
-+					Command ver = org.bukkit.Bukkit.getServer().getCommandMap().getCommand("version");
-+					if (ver != null) {
-+						ver.execute(sender, commandLabel, new String[0]);
-+						break;
-+					}
-+				default:
-+					sender.sendMessage(ChatColor.RED + "Usage: " + usageMessage);
-+					return false;
-+			}
-+		else 
-+			return false;
-+		return true;
-+	}
++    @Override
++    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
++        if (args.length == 1)
++            switch (args[0].toLowerCase(Locale.ENGLISH)) {
++                case "ver":
++                case "version":
++                    Command ver = org.bukkit.Bukkit.getServer().getCommandMap().getCommand("version");
++                    if (ver != null) {
++                        ver.execute(sender, commandLabel, new String[0]);
++                        break;
++                    }
++                default:
++                    sender.sendMessage(ChatColor.RED + "Usage: " + usageMessage);
++                    return false;
++            }
++        else
++            return false;
++        return true;
++    }
 +
-+	@Override
-+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-+		if (args.length <= 1)
++    @Override
++    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
++        if (args.length <= 1)
 +            return Arrays.asList("version");
-+		return super.tabComplete(sender, alias, args);
-+	}
++        return super.tabComplete(sender, alias, args);
++    }
 +}
+\ No newline at end of file
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 new file mode 100644
-index 000000000..3d10764c3
+index 00000000..42dc78ca
 --- /dev/null
 +++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 @@ -0,0 +1,177 @@
@@ -320,9 +320,10 @@ index 000000000..3d10764c3
 +        return config.getString(path, config.getString(path));
 +    }
 +}
+\ No newline at end of file
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 new file mode 100644
-index 000000000..cc37412c4
+index 00000000..c1cbeb63
 --- /dev/null
 +++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 @@ -0,0 +1,66 @@
@@ -338,7 +339,7 @@ index 000000000..cc37412c4
 +// Almost the same as PaperWorldConfig
 +public class NebulaWorldConfig {
 +
-+	private final String worldName;
++    private final String worldName;
 +    private final SpigotWorldConfig spigotConfig;
 +    private final YamlConfiguration config;
 +    private boolean verbose;
@@ -392,6 +393,7 @@ index 000000000..cc37412c4
 +        return config.getString("world-settings." + worldName + "." + path, config.getString("world-settings.default." + path));
 +    }
 +}
+\ No newline at end of file
 -- 
 2.27.0
 

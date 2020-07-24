@@ -1,4 +1,4 @@
-From bcea4eafc03dfda248004d939910828c5aeea345 Mon Sep 17 00:00:00 2001
+From d64f1a65c608a8cbaf6be1ec6d273cbdb2b0d5ce Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Tue, 7 Apr 2020 12:37:57 +0800
 Subject: [PATCH] Fire EntityMarkDeadEvent
@@ -8,17 +8,17 @@ Subject: [PATCH] Fire EntityMarkDeadEvent
  1 file changed, 1 insertion(+)
 
 diff --git a/src/main/java/net/minecraft/server/Entity.java b/src/main/java/net/minecraft/server/Entity.java
-index 37f854764..f242c8b7d 100644
+index 3db19a9b..c68660df 100644
 --- a/src/main/java/net/minecraft/server/Entity.java
 +++ b/src/main/java/net/minecraft/server/Entity.java
-@@ -374,6 +374,7 @@ public abstract class Entity implements INamableTileEntity, ICommandListener, Ke
+@@ -376,6 +376,7 @@ public abstract class Entity implements INamableTileEntity, ICommandListener, Ke
  
      public void die() {
          this.dead = true;
-+        xianxian.mc.nebula.event.entity.EntityMarkDeadEvent.callEvent(this.getBukkitEntity()); // Nebula - Fire EntityMarkDeadEvent
++        xianxian.mc.nebula.event.entity.EntityMarkDeadEvent.callEvent(this.getBukkitEntity());
      }
  
-     protected void setPose(EntityPose entitypose) {
+     public void setPose(EntityPose entitypose) {
 -- 
-2.26.2
+2.27.0
 

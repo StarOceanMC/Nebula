@@ -1,4 +1,4 @@
-From e7ab393ae3808aa9ca00f0494854384bb6078e72 Mon Sep 17 00:00:00 2001
+From 42fe882c8112939ede02607e93378272c9344a45 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 23 Mar 2020 14:56:13 +0800
 Subject: [PATCH] Daemon Console
@@ -13,7 +13,7 @@ Subject: [PATCH] Daemon Console
 
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/MessageQueue.java b/src/main/java/com/destroystokyo/paper/daemon/MessageQueue.java
 new file mode 100644
-index 000000000..5832e1677
+index 00000000..5832e167
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/MessageQueue.java
 @@ -0,0 +1,170 @@
@@ -188,7 +188,7 @@ index 000000000..5832e1677
 +    }
 +}
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
-index b1c585fda..ec092f429 100644
+index b1c585fd..ec092f42 100644
 --- a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
 +++ b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
 @@ -478,6 +478,7 @@ public final class PaperDaemon {
@@ -207,10 +207,10 @@ index b1c585fda..ec092f429 100644
 \ No newline at end of file
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index e2234a3bc..766afa1e3 100644
+index 160e50b6..a6d078ee 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -710,6 +710,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -735,6 +735,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
      @Override
      public void close() {
          this.stop();
@@ -219,7 +219,7 @@ index e2234a3bc..766afa1e3 100644
  
      // CraftBukkit start
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
-index 894918bde..9884d5760 100644
+index 6639cb5d..4efb035b 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 @@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
@@ -230,7 +230,7 @@ index 894918bde..9884d5760 100644
  import org.bukkit.Bukkit;
  import org.bukkit.command.Command;
  import org.bukkit.configuration.InvalidConfigurationException;
-@@ -196,4 +197,18 @@ public class NebulaConfig {
+@@ -201,4 +202,18 @@ public class NebulaConfig {
      private static void timingsURL() {
          timingsURL = getString("timings.url", timingsURL);
      }
@@ -249,6 +249,7 @@ index 894918bde..9884d5760 100644
 +        }
 +    }
  }
+\ No newline at end of file
 -- 
-2.26.2
+2.27.0
 

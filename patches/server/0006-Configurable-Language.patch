@@ -1,0 +1,149 @@
+From 9559922d22963ec4202837e6ca3983a84507c805 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Fri, 3 Jan 2020 21:45:32 +0800
+Subject: [PATCH] Configurable Language
+
+---
+ .../net/minecraft/server/DedicatedServer.java |  4 ++
+ .../net/minecraft/server/LocaleLanguage.java  |  7 +-
+ .../mc/nebula/CustomLocaleLanguage.java       | 72 +++++++++++++++++++
+ .../java/xianxian/mc/nebula/NebulaConfig.java | 12 ++++
+ 4 files changed, 94 insertions(+), 1 deletion(-)
+ create mode 100644 src/main/java/xianxian/mc/nebula/CustomLocaleLanguage.java
+
+diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
+index 8848939f..0760003b 100644
+--- a/src/main/java/net/minecraft/server/DedicatedServer.java
++++ b/src/main/java/net/minecraft/server/DedicatedServer.java
+@@ -181,6 +181,10 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+         }
+         xianxian.mc.nebula.NebulaConfig.registerCommands();
+         // Nebula end
++        // Nebula start - Load custom language on server startup
++        if (xianxian.mc.nebula.NebulaConfig.useCustomLanguageFile)
++            xianxian.mc.nebula.CustomLocaleLanguage.getInstance().load(xianxian.mc.nebula.NebulaConfig.customLanguageFilePath);
++        // Nebula end
+         this.setPVP(dedicatedserverproperties.pvp);
+         this.setAllowFlight(dedicatedserverproperties.allowFlight);
+         this.setResourcePack(dedicatedserverproperties.resourcePack, this.aY());
+diff --git a/src/main/java/net/minecraft/server/LocaleLanguage.java b/src/main/java/net/minecraft/server/LocaleLanguage.java
+index c83ba9d9..df7a9901 100644
+--- a/src/main/java/net/minecraft/server/LocaleLanguage.java
++++ b/src/main/java/net/minecraft/server/LocaleLanguage.java
+@@ -63,7 +63,12 @@ public abstract class LocaleLanguage {
+         return new LocaleLanguage() {
+             @Override
+             public String a(String s) {
+-                return (String) map.getOrDefault(s, s);
++                // Nebula start - Configurable Language
++                String s1 = xianxian.mc.nebula.CustomLocaleLanguage.getInstance().translateKey(s);
++                if (s1 == null)
++                    s1 = (String) map.getOrDefault(s, s);
++                return s1;
++                // Nebula end
+             }
+ 
+             @Override
+diff --git a/src/main/java/xianxian/mc/nebula/CustomLocaleLanguage.java b/src/main/java/xianxian/mc/nebula/CustomLocaleLanguage.java
+new file mode 100644
+index 00000000..2644210f
+--- /dev/null
++++ b/src/main/java/xianxian/mc/nebula/CustomLocaleLanguage.java
+@@ -0,0 +1,72 @@
++package xianxian.mc.nebula;
++
++import java.io.File;
++import java.io.FileInputStream;
++import java.io.FileNotFoundException;
++import java.io.IOException;
++import java.io.InputStreamReader;
++import java.util.HashMap;
++import java.util.Iterator;
++import java.util.Map;
++import java.util.Map.Entry;
++import java.util.regex.Pattern;
++
++import org.apache.logging.log4j.LogManager;
++import org.apache.logging.log4j.Logger;
++
++import com.google.gson.Gson;
++import com.google.gson.JsonElement;
++import com.google.gson.JsonObject;
++
++import net.minecraft.server.ChatDeserializer;
++
++/**
++ * See also {@link net.minecraft.server.LocaleLanguage}
++ */
++public final class CustomLocaleLanguage {
++    private static final CustomLocaleLanguage INSTANCE = new CustomLocaleLanguage();
++    private static final Logger LOGGER = LogManager.getLogger();
++    private static final Pattern PATTERN = Pattern.compile("%(\\d+\\$)?[\\d\\.]*[df]");
++    private static final Gson GSON = new Gson();
++
++    private final Map<String, String> translationMapping = new HashMap<>();
++
++    public void load(String file) {
++        File localeFile = new File(file);
++        if (!localeFile.exists()) {
++            return;
++        }
++
++        long startTime = System.currentTimeMillis();
++        try (FileInputStream fis = new FileInputStream(localeFile)) {
++            JsonElement jsonElement = GSON.fromJson(new InputStreamReader(fis), JsonElement.class);
++            JsonObject jsonobject = ChatDeserializer.m(jsonElement, "strings");
++            Iterator<Entry<String, JsonElement>> iterator = jsonobject.entrySet().iterator();
++
++            while (iterator.hasNext()) {
++                Entry<String, JsonElement> entry = iterator.next();
++                String s = PATTERN.matcher(ChatDeserializer.a(entry.getValue(), entry.getKey())).replaceAll("%$1s");
++
++                this.translationMapping.put(entry.getKey(), s);
++            }
++
++            LOGGER.info("Successfully loaded custom language from " + file + ", cost "
++                    + (System.currentTimeMillis() - startTime) + "ms");
++        } catch (FileNotFoundException e) {
++            e.printStackTrace();
++        } catch (IOException e) {
++            LOGGER.error("Couldn't read strings from " + file, e);
++        }
++    }
++
++    public synchronized String translateKey(String key) {
++        if (NebulaConfig.useCustomLanguageFile)
++            return translationMapping.get(key);
++        else
++            return null;
++    }
++
++    public static CustomLocaleLanguage getInstance() {
++        return INSTANCE;
++    }
++}
+diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
+index 42dc78ca..1354501c 100644
+--- a/src/main/java/xianxian/mc/nebula/NebulaConfig.java
++++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
+@@ -174,4 +174,16 @@ public class NebulaConfig {
+         config.addDefault(path, def);
+         return config.getString(path, config.getString(path));
+     }
++
++    //#################### CONFIG AREA ####################
++
++    public static boolean useCustomLanguageFile = false;
++    private static void useCustomLanguageFile() {
++        useCustomLanguageFile = getBoolean("settings.use-custom-language-file", false);
++    }
++
++    public static String customLanguageFilePath = "custom-language.json";
++    private static void customLanguageFilePath() {
++        customLanguageFilePath = getString("settings.custom-language-file-path", "custom-language.json");
++    }
+ }
+\ No newline at end of file
+-- 
+2.27.0
+

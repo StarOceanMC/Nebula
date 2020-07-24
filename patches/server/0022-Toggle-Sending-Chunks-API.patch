@@ -1,4 +1,4 @@
-From 7aad947b576747302a9a6069efa4bc25b9b4e61c Mon Sep 17 00:00:00 2001
+From 7e48a1a569453f4abf9062c7352c538053f22c54 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sat, 25 Apr 2020 20:05:29 +0800
 Subject: [PATCH] Toggle Sending Chunks API
@@ -9,10 +9,10 @@ Subject: [PATCH] Toggle Sending Chunks API
  2 files changed, 14 insertions(+)
 
 diff --git a/src/main/java/net/minecraft/server/Chunk.java b/src/main/java/net/minecraft/server/Chunk.java
-index 5a360fdca..3e558ec42 100644
+index 09b8f9a3..da73c560 100644
 --- a/src/main/java/net/minecraft/server/Chunk.java
 +++ b/src/main/java/net/minecraft/server/Chunk.java
-@@ -284,6 +284,7 @@ public class Chunk implements IChunkAccess {
+@@ -285,6 +285,7 @@ public class Chunk implements IChunkAccess {
                              continue;
                          }
                          EntityPlayer player = (EntityPlayer)temp;
@@ -21,10 +21,10 @@ index 5a360fdca..3e558ec42 100644
                      }
                  })));
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index d89cdbd5d..0042d0cd8 100644
+index c2dcaf4a..920f2d12 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -2088,4 +2088,17 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2150,4 +2150,17 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          return spigot;
      }
      // Spigot end

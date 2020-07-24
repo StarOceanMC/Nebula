@@ -1,4 +1,4 @@
-From e6bc829fdbb1820685f8c148048a7d95111b5977 Mon Sep 17 00:00:00 2001
+From 50f5a7824144c33396327077ff0129318cc082d8 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 11 Mar 2020 19:47:00 +0800
 Subject: [PATCH] Rework Daemon Patch
@@ -36,7 +36,7 @@ Subject: [PATCH] Rework Daemon Patch
 
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/BufferedSupplier.java b/src/main/java/com/destroystokyo/paper/daemon/BufferedSupplier.java
 new file mode 100644
-index 000000000..a643074be
+index 00000000..a643074b
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/BufferedSupplier.java
 @@ -0,0 +1,29 @@
@@ -72,7 +72,7 @@ index 000000000..a643074be
 \ No newline at end of file
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/Data.java b/src/main/java/com/destroystokyo/paper/daemon/Data.java
 new file mode 100644
-index 000000000..a13abfa83
+index 00000000..a13abfa8
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/Data.java
 @@ -0,0 +1,28 @@
@@ -107,7 +107,7 @@ index 000000000..a13abfa83
 \ No newline at end of file
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/MsgBuf.java b/src/main/java/com/destroystokyo/paper/daemon/MsgBuf.java
 new file mode 100644
-index 000000000..70ba1de71
+index 00000000..70ba1de7
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/MsgBuf.java
 @@ -0,0 +1,12 @@
@@ -126,7 +126,7 @@ index 000000000..70ba1de71
 \ No newline at end of file
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/NativeErrorException.java b/src/main/java/com/destroystokyo/paper/daemon/NativeErrorException.java
 new file mode 100644
-index 000000000..e03462699
+index 00000000..e0346269
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/NativeErrorException.java
 @@ -0,0 +1,7 @@
@@ -140,7 +140,7 @@ index 000000000..e03462699
 \ No newline at end of file
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
 new file mode 100644
-index 000000000..b1c585fda
+index 00000000..b1c585fd
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
 @@ -0,0 +1,668 @@
@@ -815,7 +815,7 @@ index 000000000..b1c585fda
 \ No newline at end of file
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonAppender.java b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonAppender.java
 new file mode 100644
-index 000000000..e764772e8
+index 00000000..e764772e
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonAppender.java
 @@ -0,0 +1,96 @@
@@ -918,7 +918,7 @@ index 000000000..e764772e8
 \ No newline at end of file
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonException.java b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonException.java
 new file mode 100644
-index 000000000..f1acc7ae6
+index 00000000..f1acc7ae
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonException.java
 @@ -0,0 +1,11 @@
@@ -936,7 +936,7 @@ index 000000000..f1acc7ae6
 \ No newline at end of file
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonJni.java b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonJni.java
 new file mode 100644
-index 000000000..4f39c01b7
+index 00000000..4f39c01b
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonJni.java
 @@ -0,0 +1,92 @@
@@ -1035,7 +1035,7 @@ index 000000000..4f39c01b7
 \ No newline at end of file
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonMessage.java b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonMessage.java
 new file mode 100644
-index 000000000..75fb076ab
+index 00000000..75fb076a
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonMessage.java
 @@ -0,0 +1,436 @@
@@ -1477,10 +1477,10 @@ index 000000000..75fb076ab
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index dd6770672..cedd654c3 100644
+index 0760003b..bd8a0c00 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServer.java
-@@ -437,7 +437,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+@@ -383,7 +383,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
          }
  
          hasFullyShutdown = true; // Paper
@@ -1490,10 +1490,10 @@ index dd6770672..cedd654c3 100644
  
      @Override
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 3c9392077..0e1babccd 100644
+index eb71fa6e..160e50b6 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -833,10 +833,12 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -865,10 +865,12 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
      public void safeShutdown(boolean flag, boolean isRestarting) {
          this.isRunning = false;
          this.isRestarting = isRestarting;
@@ -1507,10 +1507,10 @@ index 3c9392077..0e1babccd 100644
              }
          }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index f26e44cc5..fb0bfcb06 100644
+index 045aa9f0..ab40c29b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -215,7 +215,7 @@ public final class CraftServer implements Server {
+@@ -241,7 +241,7 @@ public final class CraftServer implements Server {
      private final SimpleHelpMap helpMap = new SimpleHelpMap(this);
      private final StandardMessenger messenger = new StandardMessenger();
      private final SimplePluginManager pluginManager = new SimplePluginManager(this, commandMap);
@@ -1520,10 +1520,10 @@ index f26e44cc5..fb0bfcb06 100644
      private final Map<String, World> worlds = new LinkedHashMap<String, World>();
      private YamlConfiguration configuration;
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 5846f509f..eea27437e 100644
+index 4e68f633..95439eb9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -20,6 +20,7 @@ public class Main {
+@@ -19,6 +19,7 @@ public class Main {
      public static boolean useConsole = true;
  
      public static void main(String[] args) {
@@ -1532,7 +1532,7 @@ index 5846f509f..eea27437e 100644
          if (System.getProperty("jdk.nio.maxCachedBufferSize") == null) System.setProperty("jdk.nio.maxCachedBufferSize", "262144"); // Paper - cap per-thread NIO cache size
          OptionParser parser = new OptionParser() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/command/ConsoleCommandCompleter.java b/src/main/java/org/bukkit/craftbukkit/command/ConsoleCommandCompleter.java
-index a51202ed5..9304cdff2 100644
+index a51202ed..9304cdff 100644
 --- a/src/main/java/org/bukkit/craftbukkit/command/ConsoleCommandCompleter.java
 +++ b/src/main/java/org/bukkit/craftbukkit/command/ConsoleCommandCompleter.java
 @@ -23,11 +23,21 @@ public class ConsoleCommandCompleter implements Completer {
@@ -1602,7 +1602,7 @@ index a51202ed5..9304cdff2 100644
      }
  }
 diff --git a/src/main/java/org/spigotmc/RestartCommand.java b/src/main/java/org/spigotmc/RestartCommand.java
-index 123de5ac9..8aa1614b8 100644
+index 123de5ac..8aa1614b 100644
 --- a/src/main/java/org/spigotmc/RestartCommand.java
 +++ b/src/main/java/org/spigotmc/RestartCommand.java
 @@ -47,14 +47,21 @@ public class RestartCommand extends Command
@@ -1660,7 +1660,7 @@ index 123de5ac9..8aa1614b8 100644
      }
      // Paper end
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index 7c1ef532d..1022683f2 100644
+index 4d310908..0a76df27 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -222,7 +222,9 @@ public class WatchdogThread extends Thread
@@ -1675,14 +1675,14 @@ index 7c1ef532d..1022683f2 100644
                      // try one last chance to safe shutdown on main incase it 'comes back'
 diff --git a/src/main/resources/META-INF/io.papermc.paper.daemon.protocol b/src/main/resources/META-INF/io.papermc.paper.daemon.protocol
 new file mode 100644
-index 000000000..56a6051ca
+index 00000000..56a6051c
 --- /dev/null
 +++ b/src/main/resources/META-INF/io.papermc.paper.daemon.protocol
 @@ -0,0 +1 @@
 +1
 \ No newline at end of file
 diff --git a/src/main/resources/log4j2.xml b/src/main/resources/log4j2.xml
-index 8af159abd..2066bc632 100644
+index 8af159ab..2066bc63 100644
 --- a/src/main/resources/log4j2.xml
 +++ b/src/main/resources/log4j2.xml
 @@ -4,7 +4,7 @@

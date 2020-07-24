@@ -1,45 +1,42 @@
-From 6f9baa7fd647728a9441559ca648aecea8f90fc2 Mon Sep 17 00:00:00 2001
+From 029eb27643ddd6ead6982a056f4e80f14c981d85 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Fri, 27 Dec 2019 21:53:33 +0800
 Subject: [PATCH] Configurable ItemFrame breaking in glass
 
 ---
- src/main/java/net/minecraft/server/EntityItemFrame.java | 5 +++++
- src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java | 7 +++++++
- 2 files changed, 12 insertions(+)
+ src/main/java/net/minecraft/server/EntityItemFrame.java | 3 +++
+ src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java | 5 +++++
+ 2 files changed, 8 insertions(+)
 
 diff --git a/src/main/java/net/minecraft/server/EntityItemFrame.java b/src/main/java/net/minecraft/server/EntityItemFrame.java
-index f8a2f32f..f246e209 100644
+index e2091557..fa2413cf 100644
 --- a/src/main/java/net/minecraft/server/EntityItemFrame.java
 +++ b/src/main/java/net/minecraft/server/EntityItemFrame.java
-@@ -95,6 +95,11 @@ public class EntityItemFrame extends EntityHanging {
+@@ -96,6 +96,9 @@ public class EntityItemFrame extends EntityHanging {
  
      @Override
      public boolean survives() {
-+    	// Nebula start - Configurable ItemFrame breaking in glass
-+    	if (!this.world.nebulaConfig.itemFrameBreakInGlass && this.world.getType(this.blockPosition).getBlock() instanceof BlockGlass) {
-+    		return true;
-+    	}
-+    	// Nebula end
-         if (!this.world.getCubes(this)) {
-             return false;
-         } else {
++        if (!this.world.nebulaConfig.itemFrameBreakInGlass && this.world.getType(this.blockPosition).getBlock() instanceof BlockGlass) {
++            return true;
++        } else
+         if (this.ao) {
+             return true;
+         } else if (!this.world.getCubes(this)) {
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
-index 5cc4ab54..84485572 100644
+index bd0103ed..2e4e743c 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
-@@ -73,4 +73,11 @@ public class NebulaWorldConfig {
+@@ -73,4 +73,9 @@ public class NebulaWorldConfig {
      	}
      	log("Phantom spawn rate: " + (phantomSpawnRate == -1 ? "No phantom will spawn" : (phantomSpawnRate + "%")));
      }
 +
-+	public boolean itemFrameBreakInGlass = true;
-+	private void itemFrameBreakInGlass() {
-+		itemFrameBreakInGlass = getBoolean("item-frame-break-in-glass", true);
-+	}
-+
-+	
++    public boolean itemFrameBreakInGlass = true;
++    private void itemFrameBreakInGlass() {
++        itemFrameBreakInGlass = getBoolean("item-frame-break-in-glass", true);
++    }
  }
+\ No newline at end of file
 -- 
-2.24.0
+2.27.0
 
