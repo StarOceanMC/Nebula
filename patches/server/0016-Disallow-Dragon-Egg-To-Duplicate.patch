@@ -1,62 +1,38 @@
-From de506b0abdc8716fd27eb30894a927e0be35941c Mon Sep 17 00:00:00 2001
+From 13481bfe3cc93ca420aa2bc352cd4f1f16f4423d Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Fri, 27 Mar 2020 08:55:56 +0800
 Subject: [PATCH] Disallow Dragon Egg To Duplicate
 
 ---
- src/main/java/net/minecraft/server/BlockEnderPortal.java   | 7 +++++++
- src/main/java/net/minecraft/server/EntityFallingBlock.java | 7 +++++++
- src/main/java/xianxian/mc/nebula/NebulaConfig.java         | 5 +++++
- 3 files changed, 19 insertions(+)
+ .../java/net/minecraft/server/EntityFallingBlock.java  |  2 ++
+ src/main/java/xianxian/mc/nebula/NebulaConfig.java     | 10 ++++++++++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/src/main/java/net/minecraft/server/BlockEnderPortal.java b/src/main/java/net/minecraft/server/BlockEnderPortal.java
-index c08038a9..bdd4b1d9 100644
---- a/src/main/java/net/minecraft/server/BlockEnderPortal.java
-+++ b/src/main/java/net/minecraft/server/BlockEnderPortal.java
-@@ -43,6 +43,13 @@ public class BlockEnderPortal extends BlockTileEntity {
-             }
-             // CraftBukkit end
-             entity.a(worldserver);
-+            // Nebula start - Disallow dragon egg to duplicate
-+            if (xianxian.mc.nebula.NebulaConfig.disallowDragonEggToDuplicate && entity instanceof EntityFallingBlock) {
-+                EntityFallingBlock block = (EntityFallingBlock) entity;
-+                if (block.getBlock().getBlock() instanceof BlockDragonEgg)
-+                    block.placeBlock = false;
-+            }
-+            // Nebula end
-         }
- 
-     }
 diff --git a/src/main/java/net/minecraft/server/EntityFallingBlock.java b/src/main/java/net/minecraft/server/EntityFallingBlock.java
-index 6697b945..b6a08ab1 100644
+index 6697b945..130cdc0d 100644
 --- a/src/main/java/net/minecraft/server/EntityFallingBlock.java
 +++ b/src/main/java/net/minecraft/server/EntityFallingBlock.java
-@@ -17,6 +17,7 @@ public class EntityFallingBlock extends Entity {
-     private float fallHurtAmount;
-     public NBTTagCompound tileEntityData;
-     protected static final DataWatcherObject<BlockPosition> e = DataWatcher.a(EntityFallingBlock.class, DataWatcherRegistry.l);
-+    public boolean placeBlock = true; // Nebula - Disallow dragon egg to duplicate
+@@ -66,6 +66,7 @@ public class EntityFallingBlock extends Entity {
+     public void tick() {
+         // Paper start - fix sand duping
+         if (this.dead) {
++            if (xianxian.mc.nebula.NebulaConfig.fixSandDuping || (xianxian.mc.nebula.NebulaConfig.disallowDragonEggToDuplicate && this.getBlock().getBlock() instanceof BlockDragonEgg))
+             return;
+         }
+         // Paper end - fix sand duping
+@@ -93,6 +94,7 @@ public class EntityFallingBlock extends Entity {
  
-     public EntityFallingBlock(EntityTypes<? extends EntityFallingBlock> entitytypes, World world) {
-         super(entitytypes, world);
-@@ -131,6 +132,12 @@ public class EntityFallingBlock extends Entity {
-                         this.die();
-                     }
-                 } else {
-+                    // Nebula start - Disallow dragon egg to duplicate
-+                    if (!placeBlock) {
-+                        this.die();
-+                        return;
-+                    }
-+                    // Nebula end
-                     IBlockData iblockdata = this.world.getType(blockposition);
- 
-                     this.setMot(this.getMot().d(0.7D, -0.5D, 0.7D));
+             // Paper start - fix sand duping
+             if (this.dead) {
++                if (xianxian.mc.nebula.NebulaConfig.fixSandDuping || (xianxian.mc.nebula.NebulaConfig.disallowDragonEggToDuplicate && this.getBlock().getBlock() instanceof BlockDragonEgg))
+                 return;
+             }
+             // Paper end - fix sand duping
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
-index 4efb035b..efb8cff3 100644
+index 4efb035b..8726e69c 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
-@@ -216,4 +216,9 @@ public class NebulaConfig {
+@@ -216,4 +216,14 @@ public class NebulaConfig {
              }
          }
      }
@@ -64,6 +40,11 @@ index 4efb035b..efb8cff3 100644
 +    public static boolean disallowDragonEggToDuplicate = true;
 +    private static void disallowDragonEggToDuplicate() {
 +        disallowDragonEggToDuplicate = getBoolean("game-mechanics.disallow-dragon-egg-to-duplicate", true);
++    }
++
++    public static boolean fixSandDuping = true;
++    private static void fixSandDuping() {
++        fixSandDuping = getBoolean("fix-sand-duping", true);
 +    }
  }
 \ No newline at end of file
