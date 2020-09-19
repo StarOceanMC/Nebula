@@ -1,4 +1,4 @@
-From 09fbc18a902c910872d8b0683e4d3a6fba73eb0d Mon Sep 17 00:00:00 2001
+From 93cb619a952808881b705faaf8ffc48d87134150 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sun, 26 Apr 2020 19:03:08 +0800
 Subject: [PATCH] Limit Portal spawned pigman count
@@ -10,7 +10,7 @@ Subject: [PATCH] Limit Portal spawned pigman count
  3 files changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/src/main/java/net/minecraft/server/BlockPortal.java b/src/main/java/net/minecraft/server/BlockPortal.java
-index 77f8d5e6..5642f498 100644
+index 77f8d5e66..5642f498f 100644
 --- a/src/main/java/net/minecraft/server/BlockPortal.java
 +++ b/src/main/java/net/minecraft/server/BlockPortal.java
 @@ -35,7 +35,7 @@ public class BlockPortal extends Block {
@@ -23,18 +23,18 @@ index 77f8d5e6..5642f498 100644
                  blockposition = blockposition.down();
              }
 diff --git a/src/main/java/net/minecraft/server/WorldServer.java b/src/main/java/net/minecraft/server/WorldServer.java
-index 62446eb3..109f3973 100644
+index 7c46b91fd..4dce5f902 100644
 --- a/src/main/java/net/minecraft/server/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/WorldServer.java
-@@ -1793,6 +1793,7 @@ public class WorldServer extends World implements GeneratorAccessSeed {
-         }
+@@ -1825,6 +1825,7 @@ public class WorldServer extends World implements GeneratorAccessSeed {
+         this.removeNavigatorsFromData(entity); // Tuinity - optimise notify()
          new com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent(entity.getBukkitEntity()).callEvent(); // Paper - fire while valid
          entity.valid = false; // CraftBukkit
 +        if (entity instanceof EntityPigZombie && entity.spawnReason == CreatureSpawnEvent.SpawnReason.NETHER_PORTAL && nebulaConfig.globalPortalSpawnedPigmanLimited && nebulaConfig.currentPigmanCount > 0) nebulaConfig.currentPigmanCount--; // Nebula - Limit global spawned pigman count
      }
  
-     private void registerEntity(Entity entity) {
-@@ -1867,6 +1868,7 @@ public class WorldServer extends World implements GeneratorAccessSeed {
+     // Tuinity start - optimise notify()
+@@ -1985,6 +1986,7 @@ public class WorldServer extends World implements GeneratorAccessSeed {
              // Paper end
              entity.shouldBeRemoved = false; // Paper - shouldn't be removed after being re-added
              new com.destroystokyo.paper.event.entity.EntityAddToWorldEvent(entity.getBukkitEntity()).callEvent(); // Paper - fire while valid
@@ -43,7 +43,7 @@ index 62446eb3..109f3973 100644
  
      }
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
-index 9288a833..3c478178 100644
+index 9288a8333..3c4781786 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 @@ -99,4 +99,12 @@ public class NebulaWorldConfig {

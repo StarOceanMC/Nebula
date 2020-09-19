@@ -1,4 +1,4 @@
-From 41498adeca922f2ec5485208cbf2aacecd83f15d Mon Sep 17 00:00:00 2001
+From 6f7da33cc5cfbefb8e956e77fb5779e85274f404 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sun, 10 May 2020 14:50:00 +0800
 Subject: [PATCH] Only send entities when needSendChunks is false
@@ -9,7 +9,7 @@ Subject: [PATCH] Only send entities when needSendChunks is false
  2 files changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/src/main/java/net/minecraft/server/Chunk.java b/src/main/java/net/minecraft/server/Chunk.java
-index da73c560..09b8f9a3 100644
+index 966af4edc..b87bfb1de 100644
 --- a/src/main/java/net/minecraft/server/Chunk.java
 +++ b/src/main/java/net/minecraft/server/Chunk.java
 @@ -285,7 +285,6 @@ public class Chunk implements IChunkAccess {
@@ -21,10 +21,10 @@ index da73c560..09b8f9a3 100644
                      }
                  })));
 diff --git a/src/main/java/net/minecraft/server/PlayerChunkMap.java b/src/main/java/net/minecraft/server/PlayerChunkMap.java
-index ab751b48..0c949ed2 100644
+index f484dbb63..e54c07729 100644
 --- a/src/main/java/net/minecraft/server/PlayerChunkMap.java
 +++ b/src/main/java/net/minecraft/server/PlayerChunkMap.java
-@@ -2155,6 +2155,8 @@ Sections go from 0..16. Now whenever a section is not empty, it can potentially
+@@ -2194,6 +2194,8 @@ Sections go from 0..16. Now whenever a section is not empty, it can potentially
  
      final void sendChunk(EntityPlayer entityplayer, Packet<?>[] apacket, Chunk chunk) { this.a(entityplayer, apacket, chunk); } // Paper - OBFHELPER
      private void a(EntityPlayer entityplayer, Packet<?>[] apacket, Chunk chunk) {
@@ -33,7 +33,7 @@ index ab751b48..0c949ed2 100644
          if (apacket[0] == null) {
              // Paper start - add 8 for light fix workaround
              if (apacket.length != 10) { // in case Plugins call sendChunk, resize
-@@ -2218,8 +2220,10 @@ Sections go from 0..16. Now whenever a section is not empty, it can potentially
+@@ -2257,8 +2259,10 @@ Sections go from 0..16. Now whenever a section is not empty, it can potentially
              }
          }
          // Paper end - Fix MC-162253

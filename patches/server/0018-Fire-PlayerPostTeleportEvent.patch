@@ -1,4 +1,4 @@
-From 221d640e70cb7d9a1a0ba74d4e7785f8a8cbbe32 Mon Sep 17 00:00:00 2001
+From 39c7d824b43e0f92259a99894a77794569e31744 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 1 Apr 2020 12:18:45 +0800
 Subject: [PATCH] Fire PlayerPostTeleportEvent
@@ -12,7 +12,7 @@ Subject: [PATCH] Fire PlayerPostTeleportEvent
  5 files changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/src/main/java/net/minecraft/server/EntityEnderPearl.java b/src/main/java/net/minecraft/server/EntityEnderPearl.java
-index 12f18a97..71d5fb24 100644
+index 12f18a971..71d5fb24d 100644
 --- a/src/main/java/net/minecraft/server/EntityEnderPearl.java
 +++ b/src/main/java/net/minecraft/server/EntityEnderPearl.java
 @@ -70,6 +70,7 @@ public class EntityEnderPearl extends EntityProjectileThrowable {
@@ -24,7 +24,7 @@ index 12f18a97..71d5fb24 100644
                      // CraftBukkit end
                  }
 diff --git a/src/main/java/net/minecraft/server/EntityPlayer.java b/src/main/java/net/minecraft/server/EntityPlayer.java
-index 4550e344..5397a6ea 100644
+index e5a81f831..c49138871 100644
 --- a/src/main/java/net/minecraft/server/EntityPlayer.java
 +++ b/src/main/java/net/minecraft/server/EntityPlayer.java
 @@ -1054,6 +1054,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
@@ -36,7 +36,7 @@ index 4550e344..5397a6ea 100644
          }
      }
 diff --git a/src/main/java/net/minecraft/server/ItemChorusFruit.java b/src/main/java/net/minecraft/server/ItemChorusFruit.java
-index 6faaeca3..d7d32e21 100644
+index 6faaeca38..d7d32e21b 100644
 --- a/src/main/java/net/minecraft/server/ItemChorusFruit.java
 +++ b/src/main/java/net/minecraft/server/ItemChorusFruit.java
 @@ -26,10 +26,11 @@ public class ItemChorusFruit extends Item {
@@ -61,10 +61,10 @@ index 6faaeca3..d7d32e21 100644
                  }
              }
 diff --git a/src/main/java/net/minecraft/server/PlayerConnection.java b/src/main/java/net/minecraft/server/PlayerConnection.java
-index 5af6140a..da1166d9 100644
+index ddb56ffd2..0df637c8a 100644
 --- a/src/main/java/net/minecraft/server/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/PlayerConnection.java
-@@ -1277,6 +1277,7 @@ public class PlayerConnection implements PacketListenerPlayIn {
+@@ -1276,6 +1276,7 @@ public class PlayerConnection implements PacketListenerPlayIn {
          }
  
          this.internalTeleport(d0, d1, d2, f, f1, set);
@@ -73,10 +73,10 @@ index 5af6140a..da1166d9 100644
  
      public void teleport(Location dest) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index b832ece4..c2dcaf4a 100644
+index adf918fd7..747b344b2 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -812,6 +812,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -818,6 +818,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          } else {
              server.getHandle().moveToWorld(entity, toWorld, true, to, !toWorld.paperConfig.disableTeleportationSuffocationCheck); // Paper
          }
