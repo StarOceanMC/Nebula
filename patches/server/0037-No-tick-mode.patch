@@ -1,0 +1,90 @@
+From b4e8484754d91f8d6131bdb9c43e2dff375523d6 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Fri, 18 Sep 2020 23:37:40 +0800
+Subject: [PATCH] No tick mode
+
+---
+ src/main/java/net/minecraft/server/DedicatedServer.java | 5 +++++
+ src/main/java/net/minecraft/server/WorldServer.java     | 8 ++++++++
+ 2 files changed, 13 insertions(+)
+
+diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
+index cedd654c3..4cedfe355 100644
+--- a/src/main/java/net/minecraft/server/DedicatedServer.java
++++ b/src/main/java/net/minecraft/server/DedicatedServer.java
+@@ -53,6 +53,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+     private EnumGamemode o;
+     @Nullable
+     private ServerGUI p;
++    public static final boolean NO_TICK_SERVER = System.getProperties().containsKey("xianxian.mc.server.notick");
+ 
+     // CraftBukkit start - Signature changed
+     public DedicatedServer(joptsimple.OptionSet options, DedicatedServerSettings dedicatedserversettings, DataFixer datafixer, YggdrasilAuthenticationService yggdrasilauthenticationservice, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, UserCache usercache, WorldLoadListenerFactory worldloadlistenerfactory, String s) {
+@@ -442,6 +443,10 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+ 
+     @Override
+     public void b(BooleanSupplier booleansupplier) {
++        if (!NO_TICK_SERVER) {
++            this.handleCommandQueue();
++            return;
++        }
+         super.b(booleansupplier);
+         this.handleCommandQueue();
+     }
+diff --git a/src/main/java/net/minecraft/server/WorldServer.java b/src/main/java/net/minecraft/server/WorldServer.java
+index 46c4fbff9..a7c4c4770 100644
+--- a/src/main/java/net/minecraft/server/WorldServer.java
++++ b/src/main/java/net/minecraft/server/WorldServer.java
+@@ -876,6 +876,7 @@ public class WorldServer extends World {
+         this.getChunkProvider().tick(booleansupplier);
+         this.timings.chunkProviderTick.stopTiming(); // Paper - timings
+         gameprofilerfiller.exitEnter("tickPending");
++        if (!DedicatedServer.NO_TICK_SERVER) {
+         timings.scheduledBlocks.startTiming(); // Spigot
+         if (this.worldData.getType() != WorldType.DEBUG_ALL_BLOCK_STATES) {
+             this.nextTickListBlock.b();
+@@ -883,8 +884,10 @@ public class WorldServer extends World {
+         }
+         timings.scheduledBlocks.stopTiming(); // Spigot
+ 
++        }
+         // Tuinity - replace logic
+         gameprofilerfiller.exitEnter("raid");
++        if (!DedicatedServer.NO_TICK_SERVER) {
+         this.timings.raids.startTiming(); // Paper - timings
+         this.persistentRaid.a();
+         if (this.mobSpawnerTrader != null) {
+@@ -892,6 +895,7 @@ public class WorldServer extends World {
+         }
+         this.timings.raids.stopTiming(); // Paper - timings
+ 
++        }
+         gameprofilerfiller.exitEnter("blockEvents");
+         timings.doSounds.startTiming(); // Spigot
+         this.ad();
+@@ -964,10 +968,12 @@ public class WorldServer extends World {
+                 }
+ 
+                 gameprofilerfiller.enter("tick");
++                if (!DedicatedServer.NO_TICK_SERVER) {
+                 if (!entity1.dead && !(entity1 instanceof EntityComplexPart)) {
+                     this.a(this::entityJoinedWorld, entity1);
+                 }
+ 
++                }
+                 gameprofilerfiller.exit();
+                 gameprofilerfiller.enter("remove");
+                 if (entity1.dead) {
+@@ -1004,7 +1010,9 @@ public class WorldServer extends World {
+             gameprofilerfiller.exit();
+             timings.tickEntities.stopTiming(); // Spigot
+             // Tuinity - replace logic
++            if (!DedicatedServer.NO_TICK_SERVER) {
+             this.tickBlockEntities();
++            }
+         }
+ 
+         gameprofilerfiller.exit();
+-- 
+2.27.0
+
