@@ -1,0 +1,25 @@
+From ba931c189955d57e1234b99504aac787b041220d Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Sat, 19 Sep 2020 12:55:14 +0800
+Subject: [PATCH] Fix StackOverFlow in EntityWolf.b
+
+---
+ src/main/java/net/minecraft/server/EntityWolf.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/main/java/net/minecraft/server/EntityWolf.java b/src/main/java/net/minecraft/server/EntityWolf.java
+index 84e692441..d21d42b23 100644
+--- a/src/main/java/net/minecraft/server/EntityWolf.java
++++ b/src/main/java/net/minecraft/server/EntityWolf.java
+@@ -263,7 +263,7 @@ public class EntityWolf extends EntityTameableAnimal implements IEntityAngerable
+             if (this.isTamed()) {
+                 // Nebula start - Wolves won't stand up caused by other players
+                 if (!this.j((EntityLiving) entityhuman))
+-                    return super.a(entityhuman, enumhand);
++                    return EnumInteractionResult.PASS;
+                 // Nebula end
+                 if (this.k(itemstack) && this.getHealth() < this.getMaxHealth()) {
+                     if (!entityhuman.abilities.canInstantlyBuild) {
+-- 
+2.27.0
+
