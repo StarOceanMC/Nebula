@@ -1,4 +1,4 @@
-From 4d1fa8e2622b59961d2ba50ba5a69fba2cc94d0a Mon Sep 17 00:00:00 2001
+From 27bc4b6b5be3cbe9e738139df0d8e10db9ff728c Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 23 Dec 2019 19:51:50 +0800
 Subject: [PATCH] Nebula POM Changes
@@ -8,17 +8,17 @@ Subject: [PATCH] Nebula POM Changes
  1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/pom.xml b/pom.xml
-index 6fd59681..c5740427 100644
+index 5e25ae55e..3ea9f20aa 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -1,11 +1,11 @@
-  <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
      <modelVersion>4.0.0</modelVersion>
 -    <artifactId>tuinity</artifactId>
 +    <artifactId>nebula</artifactId>
      <packaging>jar</packaging>
-     <version>1.16.1-R0.1-SNAPSHOT</version>
+     <version>1.16.3-R0.1-SNAPSHOT</version>
 -    <name>Tuinity-Server</name>
 -    <url>https://github.com/Spottedleaf/Tuinity</url>
 +    <name>Nebula-Server</name>
@@ -48,5 +48,5 @@ index 6fd59681..c5740427 100644
              <scope>compile</scope>
          </dependency>
 -- 
-2.27.0
+2.28.0
 

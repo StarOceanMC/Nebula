@@ -1,4 +1,4 @@
-From 33c41130fed8da813b3ea57bc1fe38343bea09cc Mon Sep 17 00:00:00 2001
+From 6562ccd02fdaab486ba304ddf90c87e23c7d3a27 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 8 Jan 2020 22:04:01 +0800
 Subject: [PATCH] Show amount of bees in beehives
@@ -9,7 +9,7 @@ Subject: [PATCH] Show amount of bees in beehives
  2 files changed, 43 insertions(+), 1 deletion(-)
 
 diff --git a/src/main/java/net/minecraft/server/BlockBeehive.java b/src/main/java/net/minecraft/server/BlockBeehive.java
-index 7e2c63e4..39ec51f3 100644
+index 7e2c63e47..a8c3475fd 100644
 --- a/src/main/java/net/minecraft/server/BlockBeehive.java
 +++ b/src/main/java/net/minecraft/server/BlockBeehive.java
 @@ -179,6 +179,16 @@ public class BlockBeehive extends BlockTileEntity {
@@ -44,7 +44,7 @@ index 7e2c63e4..39ec51f3 100644
 +                    for (int i = 0, size = loots.size(); i < size; i++) {
 +                        // Add lore for each drop
 +                        ItemStack loot = loots.get(i);
-+                        if (loot.getItem().equals(Items.rq) || loot.getItem().equals(Items.rr)) {
++                        if (loot.getItem().equals(Items.rr) || loot.getItem().equals(Items.rs)) {
 +                            NBTTagCompound display = new NBTTagCompound();
 +                            NBTTagList lore = new NBTTagList();
 +                            lore.add(NBTTagString.a(IChatBaseComponent.ChatSerializer.a(new ChatComponentText("§7" +
@@ -61,7 +61,7 @@ index 7e2c63e4..39ec51f3 100644
  
      @Override
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
-index 1354501c..5631e4c8 100644
+index 1354501cb..5631e4c88 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 @@ -186,4 +186,14 @@ public class NebulaConfig {
@@ -81,5 +81,5 @@ index 1354501c..5631e4c8 100644
  }
 \ No newline at end of file
 -- 
-2.27.0
+2.28.0
 

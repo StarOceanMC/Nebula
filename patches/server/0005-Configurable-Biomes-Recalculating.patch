@@ -1,4 +1,4 @@
-From 1638576821b90730bb9843e7a49716b332dbce88 Mon Sep 17 00:00:00 2001
+From f7837d57d2b33e50decb427766caadb95b9d1ec1 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Fri, 27 Dec 2019 22:00:26 +0800
 Subject: [PATCH] Configurable Biomes Recalculating
@@ -9,25 +9,25 @@ Subject: [PATCH] Configurable Biomes Recalculating
  2 files changed, 16 insertions(+), 1 deletion(-)
 
 diff --git a/src/main/java/net/minecraft/server/ChunkRegionLoader.java b/src/main/java/net/minecraft/server/ChunkRegionLoader.java
-index 742c59cb..83556e8b 100644
+index c2adc7f52..8a1c3c216 100644
 --- a/src/main/java/net/minecraft/server/ChunkRegionLoader.java
 +++ b/src/main/java/net/minecraft/server/ChunkRegionLoader.java
-@@ -71,7 +71,12 @@ public class ChunkRegionLoader {
+@@ -85,7 +85,12 @@ public class ChunkRegionLoader {
              ChunkRegionLoader.LOGGER.error("Chunk file at {} is in the wrong location; relocating. (Expected {}, got {})", chunkcoordintpair, chunkcoordintpair, chunkcoordintpair1);
          }
  
--        BiomeStorage biomestorage = new BiomeStorage(chunkcoordintpair, worldchunkmanager, nbttagcompound1.hasKeyOfType("Biomes", 11) ? nbttagcompound1.getIntArray("Biomes") : null);
+-        BiomeStorage biomestorage = new BiomeStorage(worldserver.r().b(IRegistry.ay), chunkcoordintpair, worldchunkmanager, nbttagcompound1.hasKeyOfType("Biomes", 11) ? nbttagcompound1.getIntArray("Biomes") : null);
 +        // Nebula start - Configurable Biomes Recalculating
 +        String biomesVersion = worldserver.nebulaConfig.biomesRecalculatingTag;
 +        boolean isNeedRegenerateBiome = worldserver.nebulaConfig.needRegenerateBiomes && !(nbttagcompound1.hasKey("BiomesVersion") && nbttagcompound1.getString("BiomesVersion").equals(biomesVersion));
-+        BiomeStorage biomestorage = new BiomeStorage(chunkcoordintpair, worldchunkmanager, (nbttagcompound1.hasKeyOfType("Biomes", 11) && isNeedRegenerateBiome) ? nbttagcompound1.getIntArray("Biomes") : null);
++        BiomeStorage biomestorage = new BiomeStorage(worldserver.r().b(IRegistry.ay), chunkcoordintpair, worldchunkmanager, (nbttagcompound1.hasKeyOfType("Biomes", 11) && isNeedRegenerateBiome) ? nbttagcompound1.getIntArray("Biomes") : null);
 +        nbttagcompound1.setString("BiomesVersion", biomesVersion);
 +        // Nebula end
          ChunkConverter chunkconverter = nbttagcompound1.hasKeyOfType("UpgradeData", 10) ? new ChunkConverter(nbttagcompound1.getCompound("UpgradeData")) : ChunkConverter.a;
          ProtoChunkTickList<Block> protochunkticklist = new ProtoChunkTickList<>((block) -> {
              return block == null || block.getBlockData().isAir();
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
-index 2e4e743c..aee22164 100644
+index 2e4e743c9..aee22164d 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 @@ -78,4 +78,14 @@ public class NebulaWorldConfig {
@@ -47,5 +47,5 @@ index 2e4e743c..aee22164 100644
  }
 \ No newline at end of file
 -- 
-2.27.0
+2.28.0
 

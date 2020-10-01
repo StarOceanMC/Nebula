@@ -1,14 +1,14 @@
-From 4845cd8b7c2cd129320b41f83b515ecd17f3db00 Mon Sep 17 00:00:00 2001
+From 264b062af2ab63209f91d82ddd1d668f6e089ac7 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 23 Dec 2019 19:49:56 +0800
 Subject: [PATCH] Nebula POM Changes
 
 ---
- pom.xml | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ pom.xml | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/pom.xml b/pom.xml
-index 4004ff5d..035a777d 100644
+index 3b5dcb43..0e8f2d58 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -3,19 +3,19 @@
@@ -25,16 +25,18 @@ index 4004ff5d..035a777d 100644
  
 -    <artifactId>tuinity-api</artifactId>
 +    <artifactId>nebula-api</artifactId>
-     <version>1.16.1-R0.1-SNAPSHOT</version>
+     <version>1.16.3-R0.1-SNAPSHOT</version>
      <packaging>jar</packaging>
  
-     <name>Tuinity-API</name>
-     <url>https://github.com/Spottedleaf/Tuinity</url>
+-    <name>Tuinity-API</name>
+-    <url>https://github.com/Spottedleaf/Tuinity</url>
 -    <description>An enhanced plugin API for Minecraft servers.</description>
++    <name>Nebula-API</name>
++    <url>https://github.com/StarOceanMC/Nebula</url>
 +    <description>An enhanced plugin API for Minecraft servers. Based on Paper.</description>
  
      <properties>
          <!-- <skipTests>true</skipTests> Paper - This [was] not going to end well -->
 -- 
-2.27.0
+2.28.0
 

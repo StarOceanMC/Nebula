@@ -1,4 +1,4 @@
-From 5f9a5328181f465521ac0f3bee3a689d3c03489a Mon Sep 17 00:00:00 2001
+From 68d6ed2b2f803b4d1aabdf1629cb5ecea6a892ff Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 11 Mar 2020 19:47:00 +0800
 Subject: [PATCH] Rework Daemon Patch
@@ -1477,10 +1477,10 @@ index 000000000..75fb076ab
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index 0760003bf..bd8a0c00e 100644
+index 1beaa00e3..5cafa7044 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServer.java
-@@ -383,7 +383,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+@@ -377,7 +377,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
          }
  
          hasFullyShutdown = true; // Paper
@@ -1490,10 +1490,10 @@ index 0760003bf..bd8a0c00e 100644
  
      @Override
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index d6b1cb8c4..0d16f2ebc 100644
+index 64f7e448c..bcb0e91dd 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -866,10 +866,12 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -864,10 +864,12 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
      public void safeShutdown(boolean flag, boolean isRestarting) {
          this.isRunning = false;
          this.isRestarting = isRestarting;
@@ -1507,10 +1507,10 @@ index d6b1cb8c4..0d16f2ebc 100644
              }
          }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index ffe4ab893..e5220adc5 100644
+index b312d8103..adf5ebd3c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -241,7 +241,7 @@ public final class CraftServer implements Server {
+@@ -242,7 +242,7 @@ public final class CraftServer implements Server {
      private final SimpleHelpMap helpMap = new SimpleHelpMap(this);
      private final StandardMessenger messenger = new StandardMessenger();
      private final SimplePluginManager pluginManager = new SimplePluginManager(this, commandMap);
@@ -1520,7 +1520,7 @@ index ffe4ab893..e5220adc5 100644
      private final Map<String, World> worlds = new LinkedHashMap<String, World>();
      private YamlConfiguration configuration;
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 4e68f6336..95439eb94 100644
+index 8fed17622..417565713 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -19,6 +19,7 @@ public class Main {
@@ -1713,5 +1713,5 @@ index 8af159abd..2066bc632 100644
          </Root>
      </Loggers>
 -- 
-2.27.0
+2.28.0
 

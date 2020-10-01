@@ -1,4 +1,4 @@
-From 02ae3073ed7c04831b1293adea4a089a99ba9132 Mon Sep 17 00:00:00 2001
+From 00566fb230282a496b50ec0cdcc564198ebae599 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sun, 10 May 2020 14:53:46 +0800
 Subject: [PATCH] Do not try to shutdown while shutting down
@@ -8,7 +8,7 @@ Subject: [PATCH] Do not try to shutdown while shutting down
  1 file changed, 1 insertion(+)
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/ServerShutdownThread.java b/src/main/java/org/bukkit/craftbukkit/util/ServerShutdownThread.java
-index c7ed6e0f..d28c83bc 100644
+index c7ed6e0f8..d28c83bc4 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/ServerShutdownThread.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/ServerShutdownThread.java
 @@ -12,6 +12,7 @@ public class ServerShutdownThread extends Thread {
@@ -20,5 +20,5 @@ index c7ed6e0f..d28c83bc 100644
              server.safeShutdown(false, false);
              for (int i = 1000; i > 0 && !server.hasStopped(); i -= 100) {
 -- 
-2.27.0
+2.28.0
 

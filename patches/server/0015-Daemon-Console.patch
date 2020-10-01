@@ -1,4 +1,4 @@
-From 42fe882c8112939ede02607e93378272c9344a45 Mon Sep 17 00:00:00 2001
+From 18a25eecf2f51c6d5489d442d2d9007ce9abfa2f Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 23 Mar 2020 14:56:13 +0800
 Subject: [PATCH] Daemon Console
@@ -13,7 +13,7 @@ Subject: [PATCH] Daemon Console
 
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/MessageQueue.java b/src/main/java/com/destroystokyo/paper/daemon/MessageQueue.java
 new file mode 100644
-index 00000000..5832e167
+index 000000000..5832e1677
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/MessageQueue.java
 @@ -0,0 +1,170 @@
@@ -188,7 +188,7 @@ index 00000000..5832e167
 +    }
 +}
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
-index b1c585fd..ec092f42 100644
+index b1c585fda..ec092f429 100644
 --- a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
 +++ b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
 @@ -478,6 +478,7 @@ public final class PaperDaemon {
@@ -207,10 +207,10 @@ index b1c585fd..ec092f42 100644
 \ No newline at end of file
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 160e50b6..a6d078ee 100644
+index bcb0e91dd..dc7f15e01 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -735,6 +735,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -733,6 +733,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
      @Override
      public void close() {
          this.stop();
@@ -219,7 +219,7 @@ index 160e50b6..a6d078ee 100644
  
      // CraftBukkit start
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
-index 6639cb5d..4efb035b 100644
+index 6639cb5db..4efb035b2 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 @@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
@@ -251,5 +251,5 @@ index 6639cb5d..4efb035b 100644
  }
 \ No newline at end of file
 -- 
-2.27.0
+2.28.0
 

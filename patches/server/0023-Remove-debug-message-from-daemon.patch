@@ -1,4 +1,4 @@
-From 04d71ab1b4d30d858abb26241f806c3e5cd9bfde Mon Sep 17 00:00:00 2001
+From f233b96b4d72be29a172840ca7cbf18614dd656b Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sat, 25 Apr 2020 20:13:59 +0800
 Subject: [PATCH] Remove debug message from daemon
@@ -8,7 +8,7 @@ Subject: [PATCH] Remove debug message from daemon
  1 file changed, 1 deletion(-)
 
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
-index ec092f42..bf59005f 100644
+index ec092f429..bf59005f8 100644
 --- a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
 +++ b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
 @@ -478,7 +478,6 @@ public final class PaperDaemon {
@@ -20,5 +20,5 @@ index ec092f42..bf59005f 100644
              log(logger -> logger.warning("Unknown message type: " + messageType));
              return;
 -- 
-2.27.0
+2.28.0
 

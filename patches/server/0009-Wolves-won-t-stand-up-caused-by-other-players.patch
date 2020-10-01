@@ -1,4 +1,4 @@
-From 4235517e9afdc913a63dfbd0c8ff77e40aa2eb40 Mon Sep 17 00:00:00 2001
+From f1931561cbe94d81a0d25e28a5f98aedcccfb443 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sat, 18 Jan 2020 19:26:09 +0800
 Subject: [PATCH] Wolves won't stand up caused by other players
@@ -8,10 +8,10 @@ Subject: [PATCH] Wolves won't stand up caused by other players
  1 file changed, 4 insertions(+)
 
 diff --git a/src/main/java/net/minecraft/server/EntityWolf.java b/src/main/java/net/minecraft/server/EntityWolf.java
-index 5b519fa3..84e69244 100644
+index 5779d1c9f..a30f37faa 100644
 --- a/src/main/java/net/minecraft/server/EntityWolf.java
 +++ b/src/main/java/net/minecraft/server/EntityWolf.java
-@@ -261,6 +261,10 @@ public class EntityWolf extends EntityTameableAnimal implements IEntityAngerable
+@@ -268,6 +268,10 @@ public class EntityWolf extends EntityTameableAnimal implements IEntityAngerable
              return flag ? EnumInteractionResult.CONSUME : EnumInteractionResult.PASS;
          } else {
              if (this.isTamed()) {
@@ -23,5 +23,5 @@ index 5b519fa3..84e69244 100644
                      if (!entityhuman.abilities.canInstantlyBuild) {
                          itemstack.subtract(1);
 -- 
-2.27.0
+2.28.0
 

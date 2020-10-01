@@ -1,4 +1,4 @@
-From 96d48acec8ac48a99e350a34be54017e8da823d0 Mon Sep 17 00:00:00 2001
+From 43b427d298a1f8c673e7e3e1e9e6274699dfe25b Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sun, 26 Apr 2020 12:49:07 +0800
 Subject: [PATCH] Add CraftContainer.getNotchInventoryType(InventoryType)
@@ -8,7 +8,7 @@ Subject: [PATCH] Add CraftContainer.getNotchInventoryType(InventoryType)
  1 file changed, 47 insertions(+)
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftContainer.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftContainer.java
-index 8c714c74..eafd5788 100644
+index 8c714c743..eafd57887 100644
 --- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftContainer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftContainer.java
 @@ -121,6 +121,53 @@ public class CraftContainer extends Container {
@@ -66,5 +66,5 @@ index 8c714c74..eafd5788 100644
          switch (inventory.getType()) {
              case PLAYER:
 -- 
-2.27.0
+2.28.0
 

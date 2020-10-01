@@ -1,4 +1,4 @@
-From 66e9735d4b7c2f9b7327132bce9a86cc8feafb78 Mon Sep 17 00:00:00 2001
+From fc2c7740701b672ab58a91792c151220db48cd2a Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Fri, 27 Dec 2019 21:34:51 +0800
 Subject: [PATCH] Load custom configuration
@@ -17,10 +17,10 @@ Subject: [PATCH] Load custom configuration
  create mode 100644 src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 
 diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index 578f7809..8848939f 100644
+index 8542f2f4d..a91c8229e 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServer.java
-@@ -172,6 +172,15 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+@@ -168,6 +168,15 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
          // Paper end
          com.tuinity.tuinity.config.TuinityConfig.init((java.io.File) options.valueOf("tuinity-settings")); // Tuinity - Server Config
  
@@ -35,9 +35,9 @@ index 578f7809..8848939f 100644
 +        // Nebula end
          this.setPVP(dedicatedserverproperties.pvp);
          this.setAllowFlight(dedicatedserverproperties.allowFlight);
-         this.setResourcePack(dedicatedserverproperties.resourcePack, this.aY());
+         this.setResourcePack(dedicatedserverproperties.resourcePack, this.aZ());
 diff --git a/src/main/java/net/minecraft/server/World.java b/src/main/java/net/minecraft/server/World.java
-index 4a956f36..fc899296 100644
+index 51cb07b3d..662433d3d 100644
 --- a/src/main/java/net/minecraft/server/World.java
 +++ b/src/main/java/net/minecraft/server/World.java
 @@ -96,6 +96,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
@@ -48,19 +48,19 @@ index 4a956f36..fc899296 100644
      public final co.aikar.timings.WorldTimingsHandler timings; // Paper
      public static BlockPosition lastPhysicsProblem; // Spigot
      private org.spigotmc.TickLimiter entityLimiter;
-@@ -123,6 +124,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+@@ -127,6 +128,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((WorldDataServer) worlddatamutable).getName()); // Spigot
          this.paperConfig = new com.destroystokyo.paper.PaperWorldConfig((((WorldDataServer)worlddatamutable).getName()), this.spigotConfig); // Paper
-         this.chunkPacketBlockController = this.paperConfig.antiXray ? new ChunkPacketBlockControllerAntiXray(this.paperConfig, executor) : ChunkPacketBlockController.NO_OPERATION_INSTANCE; // Paper - Anti-Xray
+         this.chunkPacketBlockController = this.paperConfig.antiXray ? new ChunkPacketBlockControllerAntiXray(this, executor) : ChunkPacketBlockController.NO_OPERATION_INSTANCE; // Paper - Anti-Xray
 +        this.nebulaConfig = new xianxian.mc.nebula.NebulaWorldConfig((((WorldDataServer)worlddatamutable).getName()), this.spigotConfig); // Nebula - Load custom configuration
          this.tuinityConfig = new com.tuinity.tuinity.config.TuinityConfig.WorldConfig(((WorldDataServer)worlddatamutable).getName()); // Tuinity - Server Config
          this.generator = gen;
          this.world = new CraftWorld((WorldServer) this, gen, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index ba421710..7b1e50c0 100644
+index 786ddcee7..93bf9ecd9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -849,6 +849,7 @@ public final class CraftServer implements Server {
+@@ -857,6 +857,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          com.destroystokyo.paper.PaperConfig.init((File) console.options.valueOf("paper-settings")); // Paper
          com.tuinity.tuinity.config.TuinityConfig.init((File) console.options.valueOf("tuinity-settings")); // Tuinity - Server Config
@@ -69,7 +69,7 @@ index ba421710..7b1e50c0 100644
              world.worldDataServer.setDifficulty(config.difficulty);
              world.setSpawnFlags(config.spawnMonsters, config.spawnAnimals);
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 2cebdb36..4e68f633 100644
+index a9c96d45c..8fed17622 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -153,6 +153,14 @@ public class Main {
@@ -89,7 +89,7 @@ index 2cebdb36..4e68f633 100644
  
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaCommand.java b/src/main/java/xianxian/mc/nebula/NebulaCommand.java
 new file mode 100644
-index 00000000..6ae81248
+index 000000000..6ae812486
 --- /dev/null
 +++ b/src/main/java/xianxian/mc/nebula/NebulaCommand.java
 @@ -0,0 +1,43 @@
@@ -139,7 +139,7 @@ index 00000000..6ae81248
 \ No newline at end of file
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 new file mode 100644
-index 00000000..42dc78ca
+index 000000000..42dc78ca1
 --- /dev/null
 +++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 @@ -0,0 +1,177 @@
@@ -323,7 +323,7 @@ index 00000000..42dc78ca
 \ No newline at end of file
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 new file mode 100644
-index 00000000..c1cbeb63
+index 000000000..c1cbeb63c
 --- /dev/null
 +++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 @@ -0,0 +1,66 @@
@@ -395,5 +395,5 @@ index 00000000..c1cbeb63
 +}
 \ No newline at end of file
 -- 
-2.27.0
+2.28.0
 

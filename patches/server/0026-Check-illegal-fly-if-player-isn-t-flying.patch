@@ -1,4 +1,4 @@
-From de8c32ac7c62735c51d022182e803ca728bc8471 Mon Sep 17 00:00:00 2001
+From 7c1d51dffaaf66f197e954ff7e62db1768046356 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sat, 9 May 2020 18:46:50 +0800
 Subject: [PATCH] Check illegal fly if player isn't flying
@@ -8,10 +8,10 @@ Subject: [PATCH] Check illegal fly if player isn't flying
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/main/java/net/minecraft/server/PlayerConnection.java b/src/main/java/net/minecraft/server/PlayerConnection.java
-index 0df637c8a..55d907762 100644
+index 0cceb3e42..a48977439 100644
 --- a/src/main/java/net/minecraft/server/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/PlayerConnection.java
-@@ -1199,7 +1199,7 @@ public class PlayerConnection implements PacketListenerPlayIn {
+@@ -1197,7 +1197,7 @@ public class PlayerConnection implements PacketListenerPlayIn {
                                  this.player.setLocation(d4, d5, d6, f, f1); // Copied from above
  
                                  // MC-135989, SPIGOT-5564: isRiptiding
@@ -21,5 +21,5 @@ index 0df637c8a..55d907762 100644
                                  this.player.getWorldServer().getChunkProvider().movePlayer(this.player);
                                  this.player.a(this.player.locY() - d3, packetplayinflying.b());
 -- 
-2.27.0
+2.28.0
 

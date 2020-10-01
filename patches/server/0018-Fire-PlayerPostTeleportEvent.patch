@@ -1,4 +1,4 @@
-From 39c7d824b43e0f92259a99894a77794569e31744 Mon Sep 17 00:00:00 2001
+From 533752a25e8112665eec2b29ed37e8b984fb1d7d Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 1 Apr 2020 12:18:45 +0800
 Subject: [PATCH] Fire PlayerPostTeleportEvent
@@ -12,7 +12,7 @@ Subject: [PATCH] Fire PlayerPostTeleportEvent
  5 files changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/src/main/java/net/minecraft/server/EntityEnderPearl.java b/src/main/java/net/minecraft/server/EntityEnderPearl.java
-index 12f18a971..71d5fb24d 100644
+index 63b4a449b..ffa5486bb 100644
 --- a/src/main/java/net/minecraft/server/EntityEnderPearl.java
 +++ b/src/main/java/net/minecraft/server/EntityEnderPearl.java
 @@ -70,6 +70,7 @@ public class EntityEnderPearl extends EntityProjectileThrowable {
@@ -24,17 +24,17 @@ index 12f18a971..71d5fb24d 100644
                      // CraftBukkit end
                  }
 diff --git a/src/main/java/net/minecraft/server/EntityPlayer.java b/src/main/java/net/minecraft/server/EntityPlayer.java
-index e5a81f831..c49138871 100644
+index 11fa231ca..c030e965c 100644
 --- a/src/main/java/net/minecraft/server/EntityPlayer.java
 +++ b/src/main/java/net/minecraft/server/EntityPlayer.java
-@@ -1054,6 +1054,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
-             PlayerChangedWorldEvent changeEvent = new PlayerChangedWorldEvent(this.getBukkitEntity(), worldserver1.getWorld());
-             this.world.getServer().getPluginManager().callEvent(changeEvent);
-             // CraftBukkit end
-+            xianxian.mc.nebula.event.player.PlayerPostTeleportEvent.callEvent(tpEvent); // Nebula - Fire PlayerPostTeleportEvent
+@@ -982,6 +982,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
+                 PlayerChangedWorldEvent changeEvent = new PlayerChangedWorldEvent(this.getBukkitEntity(), worldserver1.getWorld());
+                 this.world.getServer().getPluginManager().callEvent(changeEvent);
+                 // CraftBukkit end
++                xianxian.mc.nebula.event.player.PlayerPostTeleportEvent.callEvent(tpEvent); // Nebula - Fire PlayerPostTeleportEvent
+             }
+ 
              return this;
-         }
-     }
 diff --git a/src/main/java/net/minecraft/server/ItemChorusFruit.java b/src/main/java/net/minecraft/server/ItemChorusFruit.java
 index 6faaeca38..d7d32e21b 100644
 --- a/src/main/java/net/minecraft/server/ItemChorusFruit.java
@@ -61,10 +61,10 @@ index 6faaeca38..d7d32e21b 100644
                  }
              }
 diff --git a/src/main/java/net/minecraft/server/PlayerConnection.java b/src/main/java/net/minecraft/server/PlayerConnection.java
-index ddb56ffd2..0df637c8a 100644
+index e4aab5348..0cceb3e42 100644
 --- a/src/main/java/net/minecraft/server/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/PlayerConnection.java
-@@ -1276,6 +1276,7 @@ public class PlayerConnection implements PacketListenerPlayIn {
+@@ -1274,6 +1274,7 @@ public class PlayerConnection implements PacketListenerPlayIn {
          }
  
          this.internalTeleport(d0, d1, d2, f, f1, set);
@@ -73,10 +73,10 @@ index ddb56ffd2..0df637c8a 100644
  
      public void teleport(Location dest) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index adf918fd7..747b344b2 100644
+index 715d2c5e8..ad7860179 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -818,6 +818,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -811,6 +811,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          } else {
              server.getHandle().moveToWorld(entity, toWorld, true, to, !toWorld.paperConfig.disableTeleportationSuffocationCheck); // Paper
          }
@@ -85,5 +85,5 @@ index adf918fd7..747b344b2 100644
      }
  
 -- 
-2.27.0
+2.28.0
 
