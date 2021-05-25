@@ -13,22 +13,20 @@ cd $basedir
 tuinityVer=$(cat current-tuinity)
 
 minecraftversion=$(cat $basedir/Tuinity/Paper/work/BuildData/info.json | grep minecraftVersion | cut -d '"' -f 4)
-decompile="Tuinity/Paper/work/Minecraft/$minecraftversion/forge"
-# replace for now
 decompile="Tuinity/Paper/work/Minecraft/$minecraftversion/spigot"
 
-mkdir -p mc-dev/src/net/minecraft/server
+mkdir -p mc-dev/src/net/minecraft
 
 cd mc-dev
 if [ ! -d ".git" ]; then
     git init
 fi
 
-rm src/net/minecraft/server/*.java
-cp $basedir/$decompile/net/minecraft/server/*.java src/net/minecraft/server
+rm src/net/minecraft/*.java
+cp -r $basedir/$decompile/net/minecraft/* src/net/minecraft
 
-base="$basedir/Tuinity/Tuinity-Server/src/main/java/net/minecraft/server"
-cd $basedir/mc-dev/src/net/minecraft/server/
+base="$basedir/Tuinity/Tuinity-Server/src/main/java/net/minecraft"
+cd $basedir/mc-dev/src/net/minecraft/
 for file in $(/bin/ls $base)
 do
     if [ -f "$file" ]; then

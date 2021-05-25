@@ -1,30 +1,26 @@
-From 3fa487195d0e3b05714844025828e9bd15ba32b7 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sat, 25 Apr 2020 20:05:29 +0800
 Subject: [PATCH] Toggle Sending Chunks API
 
----
- src/main/java/net/minecraft/server/Chunk.java       |  1 +
- .../org/bukkit/craftbukkit/entity/CraftPlayer.java  | 13 +++++++++++++
- 2 files changed, 14 insertions(+)
 
-diff --git a/src/main/java/net/minecraft/server/Chunk.java b/src/main/java/net/minecraft/server/Chunk.java
-index f1a382c3d..fa03a18f5 100644
---- a/src/main/java/net/minecraft/server/Chunk.java
-+++ b/src/main/java/net/minecraft/server/Chunk.java
-@@ -287,6 +287,7 @@ public class Chunk implements IChunkAccess {
-                             continue;
-                         }
-                         EntityPlayer player = (EntityPlayer)temp;
-+                        if (player.getBukkitEntity().needSendChunks()) // Nebula - Toggle Chunk Sending API
-                         chunkMap.sendChunk(player, chunkPackets, Chunk.this);
-                     }
-                 })));
+diff --git a/src/main/java/com/tuinity/tuinity/chunk/PlayerChunkLoader.java b/src/main/java/com/tuinity/tuinity/chunk/PlayerChunkLoader.java
+index 0d577aa1c7868ce89c3902535adcb554b1f47551..87a9f98a6b5560f92faeafa6a9ca3bdc7bfc052f 100644
+--- a/src/main/java/com/tuinity/tuinity/chunk/PlayerChunkLoader.java
++++ b/src/main/java/com/tuinity/tuinity/chunk/PlayerChunkLoader.java
+@@ -490,6 +490,7 @@ public final class PlayerChunkLoader {
+                 this.sendingChunkCounts.addTo(data, 1);
+             }
+ 
++            if (data.player.getBukkitEntity().needSendChunks()) // Nebula - Toggle Chunk Sending API
+             data.sendChunk(queuedSend.chunkX, queuedSend.chunkZ, () -> {
+                 synchronized (this.sendingChunkCounts) {
+                     final int count = this.sendingChunkCounts.getInt(data);
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index ad7860179..adf5745fe 100644
+index db9d42a35c02329fc9f3f8f80953e7100d415ecd..4eaadb2639aa91af218bb5e44296586b07009d72 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -2156,4 +2156,17 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2495,4 +2495,17 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          return spigot;
      }
      // Spigot end
@@ -42,6 +38,3 @@ index ad7860179..adf5745fe 100644
 +    }
 +    // Nebula end
  }
--- 
-2.28.0
-

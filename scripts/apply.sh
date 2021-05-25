@@ -44,7 +44,7 @@ function applyPatch {
         mkdir "$basedir/$target"
         cd "$basedir/$target"
         git init
-        git remote add origin $5
+        git remote add origin "$5"
         cd "$basedir"
     fi
     cd "$basedir/$target"
@@ -56,24 +56,20 @@ function applyPatch {
 
     echo "Resetting $target to $what_name..."
     git remote rm upstream > /dev/null 2>&1
-    git remote add upstream $basedir/$what >/dev/null 2>&1
+    git remote add upstream "$basedir/$what" >/dev/null 2>&1
     git checkout master 2>/dev/null || git checkout -b master
     git fetch upstream >/dev/null 2>&1
     git reset --hard upstream/upstream
     echo "  Applying patches to $target..."
     git am --abort >/dev/null 2>&1
-    if ls "$basedir/patches/$patch_folder/"*.patch 1> /dev/null 2>&1; then
-        git am --3way --ignore-whitespace "$basedir/patches/$patch_folder/"*.patch
-        if [ "$?" != "0" ]; then
-            echo "  Something did not apply cleanly to $target."
-            echo "  Please review above details and finish the apply then"
-            echo "  save the changes with rebuildPatches.sh"
-            exit 1
-        else
-            echo "  Patches applied cleanly to $target"
-        fi
+    git am --3way --ignore-whitespace "$basedir/patches/$patch_folder/"*.patch
+    if [ "$?" != "0" ]; then
+        echo "  Something did not apply cleanly to $target."
+        echo "  Please review above details and finish the apply then"
+        echo "  save the changes with rebuildPatches.sh"
+        exit 1
     else
-        echo "  No patches found for $target"
+        echo "  Patches applied cleanly to $target"
     fi
 }
 
@@ -82,6 +78,9 @@ function enableCommitSigningIfNeeded {
         git config commit.gpgsign true
     fi
 }
+
+    echo "Importing MC-DEV"
+    ./scripts/importmcdev.sh "$basedir" || exit 1
 
 (
     (applyPatch Tuinity/Tuinity-API ${FORK_NAME}-API HEAD api $API_REPO &&

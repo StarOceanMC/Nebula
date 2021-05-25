@@ -1,15 +1,11 @@
-From d37d02b9c6128af48ecf87899fc84b4dbfa1d210 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sat, 22 Feb 2020 16:53:40 +0800
 Subject: [PATCH] Add option to configure timings url
 
----
- src/main/java/co/aikar/timings/TimingsExport.java  | 2 +-
- src/main/java/xianxian/mc/nebula/NebulaConfig.java | 5 +++++
- 2 files changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
-index 5dfa0658..e3bab8c9 100644
+index 35810f42d7a0cd50a4cbe90e8d698fe57914c889..0ac8a8d6f132f0d0bb56e53e654c3d2ea4a7a6c5 100644
 --- a/src/main/java/co/aikar/timings/TimingsExport.java
 +++ b/src/main/java/co/aikar/timings/TimingsExport.java
 @@ -307,7 +307,7 @@ public class TimingsExport extends Thread {
@@ -22,7 +18,7 @@ index 5dfa0658..e3bab8c9 100644
              String hostName = "BrokenHost";
              try {
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
-index 5631e4c8..6639cb5d 100644
+index 5631e4c88e9ec830af2a05b778dbfb10dc2a7418..6639cb5db18a5bd7f6145b63925272ad6a3e7166 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 @@ -196,4 +196,9 @@ public class NebulaConfig {
@@ -36,6 +32,3 @@ index 5631e4c8..6639cb5d 100644
 +    }
  }
 \ No newline at end of file
--- 
-2.27.0
-

@@ -1,20 +1,14 @@
-From 0540ab5e22556940ef4fcf12fe4e5494d5afd8f4 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 27 Jan 2020 09:42:11 +0800
 Subject: [PATCH] Localization API
 
----
- src/main/java/org/bukkit/Bukkit.java          |  7 +++++
- src/main/java/org/bukkit/Server.java          |  9 ++++++
- .../mc/nebula/localization/Localization.java  | 31 +++++++++++++++++++
- 3 files changed, 47 insertions(+)
- create mode 100644 src/main/java/xianxian/mc/nebula/localization/Localization.java
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index bfe84236..3fcf6901 100644
+index 33f04d57b7df3a6f9743246ba9af6d67f4fa4b54..affe3463464788a9ea7db72a22117810d093d7d6 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -1787,4 +1787,11 @@ public final class Bukkit {
+@@ -1951,4 +1951,11 @@ public final class Bukkit {
      public static Server.Spigot spigot() {
          return server.spigot();
      }
@@ -27,12 +21,12 @@ index bfe84236..3fcf6901 100644
 +    //Nebula end
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index 740a86a8..31197b1a 100644
+index d1a9322cf54f57f0d213145aa50c219f0eb2a90b..8ab5cb3711115907b36bd09403fde05ccfe1ce5a 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -1564,4 +1564,13 @@ public interface Server extends PluginMessageRecipient {
+@@ -1713,4 +1713,13 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
      @NotNull
-     com.destroystokyo.paper.entity.ai.MobGoals getMobGoals();
+     io.papermc.paper.datapack.DatapackManager getDatapackManager();
      // Paper end
 +    
 +    // Nebula start - Localization API
@@ -46,7 +40,7 @@ index 740a86a8..31197b1a 100644
  }
 diff --git a/src/main/java/xianxian/mc/nebula/localization/Localization.java b/src/main/java/xianxian/mc/nebula/localization/Localization.java
 new file mode 100644
-index 00000000..a8152033
+index 0000000000000000000000000000000000000000..a8152033a7163f5ff0950d371ee27c5ea01d8bca
 --- /dev/null
 +++ b/src/main/java/xianxian/mc/nebula/localization/Localization.java
 @@ -0,0 +1,31 @@
@@ -81,6 +75,3 @@ index 00000000..a8152033
 +    @Nullable
 +    String getLocalizedBlockName(@Nullable Block block);
 +}
--- 
-2.28.0
-

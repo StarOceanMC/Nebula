@@ -1,42 +1,12 @@
-From 68d6ed2b2f803b4d1aabdf1629cb5ecea6a892ff Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 11 Mar 2020 19:47:00 +0800
 Subject: [PATCH] Rework Daemon Patch
 
----
- .../paper/daemon/BufferedSupplier.java        |  29 +
- .../com/destroystokyo/paper/daemon/Data.java  |  28 +
- .../destroystokyo/paper/daemon/MsgBuf.java    |  12 +
- .../paper/daemon/NativeErrorException.java    |   7 +
- .../paper/daemon/PaperDaemon.java             | 668 ++++++++++++++++++
- .../paper/daemon/PaperDaemonAppender.java     |  96 +++
- .../paper/daemon/PaperDaemonException.java    |  11 +
- .../paper/daemon/PaperDaemonJni.java          |  92 +++
- .../paper/daemon/PaperDaemonMessage.java      | 436 ++++++++++++
- .../net/minecraft/server/DedicatedServer.java |   2 +-
- .../net/minecraft/server/MinecraftServer.java |   2 +
- .../org/bukkit/craftbukkit/CraftServer.java   |   2 +-
- .../java/org/bukkit/craftbukkit/Main.java     |   1 +
- .../command/ConsoleCommandCompleter.java      |  37 +-
- .../java/org/spigotmc/RestartCommand.java     |  23 +-
- .../java/org/spigotmc/WatchdogThread.java     |   2 +
- .../META-INF/io.papermc.paper.daemon.protocol |   1 +
- src/main/resources/log4j2.xml                 |   6 +-
- 18 files changed, 1421 insertions(+), 34 deletions(-)
- create mode 100644 src/main/java/com/destroystokyo/paper/daemon/BufferedSupplier.java
- create mode 100644 src/main/java/com/destroystokyo/paper/daemon/Data.java
- create mode 100644 src/main/java/com/destroystokyo/paper/daemon/MsgBuf.java
- create mode 100644 src/main/java/com/destroystokyo/paper/daemon/NativeErrorException.java
- create mode 100644 src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
- create mode 100644 src/main/java/com/destroystokyo/paper/daemon/PaperDaemonAppender.java
- create mode 100644 src/main/java/com/destroystokyo/paper/daemon/PaperDaemonException.java
- create mode 100644 src/main/java/com/destroystokyo/paper/daemon/PaperDaemonJni.java
- create mode 100644 src/main/java/com/destroystokyo/paper/daemon/PaperDaemonMessage.java
- create mode 100644 src/main/resources/META-INF/io.papermc.paper.daemon.protocol
 
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/BufferedSupplier.java b/src/main/java/com/destroystokyo/paper/daemon/BufferedSupplier.java
 new file mode 100644
-index 000000000..a643074be
+index 0000000000000000000000000000000000000000..a643074be6c4f7447330693cf127b7cb80b7f213
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/BufferedSupplier.java
 @@ -0,0 +1,29 @@
@@ -72,7 +42,7 @@ index 000000000..a643074be
 \ No newline at end of file
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/Data.java b/src/main/java/com/destroystokyo/paper/daemon/Data.java
 new file mode 100644
-index 000000000..a13abfa83
+index 0000000000000000000000000000000000000000..a13abfa83ee84220c40165f3b6b2b0ccef888890
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/Data.java
 @@ -0,0 +1,28 @@
@@ -107,7 +77,7 @@ index 000000000..a13abfa83
 \ No newline at end of file
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/MsgBuf.java b/src/main/java/com/destroystokyo/paper/daemon/MsgBuf.java
 new file mode 100644
-index 000000000..70ba1de71
+index 0000000000000000000000000000000000000000..70ba1de712ed81a16034c42866686defd66f55b5
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/MsgBuf.java
 @@ -0,0 +1,12 @@
@@ -126,7 +96,7 @@ index 000000000..70ba1de71
 \ No newline at end of file
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/NativeErrorException.java b/src/main/java/com/destroystokyo/paper/daemon/NativeErrorException.java
 new file mode 100644
-index 000000000..e03462699
+index 0000000000000000000000000000000000000000..e03462699b8838ceca41e85c59e21f10b3e5994e
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/NativeErrorException.java
 @@ -0,0 +1,7 @@
@@ -140,7 +110,7 @@ index 000000000..e03462699
 \ No newline at end of file
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
 new file mode 100644
-index 000000000..b1c585fda
+index 0000000000000000000000000000000000000000..e55a591e096047a41745a8b9956fe8d2a33191da
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
 @@ -0,0 +1,668 @@
@@ -172,7 +142,7 @@ index 000000000..b1c585fda
 +import java.util.function.Consumer;
 +import java.util.logging.Level;
 +import java.util.logging.Logger;
-+import net.minecraft.server.DedicatedServer;
++import net.minecraft.server.dedicated.DedicatedServer;
 +import net.minecrell.terminalconsole.TerminalConsoleAppender;
 +import org.bukkit.Bukkit;
 +import org.bukkit.craftbukkit.CraftServer;
@@ -815,7 +785,7 @@ index 000000000..b1c585fda
 \ No newline at end of file
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonAppender.java b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonAppender.java
 new file mode 100644
-index 000000000..e764772e8
+index 0000000000000000000000000000000000000000..e764772e8f48749df183a8475aa5c87edc14202a
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonAppender.java
 @@ -0,0 +1,96 @@
@@ -918,7 +888,7 @@ index 000000000..e764772e8
 \ No newline at end of file
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonException.java b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonException.java
 new file mode 100644
-index 000000000..f1acc7ae6
+index 0000000000000000000000000000000000000000..f1acc7ae6944835d49890779071c744e8cf4e1f7
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonException.java
 @@ -0,0 +1,11 @@
@@ -936,7 +906,7 @@ index 000000000..f1acc7ae6
 \ No newline at end of file
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonJni.java b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonJni.java
 new file mode 100644
-index 000000000..4f39c01b7
+index 0000000000000000000000000000000000000000..4f39c01b7c56b7e822567dba1cdf782a3a645120
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonJni.java
 @@ -0,0 +1,92 @@
@@ -1035,7 +1005,7 @@ index 000000000..4f39c01b7
 \ No newline at end of file
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonMessage.java b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonMessage.java
 new file mode 100644
-index 000000000..75fb076ab
+index 0000000000000000000000000000000000000000..eb02e4e1f3c63e8b97dda26b8013588a7de71c02
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemonMessage.java
 @@ -0,0 +1,436 @@
@@ -1048,7 +1018,7 @@ index 000000000..75fb076ab
 +import java.util.List;
 +import java.util.concurrent.atomic.AtomicInteger;
 +import java.util.stream.Collectors;
-+import net.minecraft.server.DedicatedServer;
++import net.minecraft.server.dedicated.DedicatedServer;
 +import org.apache.commons.lang3.text.WordUtils;
 +import org.bukkit.Bukkit;
 +import org.bukkit.craftbukkit.command.ConsoleCommandCompleter;
@@ -1461,7 +1431,7 @@ index 000000000..75fb076ab
 +                return;
 +            }
 +
-+            final List<String> suggestions = ConsoleCommandCompleter.complete(command, server);
++            final List<String> suggestions = ConsoleCommandCompleter.complete(null, null, null, command, server);
 +            final TabCompleteMessageResponse response = new TabCompleteMessageResponse(suggestions);
 +            PaperDaemon.sendMessage(responseChan, response);
 +        }
@@ -1476,28 +1446,17 @@ index 000000000..75fb076ab
 +    }
 +}
 \ No newline at end of file
-diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index 1beaa00e3..5cafa7044 100644
---- a/src/main/java/net/minecraft/server/DedicatedServer.java
-+++ b/src/main/java/net/minecraft/server/DedicatedServer.java
-@@ -377,7 +377,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
-         }
- 
-         hasFullyShutdown = true; // Paper
--        System.exit(0); // CraftBukkit
-+        System.exit(com.destroystokyo.paper.daemon.PaperDaemon.shutdownExitCode()); // Paper daemon
-     }
- 
-     @Override
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 64f7e448c..bcb0e91dd 100644
+index 72d1c1202581abc284848000663ada5514cfcb15..632597a70c2b0e5a3818e7c5a2ba7a7ae0082eeb 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -864,10 +864,12 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -993,12 +993,14 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
      public void safeShutdown(boolean flag, boolean isRestarting) {
          this.isRunning = false;
          this.isRestarting = isRestarting;
 +        com.destroystokyo.paper.daemon.PaperDaemon.setIsRestarting(isRestarting); // Paper daemon
+         this.hasLoggedStop = true; // Paper
+         if (isDebugging()) TraceUtil.dumpTraceForThread("Server stopped"); // Paper
          if (flag) {
              try {
                  this.serverThread.join();
@@ -1506,11 +1465,24 @@ index 64f7e448c..bcb0e91dd 100644
                  MinecraftServer.LOGGER.error("Error while shutting down", interruptedexception);
              }
          }
+diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+index 6b8bb15668d3f6244e45d1c32330453a4e93d571..fb3fe7b9d2f5d4600bdc67c9bf86d7241da801df 100644
+--- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -424,7 +424,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+         }
+ 
+         hasFullyShutdown = true; // Paper
+-        System.exit(0); // CraftBukkit
++        System.exit(com.destroystokyo.paper.daemon.PaperDaemon.shutdownExitCode()); // Paper daemon
+     }
+ 
+     @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index b312d8103..adf5ebd3c 100644
+index e277b59ae592d89aa69497ee649eaf789158c981..99e1818d78a69ba8956d85a2e0a9560c10b3d22d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -242,7 +242,7 @@ public final class CraftServer implements Server {
+@@ -240,7 +240,7 @@ public final class CraftServer implements Server {
      private final SimpleHelpMap helpMap = new SimpleHelpMap(this);
      private final StandardMessenger messenger = new StandardMessenger();
      private final SimplePluginManager pluginManager = new SimplePluginManager(this, commandMap);
@@ -1520,23 +1492,36 @@ index b312d8103..adf5ebd3c 100644
      private final Map<String, World> worlds = new LinkedHashMap<String, World>();
      private YamlConfiguration configuration;
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 8fed17622..417565713 100644
+index 22fc8cd3e48091e9d9ffca9a97cbf522a93d623e..b731dc4401c5310f8926c990f707a13fd55ccb9e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -19,6 +19,7 @@ public class Main {
+@@ -21,6 +21,7 @@ public class Main {
      public static boolean useConsole = true;
  
      public static void main(String[] args) {
 +        if (com.destroystokyo.paper.daemon.PaperDaemon.init()) { useJline = false; useConsole = false; } // Paper - daemon mode
-         // Todo: Installation script
-         if (System.getProperty("jdk.nio.maxCachedBufferSize") == null) System.setProperty("jdk.nio.maxCachedBufferSize", "262144"); // Paper - cap per-thread NIO cache size
-         OptionParser parser = new OptionParser() {
+         // Paper start
+         final String warnWhenLegacyFormattingDetected = String.join(".", "net", "kyori", "adventure", "text", "warnWhenLegacyFormattingDetected");
+         if (false && System.getProperty(warnWhenLegacyFormattingDetected) == null) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/command/ConsoleCommandCompleter.java b/src/main/java/org/bukkit/craftbukkit/command/ConsoleCommandCompleter.java
-index a51202ed5..9304cdff2 100644
+index 5e1312941f9a554fc83adc02e81980069b8d015d..b743227580a58b2efa54fcf9b4718c89ae3f9f23 100644
 --- a/src/main/java/org/bukkit/craftbukkit/command/ConsoleCommandCompleter.java
 +++ b/src/main/java/org/bukkit/craftbukkit/command/ConsoleCommandCompleter.java
-@@ -23,11 +23,21 @@ public class ConsoleCommandCompleter implements Completer {
-         this.server = server;
+@@ -1,9 +1,12 @@
+ package org.bukkit.craftbukkit.command;
+ 
++import java.util.ArrayList;
+ import java.util.Collections;
+ import java.util.List;
+ import java.util.concurrent.ExecutionException;
+ import java.util.logging.Level;
++import java.util.stream.Collectors;
++
+ import net.minecraft.server.dedicated.DedicatedServer;
+ import org.bukkit.craftbukkit.CraftServer;
+ import org.bukkit.craftbukkit.util.Waitable;
+@@ -25,11 +28,21 @@ public class ConsoleCommandCompleter implements Completer {
+         this.brigadierCompleter = new io.papermc.paper.console.BrigadierCommandCompleter(this.server, this.server.getServerCommandListener()); // Paper
      }
  
 -    // Paper start - Change method signature for JLine update
@@ -1545,42 +1530,52 @@ index a51202ed5..9304cdff2 100644
      public void complete(LineReader reader, ParsedLine line, List<Candidate> candidates) {
 -        final CraftServer server = this.server.server;
 -        final String buffer = line.line();
-+        final List<String> completions = complete(line.line(), server);
++        final List<String> completions = complete(this, reader, line, line.line(), server);
 +        final List<Candidate> resCandidates = new java.util.ArrayList<>(completions.size());
 +        for (final String completion : completions) {
-+            resCandidates.add(new Candidate(completion));
-+        }
++                resCandidates.add(new Candidate(completion));
++            }
 +        candidates.addAll(resCandidates);
 +    }
 +
-+    public static List<String> complete(final String buffer, final DedicatedServer dedicatedServer) {
++    public static List<String> complete(ConsoleCommandCompleter completer, LineReader reader, ParsedLine line, final String buffer, final DedicatedServer dedicatedServer) {
 +        // Paper end - paperd rework
 +        // Paper start - Change method signature for JLine update
 +        final CraftServer server = dedicatedServer.server;
          // Async Tab Complete
-         com.destroystokyo.paper.event.server.AsyncTabCompleteEvent event;
-         java.util.List<String> completions = new java.util.ArrayList<>();
-@@ -55,10 +65,7 @@ public class ConsoleCommandCompleter implements Completer {
+         final com.destroystokyo.paper.event.server.AsyncTabCompleteEvent event =
+             new com.destroystokyo.paper.event.server.AsyncTabCompleteEvent(server.getConsoleSender(), buffer, true, null);
+@@ -37,6 +50,7 @@ public class ConsoleCommandCompleter implements Completer {
+         final List<com.destroystokyo.paper.event.server.AsyncTabCompleteEvent.Completion> completions = event.isCancelled() ? com.google.common.collect.ImmutableList.of() : event.completions();
+ 
+         if (event.isCancelled() || event.isHandled()) {
++            List<Candidate> candidates = new ArrayList<>();
+             // Still fire sync event with the provided completions, if someone is listening
+             if (!event.isCancelled() && TabCompleteEvent.getHandlerList().getRegisteredListeners().length > 0) {
+                 List<com.destroystokyo.paper.event.server.AsyncTabCompleteEvent.Completion> finalCompletions = new java.util.ArrayList<>(completions);
+@@ -82,8 +96,9 @@ public class ConsoleCommandCompleter implements Completer {
+                     ));
                  }
              }
- 
--            if (!completions.isEmpty()) {
--                candidates.addAll(completions.stream().map(Candidate::new).collect(java.util.stream.Collectors.toList()));
--            }
+-            this.addCompletions(reader, line, candidates, completions);
 -            return;
-+            return completions; // Paper - just return completion list
++            if (completer != null && line != null) // reader is unused
++            addCompletions(completer, reader, line, candidates, completions);
++            return candidates.stream().map(Candidate::value).collect(Collectors.toList());
          }
  
          // Paper end
-@@ -76,20 +83,7 @@ public class ConsoleCommandCompleter implements Completer {
+@@ -101,43 +116,17 @@ public class ConsoleCommandCompleter implements Completer {
          server.getServer().processQueue.add(waitable); // Paper - Remove "this."
          try {
              List<String> offers = waitable.get();
 -            if (offers == null) {
+-                this.addCompletions(reader, line, candidates, Collections.emptyList()); // Paper
 -                return; // Paper - Method returns void
 -            }
 -
 -            // Paper start - JLine update
+-            /*
 -            for (String completion : offers) {
 -                if (completion.isEmpty()) {
 -                    continue;
@@ -1588,21 +1583,48 @@ index a51202ed5..9304cdff2 100644
 -
 -                candidates.add(new Candidate(completion));
 -            }
+-             */
+-            this.addCompletions(reader, line, candidates, offers.stream().map(com.destroystokyo.paper.event.server.AsyncTabCompleteEvent.Completion::completion).collect(java.util.stream.Collectors.toList()));
 -            // Paper end
 -
+-            // Paper start - JLine handles cursor now
+-            /*
+-            final int lastSpace = buffer.lastIndexOf(' ');
+-            if (lastSpace == -1) {
+-                return cursor - buffer.length();
+-            } else {
+-                return cursor - (buffer.length() - lastSpace - 1);
+-            }
+-            */
+-            // Paper end
 +            return offers == null ? com.google.common.collect.ImmutableList.of() : offers; // Paper - just return completion list
-             // Paper start - JLine handles cursor now
-             /*
-             final int lastSpace = buffer.lastIndexOf(' ');
-@@ -105,5 +99,6 @@ public class ConsoleCommandCompleter implements Completer {
+         } catch (ExecutionException e) {
+             server.getLogger().log(Level.WARNING, "Unhandled exception when tab completing", e); // Paper - Remove "this."
          } catch (InterruptedException e) {
              Thread.currentThread().interrupt();
          }
 +        return com.google.common.collect.ImmutableList.of(); // Paper - return required
      }
+ 
+     // Paper start
+-    private boolean notNewSuggestion(final List<com.destroystokyo.paper.event.server.AsyncTabCompleteEvent.Completion> completions, final String completion) {
++    private static boolean notNewSuggestion(final List<com.destroystokyo.paper.event.server.AsyncTabCompleteEvent.Completion> completions, final String completion) {
+         for (final com.destroystokyo.paper.event.server.AsyncTabCompleteEvent.Completion it : completions) {
+             if (it.suggestion().equals(completion)) {
+                 return true;
+@@ -146,8 +135,8 @@ public class ConsoleCommandCompleter implements Completer {
+         return false;
+     }
+ 
+-    private void addCompletions(final LineReader reader, final ParsedLine line, final List<Candidate> candidates, final List<com.destroystokyo.paper.event.server.AsyncTabCompleteEvent.Completion> existing) {
+-        this.brigadierCompleter.complete(reader, line, candidates, existing);
++    private static void addCompletions(ConsoleCommandCompleter completer, final LineReader reader, final ParsedLine line, final List<Candidate> candidates, final List<com.destroystokyo.paper.event.server.AsyncTabCompleteEvent.Completion> existing) {
++        completer.brigadierCompleter.complete(reader, line, candidates, existing);
+     }
+     // Paper end
  }
 diff --git a/src/main/java/org/spigotmc/RestartCommand.java b/src/main/java/org/spigotmc/RestartCommand.java
-index 123de5ac9..8aa1614b8 100644
+index 6a408dc9286a60c3ca7830f88171919fb0fe6363..4f5541c148f2b62c0784f8176a39cb05f7492730 100644
 --- a/src/main/java/org/spigotmc/RestartCommand.java
 +++ b/src/main/java/org/spigotmc/RestartCommand.java
 @@ -47,14 +47,21 @@ public class RestartCommand extends Command
@@ -1660,10 +1682,10 @@ index 123de5ac9..8aa1614b8 100644
      }
      // Paper end
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index 4d3109084..0a76df277 100644
+index 00c728704a1a7aa8b3a2e7679eaa0d2f604da087..a0255b164871caa01483cabe82fb159d73897f06 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
-@@ -222,7 +222,9 @@ public class WatchdogThread extends Thread
+@@ -220,7 +220,9 @@ public class WatchdogThread extends Thread
                      AsyncCatcher.enabled = false; // Disable async catcher incase it interferes with us
                      AsyncCatcher.shuttingDown = true;
                      server.forceTicks = true;
@@ -1675,14 +1697,14 @@ index 4d3109084..0a76df277 100644
                      // try one last chance to safe shutdown on main incase it 'comes back'
 diff --git a/src/main/resources/META-INF/io.papermc.paper.daemon.protocol b/src/main/resources/META-INF/io.papermc.paper.daemon.protocol
 new file mode 100644
-index 000000000..56a6051ca
+index 0000000000000000000000000000000000000000..56a6051ca2b02b04ef92d5150c9ef600403cb1de
 --- /dev/null
 +++ b/src/main/resources/META-INF/io.papermc.paper.daemon.protocol
 @@ -0,0 +1 @@
 +1
 \ No newline at end of file
 diff --git a/src/main/resources/log4j2.xml b/src/main/resources/log4j2.xml
-index 8af159abd..2066bc632 100644
+index 67da1aa7a21622fb231d19dede3775a282a4a12e..fe563d5480b449b82bec89643da1c7a20b21edb9 100644
 --- a/src/main/resources/log4j2.xml
 +++ b/src/main/resources/log4j2.xml
 @@ -4,7 +4,7 @@
@@ -1692,17 +1714,17 @@ index 8af159abd..2066bc632 100644
 -        <TerminalConsole name="TerminalConsole">
 +        <PaperConsole name="PaperConsole">
              <PatternLayout>
-                 <LoggerNamePatternSelector defaultPattern="%highlightError{[%d{HH:mm:ss} %level]: [%logger] %minecraftFormatting{%msg}%n%xEx{full}}">
+                 <LoggerNamePatternSelector defaultPattern="%highlightError{[%d{HH:mm:ss} %level]: [%logger] %paperMinecraftFormatting{%msg}%n%xEx{full}}">
                      <!-- Log root, Minecraft, Mojang and Bukkit loggers without prefix -->
 @@ -13,7 +13,7 @@
-                                   pattern="%highlightError{[%d{HH:mm:ss} %level]: %minecraftFormatting{%msg}%n%xEx{full}}" />
+                                   pattern="%highlightError{[%d{HH:mm:ss} %level]: %paperMinecraftFormatting{%msg}%n%xEx{full}}" />
                  </LoggerNamePatternSelector>
              </PatternLayout>
 -        </TerminalConsole>
 +        </PaperConsole>
          <RollingRandomAccessFile name="File" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">
              <PatternLayout>
-                 <LoggerNamePatternSelector defaultPattern="[%d{HH:mm:ss}] [%t/%level]: [%logger] %minecraftFormatting{%msg}{strip}%n%xEx{full}">
+                 <LoggerNamePatternSelector defaultPattern="[%d{HH:mm:ss}] [%t/%level]: [%logger] %paperMinecraftFormatting{%msg}{strip}%n%xEx{full}">
 @@ -36,7 +36,7 @@
                  <MarkerFilter marker="NETWORK_PACKETS" onMatch="DENY" onMismatch="NEUTRAL" />
              </filters>
@@ -1712,6 +1734,3 @@ index 8af159abd..2066bc632 100644
              <AppenderRef ref="ServerGuiConsole" level="info"/>
          </Root>
      </Loggers>
--- 
-2.28.0
-

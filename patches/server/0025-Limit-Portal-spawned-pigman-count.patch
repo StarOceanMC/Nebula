@@ -1,19 +1,34 @@
-From b01ca6c582c2ebfd88a3579e0f04c9f41f4d5f67 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sun, 26 Apr 2020 19:03:08 +0800
 Subject: [PATCH] Limit Portal spawned pigman count
 
----
- src/main/java/net/minecraft/server/BlockPortal.java     | 2 +-
- src/main/java/net/minecraft/server/WorldServer.java     | 2 ++
- src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java | 8 ++++++++
- 3 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/src/main/java/net/minecraft/server/BlockPortal.java b/src/main/java/net/minecraft/server/BlockPortal.java
-index 4132cd4c6..e76efcc92 100644
---- a/src/main/java/net/minecraft/server/BlockPortal.java
-+++ b/src/main/java/net/minecraft/server/BlockPortal.java
-@@ -33,7 +33,7 @@ public class BlockPortal extends Block {
+diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
+index 5eb9a41c07d09b3e04a952c47e32b83def071052..0ae6af788165c5fc60afeebd70bf190b03ddf7c4 100644
+--- a/src/main/java/net/minecraft/server/level/WorldServer.java
++++ b/src/main/java/net/minecraft/server/level/WorldServer.java
+@@ -2075,6 +2075,7 @@ public class WorldServer extends World implements GeneratorAccessSeed {
+         new com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent(entity.getBukkitEntity()).callEvent(); // Paper - fire while valid
+         this.removeNavigatorsFromData(entity); // Tuinity - optimise notify()
+         entity.valid = false; // CraftBukkit
++        if (entity instanceof net.minecraft.world.entity.monster.EntityPigZombie && entity.spawnReason == CreatureSpawnEvent.SpawnReason.NETHER_PORTAL && nebulaConfig.globalPortalSpawnedPigmanLimited && nebulaConfig.currentPigmanCount > 0) nebulaConfig.currentPigmanCount--; // Nebula - Limit global spawned pigman count
+     }
+ 
+     // Tuinity start - optimise notify()
+@@ -2203,6 +2204,7 @@ public class WorldServer extends World implements GeneratorAccessSeed {
+             // Paper end
+             entity.shouldBeRemoved = false; // Paper - shouldn't be removed after being re-added
+             new com.destroystokyo.paper.event.entity.EntityAddToWorldEvent(entity.getBukkitEntity()).callEvent(); // Paper - fire while valid
++            if (entity instanceof net.minecraft.world.entity.monster.EntityPigZombie && entity.spawnReason == CreatureSpawnEvent.SpawnReason.NETHER_PORTAL && nebulaConfig.globalPortalSpawnedPigmanLimited) nebulaConfig.currentPigmanCount++; // Nebula - Limit global spawned pigman count // entity.fromNetherPortal is set after register, So use entity.spawnReason instead
+         }
+ 
+     }
+diff --git a/src/main/java/net/minecraft/world/level/block/BlockPortal.java b/src/main/java/net/minecraft/world/level/block/BlockPortal.java
+index 5f797260eff317409a5039b88b01ad79ee2fdd91..c0aa827fbbc01903dc352a4de70df98db041c738 100644
+--- a/src/main/java/net/minecraft/world/level/block/BlockPortal.java
++++ b/src/main/java/net/minecraft/world/level/block/BlockPortal.java
+@@ -52,7 +52,7 @@ public class BlockPortal extends Block {
  
      @Override
      public void tick(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, Random random) {
@@ -22,28 +37,8 @@ index 4132cd4c6..e76efcc92 100644
              while (worldserver.getType(blockposition).a((Block) this)) {
                  blockposition = blockposition.down();
              }
-diff --git a/src/main/java/net/minecraft/server/WorldServer.java b/src/main/java/net/minecraft/server/WorldServer.java
-index 183d56e73..3031dc6a0 100644
---- a/src/main/java/net/minecraft/server/WorldServer.java
-+++ b/src/main/java/net/minecraft/server/WorldServer.java
-@@ -1874,6 +1874,7 @@ public class WorldServer extends World implements GeneratorAccessSeed {
-         this.removeNavigatorsFromData(entity); // Tuinity - optimise notify()
-         new com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent(entity.getBukkitEntity()).callEvent(); // Paper - fire while valid
-         entity.valid = false; // CraftBukkit
-+        if (entity instanceof EntityPigZombie && entity.spawnReason == CreatureSpawnEvent.SpawnReason.NETHER_PORTAL && nebulaConfig.globalPortalSpawnedPigmanLimited && nebulaConfig.currentPigmanCount > 0) nebulaConfig.currentPigmanCount--; // Nebula - Limit global spawned pigman count
-     }
- 
-     // Tuinity start - optimise notify()
-@@ -2034,6 +2035,7 @@ public class WorldServer extends World implements GeneratorAccessSeed {
-             // Paper end
-             entity.shouldBeRemoved = false; // Paper - shouldn't be removed after being re-added
-             new com.destroystokyo.paper.event.entity.EntityAddToWorldEvent(entity.getBukkitEntity()).callEvent(); // Paper - fire while valid
-+            if (entity instanceof EntityPigZombie && entity.spawnReason == CreatureSpawnEvent.SpawnReason.NETHER_PORTAL && nebulaConfig.globalPortalSpawnedPigmanLimited) nebulaConfig.currentPigmanCount++; // Nebula - Limit global spawned pigman count // entity.fromNetherPortal is set after register, So use entity.spawnReason instead
-         }
- 
-     }
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
-index 9288a8333..3c4781786 100644
+index 9288a83334e5f0bf7b7ce1191c928e2453cf62c6..3c47817866916d3535df59852ceec252584b4c5e 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 @@ -99,4 +99,12 @@ public class NebulaWorldConfig {
@@ -60,6 +55,3 @@ index 9288a8333..3c4781786 100644
 +    }
  }
 \ No newline at end of file
--- 
-2.28.0
-

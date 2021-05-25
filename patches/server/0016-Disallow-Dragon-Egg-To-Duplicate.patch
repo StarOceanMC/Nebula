@@ -1,35 +1,31 @@
-From 13481bfe3cc93ca420aa2bc352cd4f1f16f4423d Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Fri, 27 Mar 2020 08:55:56 +0800
 Subject: [PATCH] Disallow Dragon Egg To Duplicate
 
----
- .../java/net/minecraft/server/EntityFallingBlock.java  |  2 ++
- src/main/java/xianxian/mc/nebula/NebulaConfig.java     | 10 ++++++++++
- 2 files changed, 12 insertions(+)
 
-diff --git a/src/main/java/net/minecraft/server/EntityFallingBlock.java b/src/main/java/net/minecraft/server/EntityFallingBlock.java
-index 6697b945..130cdc0d 100644
---- a/src/main/java/net/minecraft/server/EntityFallingBlock.java
-+++ b/src/main/java/net/minecraft/server/EntityFallingBlock.java
-@@ -66,6 +66,7 @@ public class EntityFallingBlock extends Entity {
+diff --git a/src/main/java/net/minecraft/world/entity/item/EntityFallingBlock.java b/src/main/java/net/minecraft/world/entity/item/EntityFallingBlock.java
+index 2a61c24dd26edf4c72e977c6024fe233bab08a2f..d2a896c804dc46f1debe2bbb11229605082876b1 100644
+--- a/src/main/java/net/minecraft/world/entity/item/EntityFallingBlock.java
++++ b/src/main/java/net/minecraft/world/entity/item/EntityFallingBlock.java
+@@ -107,6 +107,7 @@ public class EntityFallingBlock extends Entity {
      public void tick() {
          // Paper start - fix sand duping
          if (this.dead) {
-+            if (xianxian.mc.nebula.NebulaConfig.fixSandDuping || (xianxian.mc.nebula.NebulaConfig.disallowDragonEggToDuplicate && this.getBlock().getBlock() instanceof BlockDragonEgg))
++            if (xianxian.mc.nebula.NebulaConfig.fixSandDuping || (xianxian.mc.nebula.NebulaConfig.disallowDragonEggToDuplicate && this.getBlock().getBlock() instanceof net.minecraft.world.level.block.BlockDragonEgg))
              return;
          }
          // Paper end - fix sand duping
-@@ -93,6 +94,7 @@ public class EntityFallingBlock extends Entity {
+@@ -144,6 +145,7 @@ public class EntityFallingBlock extends Entity {
  
              // Paper start - fix sand duping
              if (this.dead) {
-+                if (xianxian.mc.nebula.NebulaConfig.fixSandDuping || (xianxian.mc.nebula.NebulaConfig.disallowDragonEggToDuplicate && this.getBlock().getBlock() instanceof BlockDragonEgg))
++                if (xianxian.mc.nebula.NebulaConfig.fixSandDuping || (xianxian.mc.nebula.NebulaConfig.disallowDragonEggToDuplicate && this.getBlock().getBlock() instanceof net.minecraft.world.level.block.BlockDragonEgg))
                  return;
              }
              // Paper end - fix sand duping
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
-index 4efb035b..8726e69c 100644
+index 4efb035b29905fde6e1416cec8f44461cbd0435c..8726e69c739bce13d01e36b841d8620341e855a4 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 @@ -216,4 +216,14 @@ public class NebulaConfig {
@@ -48,6 +44,3 @@ index 4efb035b..8726e69c 100644
 +    }
  }
 \ No newline at end of file
--- 
-2.27.0
-

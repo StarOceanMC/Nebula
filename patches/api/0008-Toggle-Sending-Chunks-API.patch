@@ -1,17 +1,14 @@
-From f756d9984121a2aeef2a84af79f295478f998bec Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sat, 25 Apr 2020 20:08:43 +0800
 Subject: [PATCH] Toggle Sending Chunks API
 
----
- src/main/java/org/bukkit/entity/Player.java | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 991f757a..68a9341a 100644
+index 4a4f041c6acfd335871fa67d6d1c7f723229c8a7..83bc78277cb7e8e043f63a4ac633c65a2a6b8b1b 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -1887,4 +1887,20 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2131,4 +2131,20 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      @Override
      Spigot spigot();
      // Spigot end
@@ -32,6 +29,3 @@ index 991f757a..68a9341a 100644
 +    // Nebula end
 +
  }
--- 
-2.28.0
-

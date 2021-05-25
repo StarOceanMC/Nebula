@@ -9,7 +9,7 @@ MCDEV_REPO=""
 # END config
 
 sourceBase=$(dirname $SOURCE)/../
-cd ${basedir:-$sourceBase}
+cd "${basedir:-$sourceBase}"
 
 basedir=$(pwd -P)
 cd -
@@ -29,7 +29,6 @@ function bashColorReset {
 function cleanupPatches {
     cd "$1"
     for patch in *.patch; do
-        echo "$patch"
         gitver=$(tail -n 2 $patch | grep -ve "^$" | tail -n 1)
         diffs=$(git diff --staged $patch | grep -E "^(\+|\-)" | grep -Ev "(From [a-z0-9]{32,}|\-\-\- a|\+\+\+ b|.index|Date\: )")
 

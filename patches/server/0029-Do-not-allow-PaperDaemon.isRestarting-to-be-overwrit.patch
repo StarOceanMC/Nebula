@@ -1,15 +1,11 @@
-From de8d01f0abb1f9f3af8a3c3f75fe95313f51e114 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Thu, 21 May 2020 21:54:10 +0800
 Subject: [PATCH] Do not allow PaperDaemon.isRestarting to be overwrite
 
----
- src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java | 2 +-
- src/main/java/org/spigotmc/RestartCommand.java                | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
-index bf59005f8..539abc650 100644
+index 80eedfec3061dec1322e0e104930b27167bdcefa..715f7f52f5ae8e9007897e75e21ca4e2b9ea9b2f 100644
 --- a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
 +++ b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
 @@ -208,7 +208,7 @@ public final class PaperDaemon {
@@ -22,7 +18,7 @@ index bf59005f8..539abc650 100644
  
      /**
 diff --git a/src/main/java/org/spigotmc/RestartCommand.java b/src/main/java/org/spigotmc/RestartCommand.java
-index 8aa1614b8..1e3ee9f1a 100644
+index 4f5541c148f2b62c0784f8176a39cb05f7492730..b870e9aef82319a2f7a25f26b5be56f0170cab18 100644
 --- a/src/main/java/org/spigotmc/RestartCommand.java
 +++ b/src/main/java/org/spigotmc/RestartCommand.java
 @@ -76,6 +76,7 @@ public class RestartCommand extends Command
@@ -33,6 +29,3 @@ index 8aa1614b8..1e3ee9f1a 100644
          if ( MinecraftServer.getServer().isMainThread() )
          {
              // Kick all players
--- 
-2.28.0
-

@@ -1,17 +1,14 @@
-From c3ef39f9f76e2ef9262e2fca09023797c6e09a6c Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Tue, 7 Apr 2020 12:10:41 +0800
 Subject: [PATCH] Only bedrock and piston head are allowed to be set to air
 
----
- .../java/net/minecraft/server/BlockPiston.java    | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/src/main/java/net/minecraft/server/BlockPiston.java b/src/main/java/net/minecraft/server/BlockPiston.java
-index 4f10ca5a..84796dc9 100644
---- a/src/main/java/net/minecraft/server/BlockPiston.java
-+++ b/src/main/java/net/minecraft/server/BlockPiston.java
-@@ -231,14 +231,13 @@ public class BlockPiston extends BlockDirectional {
+diff --git a/src/main/java/net/minecraft/world/level/block/piston/BlockPiston.java b/src/main/java/net/minecraft/world/level/block/piston/BlockPiston.java
+index 8aa51fb207820a7629d50b80ea821ec6cccf8b54..3b3c7afbe76c35b087108863c432bb030bb31600 100644
+--- a/src/main/java/net/minecraft/world/level/block/piston/BlockPiston.java
++++ b/src/main/java/net/minecraft/world/level/block/piston/BlockPiston.java
+@@ -260,14 +260,13 @@ public class BlockPiston extends BlockDirectional {
                      }
                  }
              } else {
@@ -33,6 +30,3 @@ index 4f10ca5a..84796dc9 100644
              }
  
              world.playSound((EntityHuman) null, blockposition, SoundEffects.BLOCK_PISTON_CONTRACT, SoundCategory.BLOCKS, 0.5F, world.random.nextFloat() * 0.15F + 0.6F);
--- 
-2.27.0
-

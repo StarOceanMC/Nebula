@@ -1,26 +1,22 @@
-From b2af9a2c607c9e3205125b85005ca2d8a6bfb79c Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Fri, 27 Mar 2020 09:00:16 +0800
 Subject: [PATCH] Configurable Dolphin Receive Conduit Power
 
----
- .../java/net/minecraft/server/TileEntityConduit.java  | 11 +++++++++++
- .../java/xianxian/mc/nebula/NebulaWorldConfig.java    |  5 +++++
- 2 files changed, 16 insertions(+)
 
-diff --git a/src/main/java/net/minecraft/server/TileEntityConduit.java b/src/main/java/net/minecraft/server/TileEntityConduit.java
-index ade830122..b2f95cba0 100644
---- a/src/main/java/net/minecraft/server/TileEntityConduit.java
-+++ b/src/main/java/net/minecraft/server/TileEntityConduit.java
-@@ -167,6 +167,17 @@ public class TileEntityConduit extends TileEntity implements ITickable {
+diff --git a/src/main/java/net/minecraft/world/level/block/entity/TileEntityConduit.java b/src/main/java/net/minecraft/world/level/block/entity/TileEntityConduit.java
+index 9db6753a0abc4febde2e8972117768da929b8c53..acca38a01d2188e2281bea06d233468de49288a4 100644
+--- a/src/main/java/net/minecraft/world/level/block/entity/TileEntityConduit.java
++++ b/src/main/java/net/minecraft/world/level/block/entity/TileEntityConduit.java
+@@ -188,6 +188,17 @@ public class TileEntityConduit extends TileEntity implements ITickable {
              }
  
          }
 +        // Nebula start - Configurable Dolphin Receive Conduit Power
-+        List<EntityDolphin> dolphins = this.world.a(EntityDolphin.class, axisalignedbb);
++        List<net.minecraft.world.entity.animal.EntityDolphin> dolphins = this.world.a(net.minecraft.world.entity.animal.EntityDolphin.class, axisalignedbb);
 +
 +        if (!dolphins.isEmpty()) {
-+            for (EntityDolphin dolphin : dolphins) {
++            for (net.minecraft.world.entity.animal.EntityDolphin dolphin : dolphins) {
 +                if (this.position.a((BaseBlockPosition) dolphin.getChunkCoordinates(), (double) j) && dolphin.isInWaterOrRain()) {
 +                    dolphin.addEffect(new MobEffect(MobEffects.CONDUIT_POWER, 260, 0, true, true), org.bukkit.event.entity.EntityPotionEffectEvent.Cause.CONDUIT); // CraftBukkit
 +                }
@@ -31,7 +27,7 @@ index ade830122..b2f95cba0 100644
  
      private void k() {
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
-index aee22164d..80d318213 100644
+index aee22164d0cf08156ee941e8042638748db35b87..80d318213dad3ae890e64c5e5068ef71f4d6313c 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 @@ -88,4 +88,9 @@ public class NebulaWorldConfig {
@@ -45,6 +41,3 @@ index aee22164d..80d318213 100644
 +    }
  }
 \ No newline at end of file
--- 
-2.28.0
-

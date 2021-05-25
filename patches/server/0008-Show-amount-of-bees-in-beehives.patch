@@ -1,26 +1,22 @@
-From 6562ccd02fdaab486ba304ddf90c87e23c7d3a27 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 8 Jan 2020 22:04:01 +0800
 Subject: [PATCH] Show amount of bees in beehives
 
----
- .../net/minecraft/server/BlockBeehive.java    | 34 ++++++++++++++++++-
- .../java/xianxian/mc/nebula/NebulaConfig.java | 10 ++++++
- 2 files changed, 43 insertions(+), 1 deletion(-)
 
-diff --git a/src/main/java/net/minecraft/server/BlockBeehive.java b/src/main/java/net/minecraft/server/BlockBeehive.java
-index 7e2c63e47..a8c3475fd 100644
---- a/src/main/java/net/minecraft/server/BlockBeehive.java
-+++ b/src/main/java/net/minecraft/server/BlockBeehive.java
-@@ -179,6 +179,16 @@ public class BlockBeehive extends BlockTileEntity {
+diff --git a/src/main/java/net/minecraft/world/level/block/BlockBeehive.java b/src/main/java/net/minecraft/world/level/block/BlockBeehive.java
+index 828d231a963f1962d88fe170ac86590d86e1df40..b024d00b601698f365506a7d502a5ee6ebbdbca5 100644
+--- a/src/main/java/net/minecraft/world/level/block/BlockBeehive.java
++++ b/src/main/java/net/minecraft/world/level/block/BlockBeehive.java
+@@ -235,6 +235,16 @@ public class BlockBeehive extends BlockTileEntity {
                  if (flag) {
                      nbttagcompound = new NBTTagCompound();
                      nbttagcompound.set("Bees", tileentitybeehive.m());
 +                    // Nebula start - Show amount of bees in beehives
 +                    if (xianxian.mc.nebula.NebulaConfig.showBeesAmountInsideBeehive) {
 +                        NBTTagCompound display = new NBTTagCompound();
-+                        NBTTagList lore = new NBTTagList();
-+                        lore.add(NBTTagString.a(IChatBaseComponent.ChatSerializer.a(new ChatComponentText("§7" +
++                        net.minecraft.nbt.NBTTagList lore = new net.minecraft.nbt.NBTTagList();
++                        lore.add(net.minecraft.nbt.NBTTagString.a(net.minecraft.network.chat.IChatBaseComponent.ChatSerializer.a(new net.minecraft.network.chat.ChatComponentText("§7" +
 +                                String.format(xianxian.mc.nebula.NebulaConfig.beesInsideLore, tileentitybeehive.getBeeCount())))));
 +                        display.set("Lore", lore);
 +                        itemstack.a("display", display);
@@ -29,7 +25,7 @@ index 7e2c63e47..a8c3475fd 100644
                      itemstack.a("BlockEntityTag", (NBTBase) nbttagcompound);
                  }
  
-@@ -209,7 +219,29 @@ public class BlockBeehive extends BlockTileEntity {
+@@ -265,7 +275,29 @@ public class BlockBeehive extends BlockTileEntity {
              }
          }
  
@@ -46,8 +42,8 @@ index 7e2c63e47..a8c3475fd 100644
 +                        ItemStack loot = loots.get(i);
 +                        if (loot.getItem().equals(Items.rr) || loot.getItem().equals(Items.rs)) {
 +                            NBTTagCompound display = new NBTTagCompound();
-+                            NBTTagList lore = new NBTTagList();
-+                            lore.add(NBTTagString.a(IChatBaseComponent.ChatSerializer.a(new ChatComponentText("§7" +
++                            net.minecraft.nbt.NBTTagList lore = new net.minecraft.nbt.NBTTagList();
++                            lore.add(net.minecraft.nbt.NBTTagString.a(net.minecraft.network.chat.IChatBaseComponent.ChatSerializer.a(new net.minecraft.network.chat.ChatComponentText("§7" +
 +                                    String.format(xianxian.mc.nebula.NebulaConfig.beesInsideLore, tileentitybeehive.getBeeCount())))));
 +                            display.set("Lore", lore);
 +                            loot.a("display", display);
@@ -61,7 +57,7 @@ index 7e2c63e47..a8c3475fd 100644
  
      @Override
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
-index 1354501cb..5631e4c88 100644
+index 1354501cb42827cdd0701fd0a839ba855d9d78a7..5631e4c88e9ec830af2a05b778dbfb10dc2a7418 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 @@ -186,4 +186,14 @@ public class NebulaConfig {
@@ -80,6 +76,3 @@ index 1354501cb..5631e4c88 100644
 +    }
  }
 \ No newline at end of file
--- 
-2.28.0
-

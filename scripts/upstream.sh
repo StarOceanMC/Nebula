@@ -33,7 +33,7 @@ version=$(echo -e "Tuinity: $tuinityVer\nmc-dev:$importedmcdev")
 tag="${minecraftversion}-${mcVer}-$(echo -e $version | shasum | awk '{print $1}')"
 echo "$tag" > $basedir/current-tuinity
 
-$basedir/scripts/generatesources.sh
+"$basedir"/scripts/generatesources.sh
 
 cd Tuinity/
 
@@ -60,6 +60,3 @@ tag Tuinity-Server $forcetag
 pushRepo Tuinity-API $PAPER_API_REPO $tag
 pushRepo Tuinity-Server $PAPER_SERVER_REPO $tag
 
-echo "Building MojangAPI"
-cd $basedir/Tuinity/Paper/Paper-MojangAPI
-mvn clean install

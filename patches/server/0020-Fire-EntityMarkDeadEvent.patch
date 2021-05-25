@@ -1,17 +1,14 @@
-From c8063a2efc433967193199dd17a0c1fbe1d93df5 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Tue, 7 Apr 2020 12:37:57 +0800
 Subject: [PATCH] Fire EntityMarkDeadEvent
 
----
- src/main/java/net/minecraft/server/Entity.java | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/src/main/java/net/minecraft/server/Entity.java b/src/main/java/net/minecraft/server/Entity.java
-index 0881a17d2..b015aa1f9 100644
---- a/src/main/java/net/minecraft/server/Entity.java
-+++ b/src/main/java/net/minecraft/server/Entity.java
-@@ -375,6 +375,7 @@ public abstract class Entity implements INamableTileEntity, ICommandListener, Ke
+diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
+index feab0ae1930b5271fe0d06a40c180317dcbc9d1d..f2846402aeeb56f166b719cb49329aa979d15900 100644
+--- a/src/main/java/net/minecraft/world/entity/Entity.java
++++ b/src/main/java/net/minecraft/world/entity/Entity.java
+@@ -480,6 +480,7 @@ public abstract class Entity implements INamableTileEntity, ICommandListener, ne
  
      public void die() {
          this.dead = true;
@@ -19,6 +16,3 @@ index 0881a17d2..b015aa1f9 100644
      }
  
      public void setPose(EntityPose entitypose) {
--- 
-2.28.0
-

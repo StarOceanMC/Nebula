@@ -1,16 +1,12 @@
-From 0a0d662b7bfc0f991e557fd281d60e286399ab75 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Tue, 7 Apr 2020 12:37:40 +0800
 Subject: [PATCH] Fire EntityMarkDeadEvent
 
----
- .../event/entity/EntityMarkDeadEvent.java     | 35 +++++++++++++++++++
- 1 file changed, 35 insertions(+)
- create mode 100644 src/main/java/xianxian/mc/nebula/event/entity/EntityMarkDeadEvent.java
 
 diff --git a/src/main/java/xianxian/mc/nebula/event/entity/EntityMarkDeadEvent.java b/src/main/java/xianxian/mc/nebula/event/entity/EntityMarkDeadEvent.java
 new file mode 100644
-index 00000000..cd34f300
+index 0000000000000000000000000000000000000000..cd34f3008c74f4775763dc16747e8b81503b2fff
 --- /dev/null
 +++ b/src/main/java/xianxian/mc/nebula/event/entity/EntityMarkDeadEvent.java
 @@ -0,0 +1,35 @@
@@ -49,6 +45,3 @@ index 00000000..cd34f300
 +            entity.getServer().getPluginManager().callEvent(event);
 +    }
 +}
--- 
-2.26.2
-

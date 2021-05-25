@@ -1,19 +1,12 @@
-From 18a25eecf2f51c6d5489d442d2d9007ce9abfa2f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 23 Mar 2020 14:56:13 +0800
 Subject: [PATCH] Daemon Console
 
----
- .../paper/daemon/MessageQueue.java            | 170 ++++++++++++++++++
- .../paper/daemon/PaperDaemon.java             |   3 +-
- .../net/minecraft/server/MinecraftServer.java |   1 +
- .../java/xianxian/mc/nebula/NebulaConfig.java |  15 ++
- 4 files changed, 188 insertions(+), 1 deletion(-)
- create mode 100644 src/main/java/com/destroystokyo/paper/daemon/MessageQueue.java
 
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/MessageQueue.java b/src/main/java/com/destroystokyo/paper/daemon/MessageQueue.java
 new file mode 100644
-index 000000000..5832e1677
+index 0000000000000000000000000000000000000000..6e754839d3028ce4670aa20ce51ef9096c62309d
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/daemon/MessageQueue.java
 @@ -0,0 +1,170 @@
@@ -165,7 +158,7 @@ index 000000000..5832e1677
 +                case "tabq":
 +                    String line = obj.get("line").getAsString();
 +                    JsonArray array = new JsonArray();
-+                    ConsoleCommandCompleter.complete(line, PaperDaemon.getConsole()).forEach(array::add);
++                    ConsoleCommandCompleter.complete(null, null, null, line, PaperDaemon.getConsole()).forEach(array::add);
 +                    JsonObject resp = new JsonObject();
 +                    resp.add("t", new JsonPrimitive("tabr"));
 +                    resp.add("resp", array);
@@ -188,7 +181,7 @@ index 000000000..5832e1677
 +    }
 +}
 diff --git a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
-index b1c585fda..ec092f429 100644
+index e55a591e096047a41745a8b9956fe8d2a33191da..e0a11e1702ccabaa47ae713b580dc940721628bd 100644
 --- a/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
 +++ b/src/main/java/com/destroystokyo/paper/daemon/PaperDaemon.java
 @@ -478,6 +478,7 @@ public final class PaperDaemon {
@@ -207,10 +200,10 @@ index b1c585fda..ec092f429 100644
 \ No newline at end of file
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index bcb0e91dd..dc7f15e01 100644
+index 632597a70c2b0e5a3818e7c5a2ba7a7ae0082eeb..5402db31654c7ad45f1d418e80bb9651bc4b6a76 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -733,6 +733,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -855,6 +855,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
      @Override
      public void close() {
          this.stop();
@@ -219,7 +212,7 @@ index bcb0e91dd..dc7f15e01 100644
  
      // CraftBukkit start
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
-index 6639cb5db..4efb035b2 100644
+index 6639cb5db18a5bd7f6145b63925272ad6a3e7166..4efb035b29905fde6e1416cec8f44461cbd0435c 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 @@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
@@ -250,6 +243,3 @@ index 6639cb5db..4efb035b2 100644
 +    }
  }
 \ No newline at end of file
--- 
-2.28.0
-

@@ -1,17 +1,14 @@
-From f1931561cbe94d81a0d25e28a5f98aedcccfb443 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sat, 18 Jan 2020 19:26:09 +0800
 Subject: [PATCH] Wolves won't stand up caused by other players
 
----
- src/main/java/net/minecraft/server/EntityWolf.java | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/src/main/java/net/minecraft/server/EntityWolf.java b/src/main/java/net/minecraft/server/EntityWolf.java
-index 5779d1c9f..a30f37faa 100644
---- a/src/main/java/net/minecraft/server/EntityWolf.java
-+++ b/src/main/java/net/minecraft/server/EntityWolf.java
-@@ -268,6 +268,10 @@ public class EntityWolf extends EntityTameableAnimal implements IEntityAngerable
+diff --git a/src/main/java/net/minecraft/world/entity/animal/EntityWolf.java b/src/main/java/net/minecraft/world/entity/animal/EntityWolf.java
+index b44b1544f401c1a5127bed3239bfd60420d17329..d8358210157dabd4f0d799a2eb87f0845acc6d6d 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/EntityWolf.java
++++ b/src/main/java/net/minecraft/world/entity/animal/EntityWolf.java
+@@ -326,6 +326,10 @@ public class EntityWolf extends EntityTameableAnimal implements IEntityAngerable
              return flag ? EnumInteractionResult.CONSUME : EnumInteractionResult.PASS;
          } else {
              if (this.isTamed()) {
@@ -22,6 +19,3 @@ index 5779d1c9f..a30f37faa 100644
                  if (this.k(itemstack) && this.getHealth() < this.getMaxHealth()) {
                      if (!entityhuman.abilities.canInstantlyBuild) {
                          itemstack.subtract(1);
--- 
-2.28.0
-

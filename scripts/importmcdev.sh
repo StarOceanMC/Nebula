@@ -8,15 +8,13 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 . $(dirname $SOURCE)/init.sh
 
-workdir=$basedir/Tuinity/Paper/work
-minecraftversion=$(cat $basedir/Tuinity/Paper/work/BuildData/info.json | grep minecraftVersion | cut -d '"' -f 4)
-decompiledir=$workdir/Minecraft/$minecraftversion/forge
-# replace for now
+workdir="$basedir"/Tuinity/Paper/work
+minecraftversion=$(cat "$basedir"/Tuinity/Paper/work/BuildData/info.json | grep minecraftVersion | cut -d '"' -f 4)
 decompiledir="$workdir/Minecraft/$minecraftversion/spigot"
 
-nms="net/minecraft/server"
+nms="net/minecraft"
 export MODLOG=""
-cd $basedir
+cd "$basedir"
 
 function containsElement {
     local e
@@ -28,7 +26,7 @@ function containsElement {
 
 export importedmcdev=""
 function import {
-    if [ -f "$basedir/Tuinity/Tuinity-Server/src/main/java/net/minecraft/server/$1.java" ]; then
+    if [ -f "$basedir/Tuinity/Tuinity-Server/src/main/java/$nms/$1.java" ]; then
         echo "ALREADY IMPORTED $1"
         return 0
     fi
@@ -39,11 +37,32 @@ function import {
 
     if [[ ! -f "$target" ]]; then
         export MODLOG="$MODLOG  Imported $file from mc-dev\n";
+        mkdir -p "$(dirname "$target")"
         echo "$(bashColor 1 32) Copying $(bashColor 1 34)$base $(bashColor 1 32)to$(bashColor 1 34) $target $(bashColorReset)"
         cp "$base" "$target"
     else
         echo "$(bashColor 1 33) UN-NEEDED IMPORT STATEMENT:$(bashColor 1 34) $file $(bashColorReset)"
     fi
+}
+
+function importLibrary {
+    group=$1
+    lib=$2
+    prefix=$3
+    shift 3
+    for file in "$@"; do
+        file="$prefix/$file"
+        target="$basedir/Tuinity/Tuinity-Server/src/main/java/$file"
+        targetdir=$(dirname "$target")
+        mkdir -p "${targetdir}"
+        base="$workdir/Minecraft/$minecraftversion/libraries/${group}/${lib}/$file"
+        if [ ! -f "$base" ]; then
+            echo "Missing $base"
+            exit 1
+        fi
+        export MODLOG="$MODLOG  Imported $file from $lib\n";
+        sed 's/\r$//' "$base" > "$target" || exit 1
+    done
 }
 
 (
@@ -55,22 +74,27 @@ function import {
 )
 
 
-files=$(cat patches/server/* | grep "+++ b/src/main/java/net/minecraft/server/" | sort | uniq | sed 's/\+\+\+ b\/src\/main\/java\/net\/minecraft\/server\///g' | sed 's/.java//g')
+files=$(cat patches/server/* | grep "+++ b/src/main/java/net/minecraft/" | sort | uniq | sed 's/\+\+\+ b\/src\/main\/java\/net\/minecraft\///g')
 
-nonnms=$(cat patches/server/* | grep "create mode " | grep -Po "src/main/java/net/minecraft/server/(.*?).java" | sort | uniq | sed 's/src\/main\/java\/net\/minecraft\/server\///g' | sed 's/.java//g')
+nonnms=$(grep -R "new file mode" -B 1 "$basedir/patches/server/" | grep -v "new file mode" | grep -oE --color=none "net\/minecraft\/.*.java" | sed 's/.*\/net\/minecraft\///g')
 
 for f in $files; do
     containsElement "$f" ${nonnms[@]}
     if [ "$?" == "1" ]; then
-        if [ ! -f "$basedir/Tuinity/Tuinity-Server/src/main/java/net/minecraft/server/$f.java" ]; then
+        if [ ! -f "$basedir/Tuinity/Tuinity-Server/src/main/java/net/minecraft/$f" ]; then
+            f="$(echo "$f" | sed 's/.java//g')"
             if [ ! -f "$decompiledir/$nms/$f.java" ]; then
-                echo "$(bashColor 1 31) ERROR!!! Missing NMS$(bashColor 1 34) $f $(bashColorReset)";
+                echo "$(bashColor 1 31) ERROR!!! Missing NMS$(bashColor 1 34) $f ($decompiledir/$nms/$f.java) $(bashColorReset)";
+                error=true
             else
                 import $f
             fi
         fi
     fi
 done
+if [ -n "$error" ]; then
+  exit 1
+fi
 
 ###############################################################################################
 ###############################################################################################
@@ -86,4 +110,5 @@ done
     rm -rf nms-patches
     git add src -A
     echo -e "Nebula-Extra mc-dev Imports\n\n$MODLOG" | git commit src -F -
+    exit 0
 )

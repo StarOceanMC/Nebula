@@ -1,17 +1,12 @@
-From e8e1d6aa38293f17e2a520493a7318b394a4c510 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 11 Mar 2020 19:54:44 +0800
 Subject: [PATCH] Rework Daemon Patch
 
----
- .../aikar/timings/SimpleTimingsReportListener.java  | 13 +++++++++++++
- .../co/aikar/timings/TimingsReportListener.java     |  5 +++++
- 2 files changed, 18 insertions(+)
- create mode 100644 src/main/java/co/aikar/timings/SimpleTimingsReportListener.java
 
 diff --git a/src/main/java/co/aikar/timings/SimpleTimingsReportListener.java b/src/main/java/co/aikar/timings/SimpleTimingsReportListener.java
 new file mode 100644
-index 00000000..5c8bbb6a
+index 0000000000000000000000000000000000000000..5c8bbb6ae64a597a4773ccb152f18a9dcc244617
 --- /dev/null
 +++ b/src/main/java/co/aikar/timings/SimpleTimingsReportListener.java
 @@ -0,0 +1,13 @@
@@ -29,10 +24,10 @@ index 00000000..5c8bbb6a
 +    public void addConsoleIfNeeded() {}
 +}
 diff --git a/src/main/java/co/aikar/timings/TimingsReportListener.java b/src/main/java/co/aikar/timings/TimingsReportListener.java
-index bf3e059f..c072b68c 100644
+index ecd149157d4fb80444f34bf5633d74bcdb63dec5..d1a534c6e99a5697f69581e3e378ade49562a89c 100644
 --- a/src/main/java/co/aikar/timings/TimingsReportListener.java
 +++ b/src/main/java/co/aikar/timings/TimingsReportListener.java
-@@ -17,6 +17,11 @@ public class TimingsReportListener implements MessageCommandSender {
+@@ -19,6 +19,11 @@ public class TimingsReportListener implements net.kyori.adventure.audience.Forwa
      private final List<CommandSender> senders;
      private final Runnable onDone;
      private String timingsURL;
@@ -44,6 +39,3 @@ index bf3e059f..c072b68c 100644
  
      public TimingsReportListener(@NotNull CommandSender senders) {
          this(senders, null);
--- 
-2.26.2
-

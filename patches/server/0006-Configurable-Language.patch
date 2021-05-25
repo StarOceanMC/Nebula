@@ -1,36 +1,14 @@
-From d5bc130fad0e088679cdfff1b56d03a570f3f423 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Fri, 3 Jan 2020 21:45:32 +0800
 Subject: [PATCH] Configurable Language
 
----
- .../net/minecraft/server/DedicatedServer.java |  4 ++
- .../net/minecraft/server/LocaleLanguage.java  |  7 +-
- .../mc/nebula/CustomLocaleLanguage.java       | 72 +++++++++++++++++++
- .../java/xianxian/mc/nebula/NebulaConfig.java | 12 ++++
- 4 files changed, 94 insertions(+), 1 deletion(-)
- create mode 100644 src/main/java/xianxian/mc/nebula/CustomLocaleLanguage.java
 
-diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index a91c8229e..1beaa00e3 100644
---- a/src/main/java/net/minecraft/server/DedicatedServer.java
-+++ b/src/main/java/net/minecraft/server/DedicatedServer.java
-@@ -177,6 +177,10 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
-         }
-         xianxian.mc.nebula.NebulaConfig.registerCommands();
-         // Nebula end
-+        // Nebula start - Load custom language on server startup
-+        if (xianxian.mc.nebula.NebulaConfig.useCustomLanguageFile)
-+            xianxian.mc.nebula.CustomLocaleLanguage.getInstance().load(xianxian.mc.nebula.NebulaConfig.customLanguageFilePath);
-+        // Nebula end
-         this.setPVP(dedicatedserverproperties.pvp);
-         this.setAllowFlight(dedicatedserverproperties.allowFlight);
-         this.setResourcePack(dedicatedserverproperties.resourcePack, this.aZ());
-diff --git a/src/main/java/net/minecraft/server/LocaleLanguage.java b/src/main/java/net/minecraft/server/LocaleLanguage.java
-index 29d554835..ae622c6fc 100644
---- a/src/main/java/net/minecraft/server/LocaleLanguage.java
-+++ b/src/main/java/net/minecraft/server/LocaleLanguage.java
-@@ -63,7 +63,12 @@ public abstract class LocaleLanguage {
+diff --git a/src/main/java/net/minecraft/locale/LocaleLanguage.java b/src/main/java/net/minecraft/locale/LocaleLanguage.java
+index 5218214225b50ac4059ab704086a457318e93e00..2c8891fe587574893cc61ad9703a8268a0d6d4ba 100644
+--- a/src/main/java/net/minecraft/locale/LocaleLanguage.java
++++ b/src/main/java/net/minecraft/locale/LocaleLanguage.java
+@@ -64,7 +64,12 @@ public abstract class LocaleLanguage {
          return new LocaleLanguage() {
              @Override
              public String a(String s) {
@@ -44,9 +22,24 @@ index 29d554835..ae622c6fc 100644
              }
  
              @Override
+diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+index 35ecd366cdcd5f494099ba49e8f7fe55e0d67e35..6b8bb15668d3f6244e45d1c32330453a4e93d571 100644
+--- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -225,6 +225,10 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+         }
+         xianxian.mc.nebula.NebulaConfig.registerCommands();
+         // Nebula end
++        // Nebula start - Load custom language on server startup
++        if (xianxian.mc.nebula.NebulaConfig.useCustomLanguageFile)
++            xianxian.mc.nebula.CustomLocaleLanguage.getInstance().load(xianxian.mc.nebula.NebulaConfig.customLanguageFilePath);
++        // Nebula end
+         this.setPVP(dedicatedserverproperties.pvp);
+         this.setAllowFlight(dedicatedserverproperties.allowFlight);
+         this.setResourcePack(dedicatedserverproperties.resourcePack, this.ba());
 diff --git a/src/main/java/xianxian/mc/nebula/CustomLocaleLanguage.java b/src/main/java/xianxian/mc/nebula/CustomLocaleLanguage.java
 new file mode 100644
-index 000000000..2644210f6
+index 0000000000000000000000000000000000000000..41fb65762882045dba0e8ac65d64cd2eca9a727e
 --- /dev/null
 +++ b/src/main/java/xianxian/mc/nebula/CustomLocaleLanguage.java
 @@ -0,0 +1,72 @@
@@ -70,10 +63,10 @@ index 000000000..2644210f6
 +import com.google.gson.JsonElement;
 +import com.google.gson.JsonObject;
 +
-+import net.minecraft.server.ChatDeserializer;
++import net.minecraft.util.ChatDeserializer;
 +
 +/**
-+ * See also {@link net.minecraft.server.LocaleLanguage}
++ * See also {@link net.minecraft.locale.LocaleLanguage}
 + */
 +public final class CustomLocaleLanguage {
 +    private static final CustomLocaleLanguage INSTANCE = new CustomLocaleLanguage();
@@ -123,7 +116,7 @@ index 000000000..2644210f6
 +    }
 +}
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaConfig.java b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
-index 42dc78ca1..1354501cb 100644
+index 42dc78ca173162a60f002bd5cb797b8945d07a58..1354501cb42827cdd0701fd0a839ba855d9d78a7 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaConfig.java
 @@ -174,4 +174,16 @@ public class NebulaConfig {
@@ -144,6 +137,3 @@ index 42dc78ca1..1354501cb 100644
 +    }
  }
 \ No newline at end of file
--- 
-2.28.0
-

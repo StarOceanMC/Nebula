@@ -1,17 +1,14 @@
-From 4caca51a0a315f5be6c78e53df060ec299afbdbb Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sat, 19 Sep 2020 12:55:14 +0800
 Subject: [PATCH] Fix StackOverFlow in EntityWolf.b
 
----
- src/main/java/net/minecraft/server/EntityWolf.java | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/src/main/java/net/minecraft/server/EntityWolf.java b/src/main/java/net/minecraft/server/EntityWolf.java
-index a30f37faa..b396f173e 100644
---- a/src/main/java/net/minecraft/server/EntityWolf.java
-+++ b/src/main/java/net/minecraft/server/EntityWolf.java
-@@ -270,7 +270,7 @@ public class EntityWolf extends EntityTameableAnimal implements IEntityAngerable
+diff --git a/src/main/java/net/minecraft/world/entity/animal/EntityWolf.java b/src/main/java/net/minecraft/world/entity/animal/EntityWolf.java
+index d8358210157dabd4f0d799a2eb87f0845acc6d6d..aae63d162673877425d96d98c61aee62773a877a 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/EntityWolf.java
++++ b/src/main/java/net/minecraft/world/entity/animal/EntityWolf.java
+@@ -328,7 +328,7 @@ public class EntityWolf extends EntityTameableAnimal implements IEntityAngerable
              if (this.isTamed()) {
                  // Nebula start - Wolves won't stand up caused by other players
                  if (!this.j((EntityLiving) entityhuman))
@@ -20,6 +17,3 @@ index a30f37faa..b396f173e 100644
                  // Nebula end
                  if (this.k(itemstack) && this.getHealth() < this.getMaxHealth()) {
                      if (!entityhuman.abilities.canInstantlyBuild) {
--- 
-2.28.0
-

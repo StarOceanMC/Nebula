@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# exit immediately if a command exits with a non-zero status
+set -e
 # get base dir regardless of execution location
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
@@ -9,7 +11,7 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 SOURCE=$([[ "$SOURCE" = /* ]] && echo "$SOURCE" || echo "$PWD/${SOURCE#./}")
 basedir=$(dirname "$SOURCE")
-. $basedir/scripts/init.sh
+. "$basedir"/scripts/init.sh
 
 paperstash() {
     STASHED=$(git stash)
@@ -33,6 +35,9 @@ case "$1" in
     (
         set -e
         cd "$basedir"
+        if [ "$2" != "fast" ]; then
+          scripts/upstream.sh
+        fi
         scripts/apply.sh "$basedir"
     )
     ;;
@@ -40,11 +45,26 @@ case "$1" in
     (
         basedir
         mvn -N install
-        cd ${FORK_NAME}-API
-        mvn -e clean install && cd ../${FORK_NAME}-Server && mvn -e clean install
-        cd ${basedir}
-        mcver=$(cat "Tuinity/Paper/work/BuildData/info.json" | grep minecraftVersion | cut -d '"' -f 4)
-        cp "${FORK_NAME}-Server/target/nebula-${mcver}.jar" "$basedir"
+        cd ${FORK_NAME}-API && mvn -e clean install
+        cd $basedir/Tuinity/Paper/Paper-MojangAPI && mvn -e clean install
+        cd $basedir/${FORK_NAME}-Server && mvn -e clean install
+    )
+    ;;
+    "jar" | "paperclip")
+    (
+        basedir
+        cd "$basedir"
+        if [ "$2" != "fast" ]; then
+           scripts/upstream.sh
+        fi
+        scripts/apply.sh "$basedir"
+        cd "$basedir"
+        mvn -N install
+        cd ${FORK_NAME}-API && mvn -e clean install
+        cd $basedir/Tuinity/Paper/Paper-MojangAPI && mvn -e clean install
+        cd $basedir/${FORK_NAME}-Server && mvn -e clean install
+        cd "$basedir"
+        scripts/paperclip.sh
     )
     ;;
     "d" | "de" | "deploy")

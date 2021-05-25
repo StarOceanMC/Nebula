@@ -1,16 +1,12 @@
-From 319d2cfc4d38eb79e9f3ef8279ca568817850986 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 1 Apr 2020 12:18:33 +0800
 Subject: [PATCH] Fire PlayerPostTeleportEvent
 
----
- .../event/player/PlayerPostTeleportEvent.java | 37 +++++++++++++++++++
- 1 file changed, 37 insertions(+)
- create mode 100644 src/main/java/xianxian/mc/nebula/event/player/PlayerPostTeleportEvent.java
 
 diff --git a/src/main/java/xianxian/mc/nebula/event/player/PlayerPostTeleportEvent.java b/src/main/java/xianxian/mc/nebula/event/player/PlayerPostTeleportEvent.java
 new file mode 100644
-index 00000000..beba168d
+index 0000000000000000000000000000000000000000..beba168d19196175ff99de0d9ee42fbaf9645e74
 --- /dev/null
 +++ b/src/main/java/xianxian/mc/nebula/event/player/PlayerPostTeleportEvent.java
 @@ -0,0 +1,37 @@
@@ -51,6 +47,3 @@ index 00000000..beba168d
 +        return handlers;
 +    }
 +}
--- 
-2.26.2
-

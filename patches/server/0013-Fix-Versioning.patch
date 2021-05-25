@@ -1,14 +1,11 @@
-From 01cfb785c775f4220adf24fbb1197d4996204165 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Wed, 11 Mar 2020 11:07:53 +0800
 Subject: [PATCH] Fix Versioning
 
----
- src/main/java/org/bukkit/craftbukkit/util/Versioning.java | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
-index 001b1e51..ede7bd74 100644
+index 001b1e5197eaa51bfff9031aa6c69876c9a47960..ede7bd74ba98afa4c62861f72c4722ecc734e415 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 @@ -11,7 +11,7 @@ public final class Versioning {
@@ -20,6 +17,3 @@ index 001b1e51..ede7bd74 100644
          Properties properties = new Properties();
  
          if (stream != null) {
--- 
-2.27.0
-

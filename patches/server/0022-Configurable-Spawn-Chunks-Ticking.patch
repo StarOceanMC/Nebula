@@ -1,18 +1,14 @@
-From 063abc427a8ad7c381f923e804bd087730f576a6 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sat, 25 Apr 2020 20:09:18 +0800
 Subject: [PATCH] Configurable Spawn Chunks Ticking
 
----
- .../net/minecraft/server/WorldServer.java     | 24 +++++++++++--------
- .../xianxian/mc/nebula/NebulaWorldConfig.java |  6 +++++
- 2 files changed, 20 insertions(+), 10 deletions(-)
 
-diff --git a/src/main/java/net/minecraft/server/WorldServer.java b/src/main/java/net/minecraft/server/WorldServer.java
-index 11b4d62c4..183d56e73 100644
---- a/src/main/java/net/minecraft/server/WorldServer.java
-+++ b/src/main/java/net/minecraft/server/WorldServer.java
-@@ -2402,12 +2402,14 @@ public class WorldServer extends World implements GeneratorAccessSeed {
+diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
+index 479605b5f8660b6968027a3d7b59075a04e44521..5eb9a41c07d09b3e04a952c47e32b83def071052 100644
+--- a/src/main/java/net/minecraft/server/level/WorldServer.java
++++ b/src/main/java/net/minecraft/server/level/WorldServer.java
+@@ -2568,12 +2568,14 @@ public class WorldServer extends World implements GeneratorAccessSeed {
          // with level 31 for the non-border spawn chunks
          ChunkProviderServer chunkproviderserver = this.getChunkProvider();
          int tickRadius = radiusInBlocks - 16;
@@ -28,7 +24,7 @@ index 11b4d62c4..183d56e73 100644
              }
          }
  
-@@ -2416,17 +2418,17 @@ public class WorldServer extends World implements GeneratorAccessSeed {
+@@ -2582,17 +2584,17 @@ public class WorldServer extends World implements GeneratorAccessSeed {
          // add border along x axis (including corner chunks)
          for (int x = -radiusInBlocks; x <= radiusInBlocks; x += 16) {
              // top
@@ -50,7 +46,7 @@ index 11b4d62c4..183d56e73 100644
          }
  
          MCUtil.getSpiralOutChunks(spawn, radiusInBlocks >> 4).forEach(pair -> {
-@@ -2441,12 +2443,14 @@ public class WorldServer extends World implements GeneratorAccessSeed {
+@@ -2607,12 +2609,14 @@ public class WorldServer extends World implements GeneratorAccessSeed {
          // with level 31 for the non-border spawn chunks
          ChunkProviderServer chunkproviderserver = this.getChunkProvider();
          int tickRadius = radiusInBlocks - 16;
@@ -66,7 +62,7 @@ index 11b4d62c4..183d56e73 100644
              }
          }
  
-@@ -2455,17 +2459,17 @@ public class WorldServer extends World implements GeneratorAccessSeed {
+@@ -2621,17 +2625,17 @@ public class WorldServer extends World implements GeneratorAccessSeed {
          // remove border along x axis (including corner chunks)
          for (int x = -radiusInBlocks; x <= radiusInBlocks; x += 16) {
              // top
@@ -89,7 +85,7 @@ index 11b4d62c4..183d56e73 100644
      }
      // Paper end
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
-index 80d318213..9288a8333 100644
+index 80d318213dad3ae890e64c5e5068ef71f4d6313c..9288a83334e5f0bf7b7ce1191c928e2453cf62c6 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 @@ -93,4 +93,10 @@ public class NebulaWorldConfig {
@@ -104,6 +100,3 @@ index 80d318213..9288a8333 100644
 +    }
  }
 \ No newline at end of file
--- 
-2.28.0
-

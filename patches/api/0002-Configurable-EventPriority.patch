@@ -1,18 +1,11 @@
-From 485e00cbc44c8587c483c16aca512b643fa1a35d Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Tue, 24 Dec 2019 19:03:44 +0800
 Subject: [PATCH] Configurable EventPriority
 
----
- .gitignore                                    |   2 +
- .../bukkit/plugin/SimplePluginManager.java    |  15 ++-
- .../bukkit/plugin/java/JavaPluginLoader.java  |  15 ++-
- .../mc/nebula/plugin/EventPriorityConfig.java | 114 ++++++++++++++++++
- 4 files changed, 140 insertions(+), 6 deletions(-)
- create mode 100644 src/main/java/xianxian/mc/nebula/plugin/EventPriorityConfig.java
 
 diff --git a/.gitignore b/.gitignore
-index e431e343..017c305b 100644
+index e431e3435737e28394d81b56568a08b3c3148b9b..017c305b0448650f8dc93d71f2559de4aa7220d8 100644
 --- a/.gitignore
 +++ b/.gitignore
 @@ -30,3 +30,5 @@
@@ -22,10 +15,10 @@ index e431e343..017c305b 100644
 +
 +eventhandlers.json
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index 4931bc86..cbf3b5da 100644
+index ca866876f2f35a1c41eb009064412423fa09e441..9b3a72609f419add06f1e4f7eb5beb6026f77385 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-@@ -669,12 +669,21 @@ public final class SimplePluginManager implements PluginManager {
+@@ -681,12 +681,21 @@ public final class SimplePluginManager implements PluginManager {
          if (!plugin.isEnabled()) {
              throw new IllegalPluginAccessException("Plugin attempted to register " + event + " while not enabled");
          }
@@ -51,10 +44,10 @@ index 4931bc86..cbf3b5da 100644
      }
  
 diff --git a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-index 528ceeb2..f48d4961 100644
+index c2070d2df2349f6215250f0d24319befafbcf472..b2308525bd781643baebf824dd901a7c11062e7a 100644
 --- a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-@@ -342,12 +342,21 @@ public final class JavaPluginLoader implements PluginLoader {
+@@ -332,12 +332,21 @@ public final class JavaPluginLoader implements PluginLoader {
                      break;
                  }
              }
@@ -81,7 +74,7 @@ index 528ceeb2..f48d4961 100644
          return ret;
 diff --git a/src/main/java/xianxian/mc/nebula/plugin/EventPriorityConfig.java b/src/main/java/xianxian/mc/nebula/plugin/EventPriorityConfig.java
 new file mode 100644
-index 00000000..993754c7
+index 0000000000000000000000000000000000000000..993754c76ef647b47c7c88f9dd557cb1061c4145
 --- /dev/null
 +++ b/src/main/java/xianxian/mc/nebula/plugin/EventPriorityConfig.java
 @@ -0,0 +1,114 @@
@@ -200,6 +193,3 @@ index 00000000..993754c7
 +    }
 +}
 \ No newline at end of file
--- 
-2.26.2
-

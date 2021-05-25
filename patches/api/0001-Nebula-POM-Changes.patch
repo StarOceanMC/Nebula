@@ -1,14 +1,11 @@
-From 264b062af2ab63209f91d82ddd1d668f6e089ac7 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Mon, 23 Dec 2019 19:49:56 +0800
 Subject: [PATCH] Nebula POM Changes
 
----
- pom.xml | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/pom.xml b/pom.xml
-index 3b5dcb43..0e8f2d58 100644
+index 6fd6066b16d4dbf8695be16ec8b2d135d4d04901..50cd285eb42a2313e73281c5e9e60d81f0b493cb 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -3,19 +3,19 @@
@@ -25,7 +22,7 @@ index 3b5dcb43..0e8f2d58 100644
  
 -    <artifactId>tuinity-api</artifactId>
 +    <artifactId>nebula-api</artifactId>
-     <version>1.16.3-R0.1-SNAPSHOT</version>
+     <version>1.16.5-R0.1-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 -    <name>Tuinity-API</name>
@@ -37,6 +34,3 @@ index 3b5dcb43..0e8f2d58 100644
  
      <properties>
          <!-- <skipTests>true</skipTests> Paper - This [was] not going to end well -->
--- 
-2.28.0
-

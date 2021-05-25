@@ -1,17 +1,14 @@
-From 7c1d51dffaaf66f197e954ff7e62db1768046356 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sat, 9 May 2020 18:46:50 +0800
 Subject: [PATCH] Check illegal fly if player isn't flying
 
----
- src/main/java/net/minecraft/server/PlayerConnection.java | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/src/main/java/net/minecraft/server/PlayerConnection.java b/src/main/java/net/minecraft/server/PlayerConnection.java
-index 0cceb3e42..a48977439 100644
---- a/src/main/java/net/minecraft/server/PlayerConnection.java
-+++ b/src/main/java/net/minecraft/server/PlayerConnection.java
-@@ -1197,7 +1197,7 @@ public class PlayerConnection implements PacketListenerPlayIn {
+diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
+index 4d6e5f1fa32570e96252c0643401ff32c14c5a01..8951fa1865f6491347c3da4fe84c2b0b4b78e0d4 100644
+--- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
++++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
+@@ -1502,7 +1502,7 @@ public class PlayerConnection implements PacketListenerPlayIn {
                                  this.player.setLocation(d4, d5, d6, f, f1); // Copied from above
  
                                  // MC-135989, SPIGOT-5564: isRiptiding
@@ -20,6 +17,3 @@ index 0cceb3e42..a48977439 100644
                                  // CraftBukkit end
                                  this.player.getWorldServer().getChunkProvider().movePlayer(this.player);
                                  this.player.a(this.player.locY() - d3, packetplayinflying.b());
--- 
-2.28.0
-

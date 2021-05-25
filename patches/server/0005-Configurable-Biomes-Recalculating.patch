@@ -1,18 +1,14 @@
-From f7837d57d2b33e50decb427766caadb95b9d1ec1 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Fri, 27 Dec 2019 22:00:26 +0800
 Subject: [PATCH] Configurable Biomes Recalculating
 
----
- .../java/net/minecraft/server/ChunkRegionLoader.java   |  7 ++++++-
- .../java/xianxian/mc/nebula/NebulaWorldConfig.java     | 10 ++++++++++
- 2 files changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/src/main/java/net/minecraft/server/ChunkRegionLoader.java b/src/main/java/net/minecraft/server/ChunkRegionLoader.java
-index c2adc7f52..8a1c3c216 100644
---- a/src/main/java/net/minecraft/server/ChunkRegionLoader.java
-+++ b/src/main/java/net/minecraft/server/ChunkRegionLoader.java
-@@ -85,7 +85,12 @@ public class ChunkRegionLoader {
+diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/ChunkRegionLoader.java b/src/main/java/net/minecraft/world/level/chunk/storage/ChunkRegionLoader.java
+index ec2b238480413ba9c123d9ddeaa787d9520e1b74..faa540f7f4a72aa3815dcff6b8c068a776f43696 100644
+--- a/src/main/java/net/minecraft/world/level/chunk/storage/ChunkRegionLoader.java
++++ b/src/main/java/net/minecraft/world/level/chunk/storage/ChunkRegionLoader.java
+@@ -136,7 +136,12 @@ public class ChunkRegionLoader {
              ChunkRegionLoader.LOGGER.error("Chunk file at {} is in the wrong location; relocating. (Expected {}, got {})", chunkcoordintpair, chunkcoordintpair, chunkcoordintpair1);
          }
  
@@ -27,7 +23,7 @@ index c2adc7f52..8a1c3c216 100644
          ProtoChunkTickList<Block> protochunkticklist = new ProtoChunkTickList<>((block) -> {
              return block == null || block.getBlockData().isAir();
 diff --git a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
-index 2e4e743c9..aee22164d 100644
+index 2e4e743c9a33e516d18491e1dda9cf21ad7495d4..aee22164d0cf08156ee941e8042638748db35b87 100644
 --- a/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 +++ b/src/main/java/xianxian/mc/nebula/NebulaWorldConfig.java
 @@ -78,4 +78,14 @@ public class NebulaWorldConfig {
@@ -46,6 +42,3 @@ index 2e4e743c9..aee22164d 100644
 +    }
  }
 \ No newline at end of file
--- 
-2.28.0
-

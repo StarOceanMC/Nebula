@@ -1,50 +1,28 @@
-From 6653e5eb0d3e54a728ead7be1341c4c1a129f000 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Sun, 10 May 2020 14:50:00 +0800
 Subject: [PATCH] Only send entities when needSendChunks is false
 
----
- src/main/java/net/minecraft/server/Chunk.java          | 1 -
- src/main/java/net/minecraft/server/PlayerChunkMap.java | 6 +++++-
- 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/src/main/java/net/minecraft/server/Chunk.java b/src/main/java/net/minecraft/server/Chunk.java
-index fa03a18f5..f1a382c3d 100644
---- a/src/main/java/net/minecraft/server/Chunk.java
-+++ b/src/main/java/net/minecraft/server/Chunk.java
-@@ -287,7 +287,6 @@ public class Chunk implements IChunkAccess {
-                             continue;
-                         }
-                         EntityPlayer player = (EntityPlayer)temp;
--                        if (player.getBukkitEntity().needSendChunks()) // Nebula - Toggle Chunk Sending API
-                         chunkMap.sendChunk(player, chunkPackets, Chunk.this);
-                     }
-                 })));
-diff --git a/src/main/java/net/minecraft/server/PlayerChunkMap.java b/src/main/java/net/minecraft/server/PlayerChunkMap.java
-index 0afa3d8b6..ab5e15404 100644
---- a/src/main/java/net/minecraft/server/PlayerChunkMap.java
-+++ b/src/main/java/net/minecraft/server/PlayerChunkMap.java
-@@ -2237,6 +2237,8 @@ Sections go from 0..16. Now whenever a section is not empty, it can potentially
+diff --git a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
+index 33429be7da4d4c2b2469b8140e46e66d9921652c..6872b33a40503f88e0f1f90a18adb3b9fd418394 100644
+--- a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
++++ b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
+@@ -2300,6 +2300,8 @@ Sections go from 0..16. Now whenever a section is not empty, it can potentially
  
-     final void sendChunk(EntityPlayer entityplayer, Packet<?>[] apacket, Chunk chunk) { this.a(entityplayer, apacket, chunk); } // Paper - OBFHELPER
+     public final void sendChunk(EntityPlayer entityplayer, Packet<?>[] apacket, Chunk chunk) { this.a(entityplayer, apacket, chunk); } // Paper - OBFHELPER
      private void a(EntityPlayer entityplayer, Packet<?>[] apacket, Chunk chunk) {
 +        // Nebula start - Only send entities when needSendChunks is false
 +        if (entityplayer.getBukkitEntity().needSendChunks()) {
          if (apacket[0] == null) {
              // Paper start - add 8 for light fix workaround
              if (apacket.length != 10) { // in case Plugins call sendChunk, resize
-@@ -2300,8 +2302,10 @@ Sections go from 0..16. Now whenever a section is not empty, it can potentially
-             }
-         }
+@@ -2369,6 +2371,8 @@ Sections go from 0..16. Now whenever a section is not empty, it can potentially
          // Paper end - Fix MC-162253
--
-+            
+ 
          entityplayer.a(chunk.getPos(), apacket[0], apacket[1]);
 +        }
 +        // Nebula end
          PacketDebug.a(this.world, chunk.getPos());
          List<Entity> list = Lists.newArrayList();
          List<Entity> list1 = Lists.newArrayList();
--- 
-2.28.0
-
