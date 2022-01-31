@@ -5,10 +5,10 @@ Subject: [PATCH] Localization API
 
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 33f04d57b7df3a6f9743246ba9af6d67f4fa4b54..affe3463464788a9ea7db72a22117810d093d7d6 100644
+index e8414592b3afeb1e5db2b817b8fb7c13e073b9aa..6a1d145fca696cb8a560f8739c9e562d4edccd17 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -1951,4 +1951,11 @@ public final class Bukkit {
+@@ -1963,4 +1963,11 @@ public final class Bukkit {
      public static Server.Spigot spigot() {
          return server.spigot();
      }
@@ -21,10 +21,10 @@ index 33f04d57b7df3a6f9743246ba9af6d67f4fa4b54..affe3463464788a9ea7db72a22117810
 +    //Nebula end
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index d1a9322cf54f57f0d213145aa50c219f0eb2a90b..8ab5cb3711115907b36bd09403fde05ccfe1ce5a 100644
+index f55ae8275c297c4c86215fba8d7197ffe9715879..432e30190c85ccdeed75f8fea4e9627c2d2ee638 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -1713,4 +1713,13 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1724,4 +1724,13 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
      @NotNull
      io.papermc.paper.datapack.DatapackManager getDatapackManager();
      // Paper end

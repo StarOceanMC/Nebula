@@ -22,10 +22,10 @@ index 61ffa50f2288609cd59c3a75d2ebe81ef735fed9..f368ad0ceb53da56560a6b73bfd865bb
       * Event call is of very low importance and should be ran first, to allow
       * other plugins to further customise the outcome
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index 9b3a72609f419add06f1e4f7eb5beb6026f77385..c097a9ef68ec2367c4855ee4db1d9614484bebe2 100644
+index ad6f7057c2285aaa459c53a2c6e5a2b32a707ebc..171d88f7b7d085f0b05158341f26afc7afd9aed2 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-@@ -693,8 +693,10 @@ public final class SimplePluginManager implements PluginManager {
+@@ -698,8 +698,10 @@ public final class SimplePluginManager implements PluginManager {
          
          executor = new co.aikar.timings.TimedEventExecutor(executor, plugin, null, event); // Paper
          if (false) { // Spigot - RL handles useTimings check now // Paper
@@ -37,7 +37,7 @@ index 9b3a72609f419add06f1e4f7eb5beb6026f77385..c097a9ef68ec2367c4855ee4db1d9614
          }
      }
 diff --git a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-index b2308525bd781643baebf824dd901a7c11062e7a..c4b7ad1068ee1a39e4241e9e60478670017af801 100644
+index c307118a9ccf919983db9340c778c9f8e2df7f89..3a3b00e231a0edf3e991c40803f965ca4d697b0b 100644
 --- a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 @@ -344,9 +344,11 @@ public final class JavaPluginLoader implements PluginLoader {

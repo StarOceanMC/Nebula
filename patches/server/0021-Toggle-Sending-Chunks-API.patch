@@ -17,10 +17,10 @@ index 0d577aa1c7868ce89c3902535adcb554b1f47551..87a9f98a6b5560f92faeafa6a9ca3bdc
                  synchronized (this.sendingChunkCounts) {
                      final int count = this.sendingChunkCounts.getInt(data);
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index db9d42a35c02329fc9f3f8f80953e7100d415ecd..4eaadb2639aa91af218bb5e44296586b07009d72 100644
+index 4c514b4b1f3710ee5057c4acbc60d1b6fdf30e1b..da97d771fb9cc9547d7018005759bcd745027ee0 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -2495,4 +2495,17 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2501,4 +2501,17 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          return spigot;
      }
      // Spigot end

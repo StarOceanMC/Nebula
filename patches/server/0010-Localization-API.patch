@@ -5,7 +5,7 @@ Subject: [PATCH] Localization API
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 7fd1b3ff2125fa70b76651eb5c68783c9a954fe1..e277b59ae592d89aa69497ee649eaf789158c981 100644
+index aad319a559c2c93d8d5f4f198643b860faad025f..5b6945e7aa196d1a22ee50267115ee0f82b3611e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -268,6 +268,7 @@ public final class CraftServer implements Server {
@@ -16,7 +16,7 @@ index 7fd1b3ff2125fa70b76651eb5c68783c9a954fe1..e277b59ae592d89aa69497ee649eaf78
  
      static {
          ConfigurationSerialization.registerClass(CraftOfflinePlayer.class);
-@@ -2535,4 +2536,10 @@ public final class CraftServer implements Server {
+@@ -2540,4 +2541,10 @@ public final class CraftServer implements Server {
      }
  
      // Paper end

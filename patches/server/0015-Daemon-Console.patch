@@ -200,10 +200,10 @@ index e55a591e096047a41745a8b9956fe8d2a33191da..e0a11e1702ccabaa47ae713b580dc940
 \ No newline at end of file
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 632597a70c2b0e5a3818e7c5a2ba7a7ae0082eeb..5402db31654c7ad45f1d418e80bb9651bc4b6a76 100644
+index bf2903fb799749ae95d3df7ca0585ddfacca6073..20b4859fba9fbad71564df6716900f8e3259c100 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -855,6 +855,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -856,6 +856,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
      @Override
      public void close() {
          this.stop();

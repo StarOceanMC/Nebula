@@ -5,10 +5,10 @@ Subject: [PATCH] Only send entities when needSendChunks is false
 
 
 diff --git a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-index 33429be7da4d4c2b2469b8140e46e66d9921652c..6872b33a40503f88e0f1f90a18adb3b9fd418394 100644
+index d827e18d8c3b9b5869dbb1e233f415ba0efb7c1b..6962554fdec96d50ca14cbc33a72ac9269d60cd5 100644
 --- a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-@@ -2300,6 +2300,8 @@ Sections go from 0..16. Now whenever a section is not empty, it can potentially
+@@ -2297,6 +2297,8 @@ Sections go from 0..16. Now whenever a section is not empty, it can potentially
  
      public final void sendChunk(EntityPlayer entityplayer, Packet<?>[] apacket, Chunk chunk) { this.a(entityplayer, apacket, chunk); } // Paper - OBFHELPER
      private void a(EntityPlayer entityplayer, Packet<?>[] apacket, Chunk chunk) {
@@ -17,7 +17,7 @@ index 33429be7da4d4c2b2469b8140e46e66d9921652c..6872b33a40503f88e0f1f90a18adb3b9
          if (apacket[0] == null) {
              // Paper start - add 8 for light fix workaround
              if (apacket.length != 10) { // in case Plugins call sendChunk, resize
-@@ -2369,6 +2371,8 @@ Sections go from 0..16. Now whenever a section is not empty, it can potentially
+@@ -2366,6 +2368,8 @@ Sections go from 0..16. Now whenever a section is not empty, it can potentially
          // Paper end - Fix MC-162253
  
          entityplayer.a(chunk.getPos(), apacket[0], apacket[1]);

@@ -5,7 +5,7 @@ Subject: [PATCH] Load custom configuration
 
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index fa7a78549a9bb92b93c305dc16f43a9ace7f6f43..35ecd366cdcd5f494099ba49e8f7fe55e0d67e35 100644
+index 3713a110a64fa686e785b9789c33dd09cacc2f48..9a2204bd963bdcaad01068cc2513d7507bc0d7c0 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -216,7 +216,15 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
@@ -46,10 +46,10 @@ index cb8064df7e9f1b8b4d4292486e2193680d83663c..599c3f2f70825f70f07c5a4ef50bee09
          this.world = new CraftWorld((WorldServer) this, gen, env);
          this.ticksPerAnimalSpawns = this.getServer().getTicksPerAnimalSpawns(); // CraftBukkit
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 0e9819a7da160e7a5f28734c4dd3b673c8881792..2b6d834166a6dccb163392d49e28e6c1d181181f 100644
+index d00cc3aa4fea049f5de37a8749c699aac84bbeb8..595afe09ce7e8cfbd450a76191300c40ba34905a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -882,6 +882,7 @@ public final class CraftServer implements Server {
+@@ -881,6 +881,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          com.destroystokyo.paper.PaperConfig.init((File) console.options.valueOf("paper-settings")); // Paper
          com.tuinity.tuinity.config.TuinityConfig.init((File) console.options.valueOf("tuinity-settings")); // Tuinity - Server Config
@@ -58,7 +58,7 @@ index 0e9819a7da160e7a5f28734c4dd3b673c8881792..2b6d834166a6dccb163392d49e28e6c1
              world.worldDataServer.setDifficulty(config.difficulty);
              world.setSpawnFlags(config.spawnMonsters, config.spawnAnimals);
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 57180e164ac51b1aac070c00d820792d13d67258..22fc8cd3e48091e9d9ffca9a97cbf522a93d623e 100644
+index fbeca329f62325aa479f968e7f0f04cde341a009..329a6cd347e3211977151b457b53223b59e4918a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -167,6 +167,14 @@ public class Main {

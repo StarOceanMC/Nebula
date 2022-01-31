@@ -5,10 +5,10 @@ Subject: [PATCH] Check illegal fly if player isn't flying
 
 
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 4d6e5f1fa32570e96252c0643401ff32c14c5a01..8951fa1865f6491347c3da4fe84c2b0b4b78e0d4 100644
+index eab97db58a4d26d0a55495bed24d56169f759016..966e35321822ea02a3921443e6b828b0b7d123d5 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -1502,7 +1502,7 @@ public class PlayerConnection implements PacketListenerPlayIn {
+@@ -1510,7 +1510,7 @@ public class PlayerConnection implements PacketListenerPlayIn {
                                  this.player.setLocation(d4, d5, d6, f, f1); // Copied from above
  
                                  // MC-135989, SPIGOT-5564: isRiptiding

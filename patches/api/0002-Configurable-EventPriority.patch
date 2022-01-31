@@ -15,10 +15,10 @@ index e431e3435737e28394d81b56568a08b3c3148b9b..017c305b0448650f8dc93d71f2559de4
 +
 +eventhandlers.json
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index ca866876f2f35a1c41eb009064412423fa09e441..9b3a72609f419add06f1e4f7eb5beb6026f77385 100644
+index 0e25119564dfa9cb12f3c5dc5f653d7f2c147a9d..ad6f7057c2285aaa459c53a2c6e5a2b32a707ebc 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-@@ -681,12 +681,21 @@ public final class SimplePluginManager implements PluginManager {
+@@ -686,12 +686,21 @@ public final class SimplePluginManager implements PluginManager {
          if (!plugin.isEnabled()) {
              throw new IllegalPluginAccessException("Plugin attempted to register " + event + " while not enabled");
          }
@@ -44,7 +44,7 @@ index ca866876f2f35a1c41eb009064412423fa09e441..9b3a72609f419add06f1e4f7eb5beb60
      }
  
 diff --git a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-index c2070d2df2349f6215250f0d24319befafbcf472..b2308525bd781643baebf824dd901a7c11062e7a 100644
+index b622cedeeee017f042bcf92485d81832030a8030..c307118a9ccf919983db9340c778c9f8e2df7f89 100644
 --- a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 @@ -332,12 +332,21 @@ public final class JavaPluginLoader implements PluginLoader {

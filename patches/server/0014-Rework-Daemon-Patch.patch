@@ -1447,10 +1447,10 @@ index 0000000000000000000000000000000000000000..eb02e4e1f3c63e8b97dda26b8013588a
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 72d1c1202581abc284848000663ada5514cfcb15..632597a70c2b0e5a3818e7c5a2ba7a7ae0082eeb 100644
+index 6f90a4182e008b49a4b3328e569311382e4bec0d..bf2903fb799749ae95d3df7ca0585ddfacca6073 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -993,12 +993,14 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -994,12 +994,14 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
      public void safeShutdown(boolean flag, boolean isRestarting) {
          this.isRunning = false;
          this.isRestarting = isRestarting;
@@ -1466,20 +1466,20 @@ index 72d1c1202581abc284848000663ada5514cfcb15..632597a70c2b0e5a3818e7c5a2ba7a7a
              }
          }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 6b8bb15668d3f6244e45d1c32330453a4e93d571..fb3fe7b9d2f5d4600bdc67c9bf86d7241da801df 100644
+index ec922db4b1dc83481c383a1ac4e87fb368018ce8..4e52b0af7a20114f56b8136f06a718f78074f662 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -424,7 +424,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+@@ -441,7 +441,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
          }
  
          hasFullyShutdown = true; // Paper
--        System.exit(0); // CraftBukkit
+-        System.exit(this.abnormalExit ? 70 : 0); // CraftBukkit // Paper
 +        System.exit(com.destroystokyo.paper.daemon.PaperDaemon.shutdownExitCode()); // Paper daemon
      }
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index e277b59ae592d89aa69497ee649eaf789158c981..99e1818d78a69ba8956d85a2e0a9560c10b3d22d 100644
+index 5b6945e7aa196d1a22ee50267115ee0f82b3611e..a7a36fc5934225304b109fd39845f70596da1456 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -240,7 +240,7 @@ public final class CraftServer implements Server {
@@ -1492,7 +1492,7 @@ index e277b59ae592d89aa69497ee649eaf789158c981..99e1818d78a69ba8956d85a2e0a9560c
      private final Map<String, World> worlds = new LinkedHashMap<String, World>();
      private YamlConfiguration configuration;
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 22fc8cd3e48091e9d9ffca9a97cbf522a93d623e..b731dc4401c5310f8926c990f707a13fd55ccb9e 100644
+index 329a6cd347e3211977151b457b53223b59e4918a..b7eadaa3fd2478b07059efe8a6381a02959d9fce 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -21,6 +21,7 @@ public class Main {
@@ -1624,7 +1624,7 @@ index 5e1312941f9a554fc83adc02e81980069b8d015d..b743227580a58b2efa54fcf9b4718c89
      // Paper end
  }
 diff --git a/src/main/java/org/spigotmc/RestartCommand.java b/src/main/java/org/spigotmc/RestartCommand.java
-index 6a408dc9286a60c3ca7830f88171919fb0fe6363..4f5541c148f2b62c0784f8176a39cb05f7492730 100644
+index dc8da0448193a5fbf16cfe3b070923cfb8a23c6d..de9f31052ac55ed4a3ddb94895161b20482c2c8c 100644
 --- a/src/main/java/org/spigotmc/RestartCommand.java
 +++ b/src/main/java/org/spigotmc/RestartCommand.java
 @@ -47,14 +47,21 @@ public class RestartCommand extends Command
@@ -1682,7 +1682,7 @@ index 6a408dc9286a60c3ca7830f88171919fb0fe6363..4f5541c148f2b62c0784f8176a39cb05
      }
      // Paper end
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index 00c728704a1a7aa8b3a2e7679eaa0d2f604da087..a0255b164871caa01483cabe82fb159d73897f06 100644
+index b650f9b6901f15b7fec7a426cd77660039eecd66..515ac411ddc8d07bcbdd65a7588bb69a3f9d775a 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -220,7 +220,9 @@ public class WatchdogThread extends Thread

@@ -5,10 +5,10 @@ Subject: [PATCH] Toggle Sending Chunks API
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 4a4f041c6acfd335871fa67d6d1c7f723229c8a7..83bc78277cb7e8e043f63a4ac633c65a2a6b8b1b 100644
+index 27848ad0eee667e515685a5f1cef3e9bfc7a3f53..1c729a038078f152a4be68526869665ffecaae1b 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2131,4 +2131,20 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2139,4 +2139,20 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      @Override
      Spigot spigot();
      // Spigot end

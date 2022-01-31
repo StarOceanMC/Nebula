@@ -5,10 +5,10 @@ Subject: [PATCH] Fire EntityMarkDeadEvent
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index feab0ae1930b5271fe0d06a40c180317dcbc9d1d..f2846402aeeb56f166b719cb49329aa979d15900 100644
+index 6c4d3aab0a9efcc039071e48d9b9596f1a222694..0d8d9cc4c5a1ac3cb454cb8cb4701971239883b8 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -480,6 +480,7 @@ public abstract class Entity implements INamableTileEntity, ICommandListener, ne
+@@ -512,6 +512,7 @@ public abstract class Entity implements INamableTileEntity, ICommandListener, ne
  
      public void die() {
          this.dead = true;

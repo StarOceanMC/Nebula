@@ -5,7 +5,7 @@ Subject: [PATCH] Limit Portal spawned pigman count
 
 
 diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
-index 5eb9a41c07d09b3e04a952c47e32b83def071052..0ae6af788165c5fc60afeebd70bf190b03ddf7c4 100644
+index ed322e13cfc8d8bd078fa89a44fe801f8b53edda..871104a10d93d55a81f6dbfc808c2d51cd984cf8 100644
 --- a/src/main/java/net/minecraft/server/level/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/level/WorldServer.java
 @@ -2075,6 +2075,7 @@ public class WorldServer extends World implements GeneratorAccessSeed {
@@ -25,7 +25,7 @@ index 5eb9a41c07d09b3e04a952c47e32b83def071052..0ae6af788165c5fc60afeebd70bf190b
  
      }
 diff --git a/src/main/java/net/minecraft/world/level/block/BlockPortal.java b/src/main/java/net/minecraft/world/level/block/BlockPortal.java
-index 5f797260eff317409a5039b88b01ad79ee2fdd91..c0aa827fbbc01903dc352a4de70df98db041c738 100644
+index f030aa3ddd001e018539ae93c238f2afb26e0fc2..6342f2365ef3b6870c1dab0c0c535716ae534948 100644
 --- a/src/main/java/net/minecraft/world/level/block/BlockPortal.java
 +++ b/src/main/java/net/minecraft/world/level/block/BlockPortal.java
 @@ -52,7 +52,7 @@ public class BlockPortal extends Block {

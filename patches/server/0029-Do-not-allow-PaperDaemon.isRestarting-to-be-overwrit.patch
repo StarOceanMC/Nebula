@@ -18,7 +18,7 @@ index 80eedfec3061dec1322e0e104930b27167bdcefa..715f7f52f5ae8e9007897e75e21ca4e2
  
      /**
 diff --git a/src/main/java/org/spigotmc/RestartCommand.java b/src/main/java/org/spigotmc/RestartCommand.java
-index 4f5541c148f2b62c0784f8176a39cb05f7492730..b870e9aef82319a2f7a25f26b5be56f0170cab18 100644
+index de9f31052ac55ed4a3ddb94895161b20482c2c8c..7cac4ce3f1ea2cb2282b651158e4ac80ff381fb5 100644
 --- a/src/main/java/org/spigotmc/RestartCommand.java
 +++ b/src/main/java/org/spigotmc/RestartCommand.java
 @@ -76,6 +76,7 @@ public class RestartCommand extends Command

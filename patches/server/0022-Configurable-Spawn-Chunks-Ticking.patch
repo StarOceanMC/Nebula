@@ -5,7 +5,7 @@ Subject: [PATCH] Configurable Spawn Chunks Ticking
 
 
 diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
-index 479605b5f8660b6968027a3d7b59075a04e44521..5eb9a41c07d09b3e04a952c47e32b83def071052 100644
+index 6fc215df5ed3aa6ef0c23a57e8444602ff9309e8..ed322e13cfc8d8bd078fa89a44fe801f8b53edda 100644
 --- a/src/main/java/net/minecraft/server/level/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/level/WorldServer.java
 @@ -2568,12 +2568,14 @@ public class WorldServer extends World implements GeneratorAccessSeed {
