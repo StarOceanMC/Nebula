@@ -47,7 +47,7 @@ case "$1" in
         mvn -N install
         cd ${FORK_NAME}-API && mvn -e clean install
         cd $basedir/Tuinity/Paper/Paper-MojangAPI && mvn -e clean install
-        cd $basedir/${FORK_NAME}-Server && mvn -e clean install
+        cd $basedir/${FORK_NAME}-Server && mvn -e clean package
     )
     ;;
     "jar" | "paperclip")
