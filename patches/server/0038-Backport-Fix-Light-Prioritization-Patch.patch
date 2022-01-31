@@ -1,14 +1,14 @@
-From cee35b602db78df7b8d4c802afa33b50913e6495 Mon Sep 17 00:00:00 2001
+From 393356acd15d957fddbef908e8ca1406b844fbcc Mon Sep 17 00:00:00 2001
 From: Lovely_xianxian <xyx_dada@outlook.com>
 Date: Fri, 18 Sep 2020 23:38:49 +0800
 Subject: [PATCH] Backport Fix Light Prioritization Patch
 
 ---
- .../minecraft/server/LightEngineThreaded.java | 45 ++++++++++++++-----
- 1 file changed, 33 insertions(+), 12 deletions(-)
+ .../minecraft/server/LightEngineThreaded.java | 49 ++++++++++++++-----
+ 1 file changed, 37 insertions(+), 12 deletions(-)
 
 diff --git a/src/main/java/net/minecraft/server/LightEngineThreaded.java b/src/main/java/net/minecraft/server/LightEngineThreaded.java
-index 9ef39f1f5..700d33eeb 100644
+index 9ef39f1f5..021e91b86 100644
 --- a/src/main/java/net/minecraft/server/LightEngineThreaded.java
 +++ b/src/main/java/net/minecraft/server/LightEngineThreaded.java
 @@ -14,12 +14,13 @@ import org.apache.logging.log4j.Logger;
@@ -52,7 +52,18 @@ index 9ef39f1f5..700d33eeb 100644
          private int size = 0;
          private int lowestPriority = MAX_PRIORITIES;
          private final it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap<ChunkLightQueue>[] buckets = new it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap[MAX_PRIORITIES];
-@@ -106,7 +116,7 @@ public class LightEngineThreaded extends LightEngine implements AutoCloseable {
+@@ -81,6 +91,10 @@ public class LightEngineThreaded extends LightEngine implements AutoCloseable {
+         }
+ 
+         public boolean poll(java.util.List<Runnable> pre, java.util.List<Runnable> post) {
++            Runnable run;
++            while ((run = priorityChanges.poll()) != null) {
++                run.run();
++            }
+             boolean hasWork = false;
+             it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap<ChunkLightQueue>[] buckets = this.buckets;
+             while (lowestPriority < MAX_PRIORITIES && !isEmpty()) {
+@@ -106,7 +120,7 @@ public class LightEngineThreaded extends LightEngine implements AutoCloseable {
  
      private final LightQueue queue = new LightQueue();
      // Paper end
@@ -61,7 +72,7 @@ index 9ef39f1f5..700d33eeb 100644
      private final Mailbox<ChunkTaskQueueSorter.a<Runnable>> e;
      private volatile int f = 5;
      private final AtomicBoolean g = new AtomicBoolean();
-@@ -114,8 +124,9 @@ public class LightEngineThreaded extends LightEngine implements AutoCloseable {
+@@ -114,8 +128,9 @@ public class LightEngineThreaded extends LightEngine implements AutoCloseable {
      public LightEngineThreaded(ILightAccess ilightaccess, PlayerChunkMap playerchunkmap, boolean flag, ThreadedMailbox<Runnable> threadedmailbox, Mailbox<ChunkTaskQueueSorter.a<Runnable>> mailbox) {
          super(ilightaccess, true, flag);
          this.d = playerchunkmap;
@@ -72,7 +83,7 @@ index 9ef39f1f5..700d33eeb 100644
      }
  
      public void close() {}
-@@ -204,10 +215,6 @@ public class LightEngineThreaded extends LightEngine implements AutoCloseable {
+@@ -204,10 +219,6 @@ public class LightEngineThreaded extends LightEngine implements AutoCloseable {
              // Paper start
              int priority = intsupplier.getAsInt();
              this.queue.add(ChunkCoordIntPair.pair(i, j), priority, lightenginethreaded_update, runnable); // Paper
@@ -83,7 +94,7 @@ index 9ef39f1f5..700d33eeb 100644
  
          }, ChunkCoordIntPair.pair(i, j), intsupplier));
      }
-@@ -226,14 +233,27 @@ public class LightEngineThreaded extends LightEngine implements AutoCloseable {
+@@ -226,14 +237,27 @@ public class LightEngineThreaded extends LightEngine implements AutoCloseable {
      public CompletableFuture<IChunkAccess> a(IChunkAccess ichunkaccess, boolean flag) {
          ChunkCoordIntPair chunkcoordintpair = ichunkaccess.getPos();
  
@@ -113,7 +124,7 @@ index 9ef39f1f5..700d33eeb 100644
                  // Paper end
              ChunkSection[] achunksection = ichunkaccess.getSections();
  
-@@ -252,13 +272,14 @@ public class LightEngineThreaded extends LightEngine implements AutoCloseable {
+@@ -252,13 +276,14 @@ public class LightEngineThreaded extends LightEngine implements AutoCloseable {
                  });
              }
  
@@ -130,5 +141,5 @@ index 9ef39f1f5..700d33eeb 100644
              super.b(chunkcoordintpair, false);
              // Paper start
 -- 
-2.27.0
+2.34.1
 

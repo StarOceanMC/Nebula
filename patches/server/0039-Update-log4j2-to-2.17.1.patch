@@ -1,0 +1,39 @@
+From ae7751c91384b2f80592aa6bdae9983a6d9fd59f Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Mon, 31 Jan 2022 18:16:09 +0800
+Subject: [PATCH] Update log4j2 to 2.17.1
+
+---
+ pom.xml | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/pom.xml b/pom.xml
+index a801755fe..49ce57451 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -62,19 +62,19 @@
+         <dependency>
+             <groupId>org.apache.logging.log4j</groupId>
+             <artifactId>log4j-core</artifactId>
+-            <version>2.8.1</version>
++            <version>2.17.1</version>
+             <scope>compile</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.apache.logging.log4j</groupId>
+             <artifactId>log4j-slf4j-impl</artifactId>
+-            <version>2.8.1</version>
++            <version>2.17.1</version>
+             <scope>runtime</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.apache.logging.log4j</groupId>
+             <artifactId>log4j-iostreams</artifactId>
+-            <version>2.8.1</version>
++            <version>2.17.1</version>
+         </dependency>
+         <!-- Paper - Async loggers -->
+         <dependency>
+-- 
+2.34.1
+

@@ -41,7 +41,7 @@ case "$1" in
         basedir
         mvn -N install
         cd ${FORK_NAME}-API
-        mvn -e clean install && cd ../${FORK_NAME}-Server && mvn -e clean install
+        mvn -e clean install && cd ../${FORK_NAME}-Server && mvn -e clean package
         cd ${basedir}
         mcver=$(cat "Tuinity/Paper/work/BuildData/info.json" | grep minecraftVersion | cut -d '"' -f 4)
         cp "${FORK_NAME}-Server/target/nebula-${mcver}.jar" "$basedir"
