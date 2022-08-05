@@ -1,0 +1,17 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Fri, 5 Aug 2022 20:21:57 +0800
+Subject: [PATCH] Codename Nebula
+
+
+diff --git a/src/main/java/org/staroceanmc/nebula/package-info.java b/src/main/java/org/staroceanmc/nebula/package-info.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..f4b0b9a60430286c607d7959706f93e2ced585cb
+--- /dev/null
++++ b/src/main/java/org/staroceanmc/nebula/package-info.java
+@@ -0,0 +1,4 @@
++/**
++ * Nebula-specific classes.
++ */
++package org.staroceanmc.nebula;
+\ No newline at end of file
