@@ -1,0 +1,65 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Fri, 5 Aug 2022 22:50:12 +0800
+Subject: [PATCH] Fire ServerNoResponseEvent
+
+
+diff --git a/src/main/java/org/staroceanmc/nebula/event/server/ServerNoResponseEvent.java b/src/main/java/org/staroceanmc/nebula/event/server/ServerNoResponseEvent.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..cc5d59dc7445f275579c725e6b3918da8e839320
+--- /dev/null
++++ b/src/main/java/org/staroceanmc/nebula/event/server/ServerNoResponseEvent.java
+@@ -0,0 +1,53 @@
++package org.staroceanmc.nebula.event.server;
++
++import org.bukkit.event.Event;
++import org.bukkit.event.HandlerList;
++import org.jetbrains.annotations.NotNull;
++
++/**
++ * Called when server is no response. <p>
++ * This event is fired in the watchdog thread.
++ */
++public class ServerNoResponseEvent extends Event {
++    private static final HandlerList handlers = new HandlerList();
++
++    protected final int suspendSeconds;
++    protected final boolean willStop;
++
++    public ServerNoResponseEvent(int suspendSeconds, boolean willStop) {
++        super(true);
++
++        this.suspendSeconds = suspendSeconds;
++        this.willStop = willStop;
++    }
++
++    /**
++     * Returns the period after the server was no response.
++     */
++    public int getSuspendSeconds() {
++        return suspendSeconds;
++    }
++
++    /**
++     * Indicates whether the server will be stopped for suspending too long.
++     */
++    public boolean willStop() {
++        return willStop;
++    }
++
++    @NotNull
++    @Override
++    public HandlerList getHandlers() {
++        return handlers;
++    }
++
++    @NotNull
++    public static HandlerList getHandlerList() {
++        return handlers;
++    }
++
++    public static void callEvent(int suspendSeconds, boolean willStop) {
++        ServerNoResponseEvent event = new ServerNoResponseEvent(suspendSeconds, willStop);
++        event.callEvent();
++    }
++}

@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Fri, 5 Aug 2022 22:50:34 +0800
+Subject: [PATCH] Fire ServerNoResponseEvent
+
+
+diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
+index 534231985492b41bdc6e15bec8a85994a78e0b9d..1b9049058c70285fc13159937e8297a2efd3e08d 100644
+--- a/src/main/java/org/spigotmc/WatchdogThread.java
++++ b/src/main/java/org/spigotmc/WatchdogThread.java
+@@ -187,6 +187,7 @@ public class WatchdogThread extends Thread
+                 {
+                     log.log(Level.SEVERE, "--- DO NOT REPORT THIS TO PAPER - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---");
+                     log.log(Level.SEVERE, "The server has not responded for " + (currentTime - lastTick) / 1000 + " seconds! Creating thread dump");
++                    org.staroceanmc.nebula.event.server.ServerNoResponseEvent.callEvent((int) ((currentTime - lastTick) / 1000), false); // Nebula - Fire ServerNoResponseEvent
+                 }
+                 // Paper end - Different message for short timeout
+                 log.log( Level.SEVERE, "------------------------------" );
+@@ -215,6 +216,7 @@ public class WatchdogThread extends Thread
+                 {
+                 if ( !server.hasStopped() )
+                 {
++                    org.staroceanmc.nebula.event.server.ServerNoResponseEvent.callEvent((int) ((currentTime - lastTick) / 1000), true); // Nebula - Fire ServerNoResponseEvent
+                     AsyncCatcher.enabled = false; // Disable async catcher incase it interferes with us
+                     AsyncCatcher.shuttingDown = true;
+                     server.forceTicks = true;
