@@ -1,0 +1,48 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Fri, 5 Aug 2022 22:15:06 +0800
+Subject: [PATCH] Fire EntityMarkDeadEvent
+
+
+diff --git a/src/main/java/org/staroceanmc/nebula/event/entity/EntityMarkDeadEvent.java b/src/main/java/org/staroceanmc/nebula/event/entity/EntityMarkDeadEvent.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..66fdf0939743d93fa2d19431e26790dcb0fd7f3f
+--- /dev/null
++++ b/src/main/java/org/staroceanmc/nebula/event/entity/EntityMarkDeadEvent.java
+@@ -0,0 +1,36 @@
++package org.staroceanmc.nebula.event.entity;
++
++import org.bukkit.Bukkit;
++import org.bukkit.entity.Entity;
++import org.bukkit.event.HandlerList;
++import org.bukkit.event.entity.EntityEvent;
++import org.jetbrains.annotations.NotNull;
++
++/**
++ * Called when an entity is marked dead(removed).
++ */
++public class EntityMarkDeadEvent extends EntityEvent {
++    private static final HandlerList handlers = new HandlerList();
++
++    public EntityMarkDeadEvent(@NotNull Entity what) {
++        super(what);
++    }
++
++    @NotNull
++    @Override
++    public HandlerList getHandlers() {
++        return handlers;
++    }
++
++    @NotNull
++    public static HandlerList getHandlerList() {
++        return handlers;
++    }
++
++    public static void callEvent(@NotNull Entity entity) {
++        EntityMarkDeadEvent event = new EntityMarkDeadEvent(entity);
++        if (entity.getServer().isPrimaryThread())
++            entity.getServer().getPluginManager().callEvent(event);
++    }
++}
++

@@ -1,0 +1,18 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Fri, 5 Aug 2022 22:15:19 +0800
+Subject: [PATCH] Fire EntityMarkDeadEvent
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
+index f925a8d550ecbf2044a37bfe58b30d6578c5f6af..22a8659f6898ba2de65ff23483cd8d0db606b43d 100644
+--- a/src/main/java/net/minecraft/world/entity/Entity.java
++++ b/src/main/java/net/minecraft/world/entity/Entity.java
+@@ -674,6 +674,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+ 
+     public void remove(Entity.RemovalReason reason) {
+         this.setRemoved(reason);
++        org.staroceanmc.nebula.event.entity.EntityMarkDeadEvent.callEvent(this.getBukkitEntity());
+     }
+ 
+     public void onClientRemoval() {}
