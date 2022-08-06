@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Fri, 5 Aug 2022 21:52:53 +0800
+Subject: [PATCH] EventHandler configuration
+
+
+diff --git a/src/main/java/org/staroceanmc/nebula/config/NebulaConfig.java b/src/main/java/org/staroceanmc/nebula/config/NebulaConfig.java
+index a978949494227909ea7edd361131b6921d46d179..4a3ecaae8ae57907c54816f995d26568337bf9a1 100644
+--- a/src/main/java/org/staroceanmc/nebula/config/NebulaConfig.java
++++ b/src/main/java/org/staroceanmc/nebula/config/NebulaConfig.java
+@@ -190,4 +190,12 @@ public class NebulaConfig {
+ 
+     private static final int CURRENT_VERSION = 0;
+ 
++    //#################### GENERAL ####################
++
++    public static String eventHandlerConfig = "config/eventhandlers.json";
++    private static void eventHandlerConfig() {
++        eventHandlerConfig = getString("general.event-handler-config", eventHandlerConfig);
++        EventHandlerConfig.load(eventHandlerConfig);
++    }
++
+ }
