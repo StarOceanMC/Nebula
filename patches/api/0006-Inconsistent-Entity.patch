@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Sat, 6 Aug 2022 12:52:50 +0800
+Subject: [PATCH] Inconsistent Entity
+
+
+diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
+index 4d4a0d15876cc48c9c0456b9f11a5dda37fd56ce..b80c4b9ced0187719de5a74c7da24abfa0f83ecc 100644
+--- a/src/main/java/org/bukkit/entity/Entity.java
++++ b/src/main/java/org/bukkit/entity/Entity.java
+@@ -919,4 +919,23 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+      */
+     boolean wouldCollideUsing(@NotNull BoundingBox boundingBox);
+     // Paper End - Collision API
++
++    // Nebula start - Inconsistent Entity
++
++    /**
++     * Indicates whether this entity is an inconsistent entity.
++     * <p>
++     * Inconsistent entities are entities of temporary usages such as {@link ArmorStand} used as chair.
++     * These entities won't be saved to local storage, and may be removed after the chunk containing
++     * it becomes unloaded.
++     *
++     * @return inconsistent or not
++     */
++    boolean isInconsistent();
++
++    /**
++     * Marks an entity as inconsistent. See also: {@link #isInconsistent}
++     */
++    void setInconsistent(boolean inconsistent);
++    // Nebula end
+ }

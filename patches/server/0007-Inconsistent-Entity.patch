@@ -1,0 +1,46 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Sat, 6 Aug 2022 12:53:22 +0800
+Subject: [PATCH] Inconsistent Entity
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
+index 3ca1525fe99b3e26561bb1526478ff4778e96882..0b6f1629c4af4fa1a15d28a04615ffaf29053d34 100644
+--- a/src/main/java/net/minecraft/world/entity/Entity.java
++++ b/src/main/java/net/minecraft/world/entity/Entity.java
+@@ -4324,6 +4324,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+ 
+     @Override
+     public boolean shouldBeSaved() {
++        if (inconsistent) return false; // Nebula - Inconsistent Entity
+         return this.removalReason != null && !this.removalReason.shouldSave() ? false : (this.isPassenger() ? false : !this.isVehicle() || !this.hasExactlyOnePlayerPassenger());
+     }
+ 
+@@ -4401,4 +4402,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         return ((ServerChunkCache) level.getChunkSource()).isPositionTicking(this);
+     }
+     // Paper end
++    // Nebula start - Inconsistent Entity
++    public boolean inconsistent;
++    // Nebula end
+ }
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
+index 6549ade8e19807c523e5a1dc68b66585aad438b1..eb96bc20a80ef772f43701cac8e28f6d3ba4d780 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
+@@ -1355,4 +1355,15 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
+         return !this.getHandle().level.noCollision(this.getHandle(), aabb);
+     }
+     // Paper End - Collision API
++    // Nebula start - Inconsistent Entity
++    @Override
++    public boolean isInconsistent() {
++        return entity.inconsistent;
++    }
++
++    @Override
++    public void setInconsistent(boolean inconsistent) {
++        entity.inconsistent = inconsistent;
++    }
++    // Nebula end
+ }
