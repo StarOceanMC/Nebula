@@ -5,10 +5,10 @@ Subject: [PATCH] Revert sand dupe patches
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 22a8659f6898ba2de65ff23483cd8d0db606b43d..3ca1525fe99b3e26561bb1526478ff4778e96882 100644
+index 03201d25f0b8d7fe50e87d784b572cf250605693..2acdfb97b56868f804db8bab7348e25191aaccfb 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -460,36 +460,6 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -530,36 +530,6 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return chunkMap.playerEntityTrackerTrackMaps[type.ordinal()].getObjectsInRange(MCUtil.getCoordinateKey(this));
      }
      // Paper end - optimise entity tracking
@@ -43,9 +43,9 @@ index 22a8659f6898ba2de65ff23483cd8d0db606b43d..3ca1525fe99b3e26561bb1526478ff47
 -    }
 -    // Paper end - make end portalling safe
  
-     // Paper start
-     /**
-@@ -2885,7 +2855,6 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     public Entity(EntityType<?> type, Level world) {
+         this.id = Entity.ENTITY_COUNTER.incrementAndGet();
+@@ -3062,7 +3032,6 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              }
  
              this.processPortalCooldown();
@@ -54,10 +54,10 @@ index 22a8659f6898ba2de65ff23483cd8d0db606b43d..3ca1525fe99b3e26561bb1526478ff47
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java b/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java
-index ef07967b64180c54338b8fb2ba1780adec87f333..1282cafe9866665d7adce14f3b5931eb32555af2 100644
+index 18eaccb39a4c81338a8cbebe3de03934913ac2a4..a64446264e910050a1c34d6999526ea01c7dc629 100644
 --- a/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java
-@@ -127,11 +127,6 @@ public class FallingBlockEntity extends Entity {
+@@ -132,11 +132,6 @@ public class FallingBlockEntity extends Entity {
  
      @Override
      public void tick() {
@@ -69,7 +69,7 @@ index ef07967b64180c54338b8fb2ba1780adec87f333..1282cafe9866665d7adce14f3b5931eb
          if (this.blockState.isAir()) {
              this.discard();
          } else {
-@@ -144,11 +139,6 @@ public class FallingBlockEntity extends Entity {
+@@ -149,11 +144,6 @@ public class FallingBlockEntity extends Entity {
  
              this.move(MoverType.SELF, this.getDeltaMovement());
  
@@ -80,9 +80,9 @@ index ef07967b64180c54338b8fb2ba1780adec87f333..1282cafe9866665d7adce14f3b5931eb
 -            // Paper end - fix sand duping
  
              // Paper start - Configurable EntityFallingBlock height nerf
-             if (this.level.paperConfig().fixes.fallingBlockHeightNerf != 0 && this.getY() > this.level.paperConfig().fixes.fallingBlockHeightNerf) {
+             if (this.level().paperConfig().fixes.fallingBlockHeightNerf.test(v -> this.getY() > v)) {
 diff --git a/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java b/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java
-index 15c5cccfe02c924c02f605eb47dd0b420b189891..150c16da7caa655cfc2c371d3336a8d7345438c6 100644
+index 41d7cff39fc37955877668337689b4b26cd8c7cf..45b427f314da778cc13da9ad6e4e1316790bf1b1 100644
 --- a/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java
 @@ -53,10 +53,16 @@ public class EndPortalBlock extends BaseEntityBlock {

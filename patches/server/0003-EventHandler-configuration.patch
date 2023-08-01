@@ -5,7 +5,7 @@ Subject: [PATCH] EventHandler configuration
 
 
 diff --git a/src/main/java/org/staroceanmc/nebula/config/NebulaConfig.java b/src/main/java/org/staroceanmc/nebula/config/NebulaConfig.java
-index a978949494227909ea7edd361131b6921d46d179..4a3ecaae8ae57907c54816f995d26568337bf9a1 100644
+index d09fcdf36f6bbd655ff6b2af476eefe2d9a6f2f3..2ef3e0acfb14e9d5f6004881724ebcfdf1031275 100644
 --- a/src/main/java/org/staroceanmc/nebula/config/NebulaConfig.java
 +++ b/src/main/java/org/staroceanmc/nebula/config/NebulaConfig.java
 @@ -190,4 +190,12 @@ public class NebulaConfig {
@@ -21,3 +21,4 @@ index a978949494227909ea7edd361131b6921d46d179..4a3ecaae8ae57907c54816f995d26568
 +    }
 +
  }
+\ No newline at end of file

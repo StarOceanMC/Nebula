@@ -22,10 +22,10 @@ index 376c5375df21d59c520c99eb3bc64e9ddae007a6..da9544b7c3ef155855af74695ec04c72
      private final int slot;
  
 diff --git a/src/main/java/org/bukkit/event/HandlerList.java b/src/main/java/org/bukkit/event/HandlerList.java
-index ed78cca71f83b296d082d0af147ca8d622c7606a..780a7d1f58419dc6e4400d1d3210740284e18f5f 100644
+index 2292bd460ce2be113beb4ba6b4eb19350060f01c..7eef7cc6de29e2524d6b245a3ed2e19de4ae6c89 100644
 --- a/src/main/java/org/bukkit/event/HandlerList.java
 +++ b/src/main/java/org/bukkit/event/HandlerList.java
-@@ -109,6 +109,8 @@ public class HandlerList {
+@@ -122,6 +122,8 @@ public class HandlerList {
       * @param listener listener to register
       */
      public synchronized void register(@NotNull RegisteredListener listener) {
@@ -35,10 +35,10 @@ index ed78cca71f83b296d082d0af147ca8d622c7606a..780a7d1f58419dc6e4400d1d32107402
              throw new IllegalStateException("This listener is already registered to priority " + listener.getPriority().toString());
          handlers = null;
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index 9db611841b73fed8dc8a71f4d7fdef95af3cf89d..94a0e59815c3615f6881b095b0349f8df36b166e 100644
+index fc2dae69165776d08274e34a69962cc70445f411..59ed36f5c25c9932d46246ee54478b7a024fe28b 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-@@ -707,6 +707,8 @@ public final class SimplePluginManager implements PluginManager {
+@@ -680,6 +680,8 @@ public final class SimplePluginManager implements PluginManager {
  
      @Override
      public void registerEvent(@NotNull Class<? extends Event> event, @NotNull Listener listener, @NotNull EventPriority priority, @NotNull EventExecutor executor, @NotNull Plugin plugin) {

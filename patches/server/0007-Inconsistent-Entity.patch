@@ -5,19 +5,19 @@ Subject: [PATCH] Inconsistent Entity
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 3ca1525fe99b3e26561bb1526478ff4778e96882..0b6f1629c4af4fa1a15d28a04615ffaf29053d34 100644
+index 2acdfb97b56868f804db8bab7348e25191aaccfb..d5a5b161fe47fcc35ff7030ce06c53ddb2c5740c 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -4324,6 +4324,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4673,6 +4673,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
  
      @Override
      public boolean shouldBeSaved() {
-+        if (inconsistent) return false; // Nebula - Inconsistent Entity
-         return this.removalReason != null && !this.removalReason.shouldSave() ? false : (this.isPassenger() ? false : !this.isVehicle() || !this.hasExactlyOnePlayerPassenger());
++        if (inconsistent) return false;
+         return this.removalReason != null && !this.removalReason.shouldSave() ? false : (this.isPassenger() ? false : !this.isVehicle() || !this.hasAnyPlayerPassengers()); // Paper - rewrite chunk system - it should check if the entity has ANY player passengers
      }
  
-@@ -4401,4 +4402,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
-         return ((ServerChunkCache) level.getChunkSource()).isPositionTicking(this);
+@@ -4758,4 +4759,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         return ((net.minecraft.server.level.ServerChunkCache) level.getChunkSource()).isPositionTicking(this);
      }
      // Paper end
 +    // Nebula start - Inconsistent Entity
@@ -25,11 +25,11 @@ index 3ca1525fe99b3e26561bb1526478ff4778e96882..0b6f1629c4af4fa1a15d28a04615ffaf
 +    // Nebula end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-index 6549ade8e19807c523e5a1dc68b66585aad438b1..eb96bc20a80ef772f43701cac8e28f6d3ba4d780 100644
+index fc0dc8e607cc24020106ea1af92b4421a5f9393d..d3705fd6a32bf9981e3e92f6fe632c1c02daf178 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-@@ -1355,4 +1355,15 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
-         return !this.getHandle().level.noCollision(this.getHandle(), aabb);
+@@ -1450,4 +1450,15 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
+         return !this.getHandle().level().noCollision(this.getHandle(), aabb);
      }
      // Paper End - Collision API
 +    // Nebula start - Inconsistent Entity

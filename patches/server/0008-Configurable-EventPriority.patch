@@ -1,0 +1,42 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Tue, 1 Aug 2023 18:22:02 +0800
+Subject: [PATCH] Configurable EventPriority
+
+
+diff --git a/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java b/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java
+index 7ce9ebba8ce304d1f3f21d4f15ee5f3560d7700b..b23fee282bac33bf9d2df39466c504ef71b7217c 100644
+--- a/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java
++++ b/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java
+@@ -95,6 +95,14 @@ class PaperEventManager {
+             throw new IllegalPluginAccessException("Plugin attempted to register " + event + " while not enabled");
+         }
+ 
++        // Nebula start - Configurable EventPriority
++        String methodName = listener.getClass().getCanonicalName() + ".eventExecutor(" + event.getCanonicalName() + ")"; // TODO: Find a way to distinguish listeners from the same class
++        EventPriority modifiedPriority = org.staroceanmc.nebula.config.EventHandlerConfig.getByName(methodName);
++        if (modifiedPriority != null) {
++            priority = modifiedPriority;
++            plugin.getLogger().config(methodName + " is using modified priority " + modifiedPriority);
++        }
++        // Nebula end
+         executor = new TimedEventExecutor(executor, plugin, null, event);
+         this.getEventListeners(event).register(new RegisteredListener(listener, executor, priority, plugin, ignoreCancelled));
+     }
+@@ -182,8 +190,15 @@ class PaperEventManager {
+                 }
+             }
+ 
++            // Nebula start - Configurable EventPriority
++            org.bukkit.event.EventPriority modifiedPriority = org.staroceanmc.nebula.config.EventHandlerConfig.getByMethod(method);
++            if (modifiedPriority != null) {
++                plugin.getLogger().config(method.toGenericString() + " is using modified priority " + modifiedPriority);
++            }
++            modifiedPriority = modifiedPriority == null ? eh.priority() : modifiedPriority;
++            // Nebula end
+             EventExecutor executor = new TimedEventExecutor(EventExecutor.create(method, eventClass), plugin, method, eventClass);
+-            eventSet.add(new RegisteredListener(listener, executor, eh.priority(), plugin, eh.ignoreCancelled()));
++            eventSet.add(new RegisteredListener(listener, executor, modifiedPriority, plugin, eh.ignoreCancelled()));
+         }
+         return ret;
+     }

@@ -4,50 +4,6 @@ Date: Fri, 5 Aug 2022 22:10:15 +0800
 Subject: [PATCH] Configurable EventPriority
 
 
-diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index 94a0e59815c3615f6881b095b0349f8df36b166e..8aef3f682d588675290095638a672d478d723b20 100644
---- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-+++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-@@ -735,6 +735,14 @@ public final class SimplePluginManager implements PluginManager {
-             throw new IllegalPluginAccessException("Plugin attempted to register " + event + " while not enabled");
-         }
- 
-+        // Nebula start - Configurable EventPriority
-+        String methodName = listener.getClass().getCanonicalName() + ".eventExecutor(" + event.getCanonicalName() + ")"; // TODO: Find a way to distinguish listeners from the same class
-+        EventPriority modifiedPriority = org.staroceanmc.nebula.config.EventHandlerConfig.getByName(methodName);
-+        if (modifiedPriority != null) {
-+            priority = modifiedPriority;
-+            plugin.getLogger().config(methodName + " is using modified priority " + modifiedPriority);
-+        }
-+        // Nebula end
-         executor = new co.aikar.timings.TimedEventExecutor(executor, plugin, null, event); // Paper
-         if (false) { // Spigot - RL handles useTimings check now // Paper
-             getEventListeners(event).register(new TimedRegisteredListener(listener, executor, priority, plugin, ignoreCancelled));
-diff --git a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-index 8ff78fad47f6086aa289e32590f4fbec24b3d500..2e9f010a6e40a24e6f7357f8256b7b7c65d21f0d 100644
---- a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-+++ b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-@@ -333,11 +333,18 @@ public final class JavaPluginLoader implements PluginLoader {
-                 }
-             }
- 
-+            // Nebula start - Configurable EventPriority
-+            org.bukkit.event.EventPriority modifiedPriority = org.staroceanmc.nebula.config.EventHandlerConfig.getByMethod(method);
-+            if (modifiedPriority != null) {
-+                plugin.getLogger().config(method.toGenericString() + " is using modified priority " + modifiedPriority);
-+            }
-+            modifiedPriority = modifiedPriority == null ? eh.priority() : modifiedPriority;
-+            // Nebula end
-             EventExecutor executor = new co.aikar.timings.TimedEventExecutor(EventExecutor.create(method, eventClass), plugin, method, eventClass); // Paper // Paper (Yes.) - Use factory method `EventExecutor.create()`
-             if (false) { // Spigot - RL handles useTimings check now
--                eventSet.add(new TimedRegisteredListener(listener, executor, eh.priority(), plugin, eh.ignoreCancelled()));
-+                eventSet.add(new TimedRegisteredListener(listener, executor, modifiedPriority, plugin, eh.ignoreCancelled())); // Nebula - Configurable EventPriority
-             } else {
--                eventSet.add(new RegisteredListener(listener, executor, eh.priority(), plugin, eh.ignoreCancelled()));
-+                eventSet.add(new RegisteredListener(listener, executor, modifiedPriority, plugin, eh.ignoreCancelled())); // Nebula - Configurable EventPriority
-             }
-         }
-         return ret;
 diff --git a/src/main/java/org/staroceanmc/nebula/config/EventHandlerConfig.java b/src/main/java/org/staroceanmc/nebula/config/EventHandlerConfig.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..76f39740027587c89c8b118000cdf738c24e77da

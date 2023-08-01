@@ -5,14 +5,13 @@ Subject: [PATCH] Inconsistent Entity
 
 
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index 4d4a0d15876cc48c9c0456b9f11a5dda37fd56ce..b80c4b9ced0187719de5a74c7da24abfa0f83ecc 100644
+index 6b842453589cf148ab32c1507cf374056826316e..67d7b5c26cb03e73c254aa6e0b7073f7e42a6056 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -919,4 +919,23 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -965,4 +965,22 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
       */
-     boolean wouldCollideUsing(@NotNull BoundingBox boundingBox);
-     // Paper End - Collision API
-+
+     @NotNull io.papermc.paper.threadedregions.scheduler.EntityScheduler getScheduler();
+     // Paper end - Folia schedulers
 +    // Nebula start - Inconsistent Entity
 +
 +    /**
