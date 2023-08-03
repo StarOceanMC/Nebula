@@ -1,0 +1,19 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Thu, 3 Aug 2023 09:04:35 +0800
+Subject: [PATCH] Fix BooleanOrDefault
+
+
+diff --git a/src/main/java/io/papermc/paper/configuration/type/BooleanOrDefault.java b/src/main/java/io/papermc/paper/configuration/type/BooleanOrDefault.java
+index 3e422b74a377fa3edaf82dd960e7449c998c2912..eec01ce40e90bbb155a55ec744c3df0360183f8d 100644
+--- a/src/main/java/io/papermc/paper/configuration/type/BooleanOrDefault.java
++++ b/src/main/java/io/papermc/paper/configuration/type/BooleanOrDefault.java
+@@ -15,7 +15,7 @@ public record BooleanOrDefault(@Nullable Boolean value) {
+     public static final ScalarSerializer<BooleanOrDefault> SERIALIZER = new Serializer();
+ 
+     public boolean or(boolean fallback) {
+-        return this.value != null && this.value;
++        return this.value != null ? this.value : fallback; // Nebula
+     }
+ 
+     private static final class Serializer extends ScalarSerializer<BooleanOrDefault> {
