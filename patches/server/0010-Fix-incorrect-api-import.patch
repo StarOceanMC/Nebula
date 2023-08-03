@@ -1,0 +1,21 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Lovely_xianxian <xyx_dada@outlook.com>
+Date: Thu, 3 Aug 2023 09:50:15 +0800
+Subject: [PATCH] Fix incorrect api import
+
+
+diff --git a/build.gradle.kts b/build.gradle.kts
+index 4b080f5ddd10904387f31a8c949bdcb879bce6fe..152f063d5d8ef792241b33f2f1a5f095d814e0a2 100644
+--- a/build.gradle.kts
++++ b/build.gradle.kts
+@@ -14,7 +14,9 @@ val alsoShade: Configuration by configurations.creating
+ 
+ dependencies {
+     implementation(project(":nebula-api"))
+-    implementation("io.papermc.paper:paper-mojangapi:1.20.1-R0.1-SNAPSHOT")
++    implementation("io.papermc.paper:paper-mojangapi:1.20.1-R0.1-SNAPSHOT") {
++        exclude ("io.papermc.paper", "paper-api")
++    }
+     // Paper start
+     implementation("org.jline:jline-terminal-jansi:3.21.0")
+     implementation("net.minecrell:terminalconsoleappender:1.3.0")
